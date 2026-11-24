@@ -23,7 +23,7 @@ describe("sourceControlClients.parseChangeRequestUrl", () => {
 
   it("reads a GitCafe pull request at its canonical /pull/ path and the older /pulls/ path", () => {
     for (const path of ["pull", "pulls"]) {
-      const url = `https://git.cafe/WintEloUS/T0Code/${path}/23897`;
+      const url = `https://git.cafe/WinTeloUS/T0Code/${path}/23897`;
       expect(parse(url), path).toEqual({
         host: "git.cafe",
         repository: "wintelous/t0code",
@@ -209,7 +209,7 @@ describe("sourceControlClients.isSameChangeRequest", () => {
     expect(
       sourceControlClients.isSameChangeRequest(
         linked,
-        "https://github.com/WintEloUS/T0Code/pull/42/files",
+        "https://github.com/WinTeloUS/T0Code/pull/42/files",
       ),
     ).toBe(true);
   });

@@ -6238,26 +6238,6 @@
   ],
   "216ab7514aea1d61": "Starta utan agent",
   "501ce2d99da8bfd1": "Konfigurera en agent för att starta.",
-  "a6af33e6496ff812": [
-    "T0 Code samlar in anonym användningsdata för att förbättra appen. Se",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "integritetspolicyn"
-    },
-    " för att välja bort det."
-  ],
-  "b33f35083757b42c": [
-    "Se",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "integritetspolicyn"
-    },
-    "."
-  ],
   "f77d000c0710f066": "Aktivera",
   "4ed27bf946e504db": "Konfigurera",
   "7a26eaacff0607f7": [
@@ -7556,7 +7536,7 @@
   "52814dd6f7d0a15c": "Lägg till hubb",
   "27b770d3402abfa2": "Avancerat",
   "584595dfcadab699": "Grafik",
-  "7df1a31c9019f5ff": "Nightly-grafik",
+  "8d60d0d2e2b38a42": "Natthimmelsgrafik",
   "2f265d02c8753150": "Dev-grafik",
   "20160954f38eeb66": "Versionsetikett",
   "d5dc7576fd468be7": "Bekväm",
@@ -7567,7 +7547,7 @@
   "1ee44eb65708a8aa": "Staplar",
   "7670f789e0d8672a": "Bara inbyggda teman visar grafik, så det här temat visar versionsetiketten.",
   "3c60ded47d8f82e5": "Bara inbyggda teman visar grafik.",
-  "a11f85722f908aa4": "Välj hur Dev- och Nightly-miljöer identifieras.",
+  "d83237f3bcfa2e8e": "Välj grafiken eller etiketten som visas i sidofältets sidhuvud.",
   "ddfb7f26acaf4d0f": "Visa Dev- eller Nightly-grafik i sidofältets sidhuvud.",
   "a6ec9f054ea34962": "Färger och teman",
   "009ed3b10618aa5f": "Gränssnitt",
@@ -10266,7 +10246,7 @@
   "c424bee294b9f778": "Miljön hanteras av {organization}. Vissa inställningar och funktioner följer dess policy.",
   "82d9538af590f58c": "Se dina agenter, importera projekt och konfigurera din telefon.",
   "6a48fd0a37e725a1": "Juridiskt",
-  "ceda6fee3af22766": "Hur vi hanterar dina data, inklusive de anonyma användningsdata som T0 Code samlar in.",
+  "74d553ebb326b328": "T0 Code skickar inga användningsdata. Det här är uppströmsprojektets policy för dess hostade tjänster.",
   "e741b1ab9396053a": "Hur vi hanterar dina data. {telemetryOff}",
   "e67caf0a0836987a": "Meddelanden för beroenden, resurser och valfria verktyg som T0 Code använder.",
   "e39a57514be028e9": "Granska",

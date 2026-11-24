@@ -27,6 +27,7 @@ const decodeError = Schema.decodeUnknownOption(
   Schema.fromJsonString(Schema.Struct({ error: Schema.Struct({ code: Schema.String }) })),
 );
 const decodeInput = Schema.decodeUnknownEffect(ServerNpmReleaseInput);
+const T0_NPM_RELEASES_ENABLED = false as boolean;
 
 export class NpmRelease extends Context.Service<
   NpmRelease,
@@ -122,7 +123,9 @@ export const make = Effect.fn("NpmRelease.make")(function* () {
           () => new ServerNpmReleaseError({ reason: "Invalid release version or track." }),
         ),
       );
-      return yield* Cache.get(cache, spec);
+      // t0: the `t3` npm package is upstream's build, not this fork's, so it is never looked up or
+      // offered as an update (TELEMETRY-REGISTER.md T0-TEL-06).
+      return T0_NPM_RELEASES_ENABLED ? yield* Cache.get(cache, spec) : null;
     }),
   });
 });

@@ -16,6 +16,7 @@ const answers = (...values: Array<boolean | null>) => {
   return () => values[Math.min(call++, values.length - 1)] ?? null;
 };
 
+// t0: relay tracing is removed (TELEMETRY-REGISTER.md T0-TEL-03), so no surface exports spans.
 describe("web runtime relay telemetry policy", () => {
   it.each([
     {
@@ -26,13 +27,13 @@ describe("web runtime relay telemetry policy", () => {
     {
       surface: "desktop enabled",
       desktopBridge: { getRelayTelemetryEnabled: () => true },
-      exports: true,
+      exports: false,
     },
     {
       // The desktop host reads the login shell after the renderer has started.
       surface: "desktop enabled once the login shell is read",
       desktopBridge: { getRelayTelemetryEnabled: answers(null, true) },
-      exports: true,
+      exports: false,
     },
     {
       surface: "desktop opt-out found in the login shell",
@@ -42,7 +43,7 @@ describe("web runtime relay telemetry policy", () => {
     {
       surface: "ordinary browser ignores host opt-out",
       desktopBridge: undefined,
-      exports: true,
+      exports: false,
     },
   ])("applies $surface before the first relay span", async ({ desktopBridge, exports }) => {
     vi.resetModules();

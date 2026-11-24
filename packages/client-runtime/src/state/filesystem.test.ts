@@ -115,7 +115,7 @@ describe("filesystem browse model", () => {
     });
     expect(getFilesystemBrowseTabCompletion([], "x")).toBeNull();
     // The list also shows substring and fuzzy matches; Tab completes only the typed name.
-    expect(getFilesystemBrowseTabCompletion([entry("t0code"), entry("my-t0code")], "t3")).toEqual({
+    expect(getFilesystemBrowseTabCompletion([entry("t0code"), entry("my-t0code")], "t0")).toEqual({
       name: "t0code",
       isComplete: true,
     });
@@ -190,7 +190,7 @@ describe("browse entry filtering", () => {
 
   it("matches substrings and subsequences, best match first", () => {
     expect(names("code")).toEqual(["t0code", "T0Code-old", "my-t0code"]);
-    expect(names("t3c")).toEqual(["t0code", "T0Code-old", "my-t0code"]);
+    expect(names("t0c")).toEqual(["t0code", "T0Code-old", "my-t0code"]);
     expect(names("tcd")).toEqual(["t0code", "T0Code-old", "my-t0code"]);
     expect(names("xyz")).toEqual([]);
   });

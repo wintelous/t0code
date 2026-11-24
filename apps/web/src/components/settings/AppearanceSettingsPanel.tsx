@@ -41,7 +41,7 @@ import { ThreadDetailsItemsRow } from "./ThreadDetailsItemsRow";
 
 const ENVIRONMENT_IDENTIFICATION_LABELS: Record<EnvironmentIdentificationMode, string> = {
   artwork: msg("Artwork"),
-  "nightly-artwork": msg("Nightly artwork"),
+  "nightly-artwork": msg("Night sky artwork"),
   "dev-artwork": msg("Dev artwork"),
   pill: msg("Version pill"),
   none: msg("None"),
@@ -55,14 +55,14 @@ function environmentIdentificationOptions(
   if (stageVariant === "dev") {
     return [
       ["artwork", msg("Dev artwork")],
-      ["nightly-artwork", msg("Nightly artwork")],
+      ["nightly-artwork", msg("Night sky artwork")],
       ["pill", msg("Version pill")],
       ["none", msg("None")],
     ];
   }
   if (stageVariant === "nightly") {
     return [
-      ["artwork", msg("Nightly artwork")],
+      ["artwork", msg("Night sky artwork")],
       ["dev-artwork", msg("Dev artwork")],
       ["pill", msg("Version pill")],
       ["none", msg("None")],
@@ -70,7 +70,7 @@ function environmentIdentificationOptions(
   }
   return [
     ["artwork", msg("None")],
-    ["nightly-artwork", msg("Nightly artwork")],
+    ["nightly-artwork", msg("Night sky artwork")],
     ["dev-artwork", msg("Dev artwork")],
   ];
 }
@@ -131,7 +131,7 @@ export function AppearanceSettingsPanel() {
       ? gt("Only built-in themes show artwork, so this theme shows the version pill.")
       : gt("Only built-in themes show artwork.")
     : environmentStageVariant
-      ? gt("Choose how Dev and Nightly environments are identified.")
+      ? gt("Choose the artwork or label shown in the sidebar header.")
       : gt("Show Dev or Nightly artwork in the sidebar header.");
   const glassOpacityRatio =
     (settings.glassOpacity - MIN_GLASS_OPACITY) / (MAX_GLASS_OPACITY - MIN_GLASS_OPACITY);

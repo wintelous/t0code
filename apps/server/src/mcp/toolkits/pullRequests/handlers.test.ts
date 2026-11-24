@@ -322,9 +322,9 @@ describe("pull request toolkit handlers", () => {
       for (const host of ["git.cafe", "staging.git.cafe"]) {
         for (const project of [makeProject(), makeProject(null)]) {
           for (const target of [
-            { host, repository: "WintEloUS/T0Code", number: 21353 },
-            { url: `https://${host}/WintEloUS/T0Code/pull/21353` },
-            { url: `https://${host}/WintEloUS/T0Code/pulls/21353` },
+            { host, repository: "WinTeloUS/T0Code", number: 21353 },
+            { url: `https://${host}/WinTeloUS/T0Code/pull/21353` },
+            { url: `https://${host}/WinTeloUS/T0Code/pulls/21353` },
           ]) {
             const harness = yield* makeHarness({ project });
             const result = yield* harness.call("link_pull_request", target);

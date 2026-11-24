@@ -5103,7 +5103,7 @@
   "27fe075378642cfb": "Could not load T0 Connect environments",
   "6e9c36110fff2893": "Loading environments…",
   "3bc611fcba3fd54c": "No T0 Connect environments",
-  "a781423e2493c002": "Link an environment from its local Settings to make it available through T3 Connect.",
+  "a781423e2493c002": "Link an environment from its local Settings to make it available through T0 Connect.",
   "ac120f1e20d48364": "Link a paid T3 Chat account for more T0 Connect tunnels: up to {pro} with Pro, {premier} with Premier.",
   "fa83ec856513632c": "Not linked",
   "24bab46ab33849d8": "You confirm the link on t3.chat.",
@@ -6239,26 +6239,6 @@
   ],
   "216ab7514aea1d61": "Start without an agent",
   "501ce2d99da8bfd1": "Set up one agent to start.",
-  "a6af33e6496ff812": [
-    "T0 Code collects anonymous usage data to improve the app. To opt out, see the",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "privacy policy"
-    },
-    "."
-  ],
-  "b33f35083757b42c": [
-    "See the",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "privacy policy"
-    },
-    "."
-  ],
   "f77d000c0710f066": "Turn on",
   "4ed27bf946e504db": "Set up",
   "7a26eaacff0607f7": [
@@ -7557,7 +7537,7 @@
   "52814dd6f7d0a15c": "Add hub",
   "27b770d3402abfa2": "Advanced",
   "584595dfcadab699": "Artwork",
-  "7df1a31c9019f5ff": "Nightly artwork",
+  "8d60d0d2e2b38a42": "Night sky artwork",
   "2f265d02c8753150": "Dev artwork",
   "20160954f38eeb66": "Version pill",
   "d5dc7576fd468be7": "Comfortable",
@@ -7568,7 +7548,7 @@
   "1ee44eb65708a8aa": "Bars",
   "7670f789e0d8672a": "Only built-in themes show artwork, so this theme shows the version pill.",
   "3c60ded47d8f82e5": "Only built-in themes show artwork.",
-  "a11f85722f908aa4": "Choose how Dev and Nightly environments are identified.",
+  "d83237f3bcfa2e8e": "Choose the artwork or label shown in the sidebar header.",
   "ddfb7f26acaf4d0f": "Show Dev or Nightly artwork in the sidebar header.",
   "a6ec9f054ea34962": "Colors & themes",
   "009ed3b10618aa5f": "Interface",
@@ -10268,7 +10248,7 @@
   "c424bee294b9f778": "This environment is managed by {organization}. Some settings and features follow its policy.",
   "82d9538af590f58c": "See your agents, import projects, and set up your phone.",
   "6a48fd0a37e725a1": "Legal",
-  "ceda6fee3af22766": "How we handle your data, including the anonymous usage data T0 Code collects.",
+  "74d553ebb326b328": "T0 Code sends no usage data. This is upstream's policy for its hosted services.",
   "e741b1ab9396053a": "How we handle your data. {telemetryOff}",
   "e67caf0a0836987a": "Notices for dependencies, assets, and optional tools used by T0 Code.",
   "e39a57514be028e9": "Review",

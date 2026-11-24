@@ -8,6 +8,14 @@
 
 <p align="center">The open-source control plane for coding agents.</p>
 
+<!-- t0:keep-start (tools/rebrand.mjs leaves this block alone) -->
+
+> **T0 Code is an unofficial fork of the T3 Code source code, with telemetry removed.** It is not
+> affiliated with, endorsed by, or maintained by T3 Tools, Inc. The download, store, web and Discord
+> links below are upstream T3 Code's.
+
+<!-- t0:keep-end -->
+
 <p align="center">
   <a href="https://t3.codes/download"><strong>Download</strong></a> ·
   <a href="https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824">iOS</a> ·

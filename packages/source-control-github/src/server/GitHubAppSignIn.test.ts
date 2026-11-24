@@ -156,7 +156,7 @@ const installedOn = (sent: Sent): Reply =>
     ? {
         body: {
           installations: [
-            { id: 1, repository_selection: "all", account: { login: "pingdotgg" } },
+            { id: 1, repository_selection: "all", account: { login: "wintelous" } },
             { id: 2, repository_selection: "selected", account: { login: "acme" } },
           ],
         },

@@ -306,7 +306,8 @@ export const make = Effect.gen(function* () {
       mcpHostedApproval: true,
       shellThreadFamilies: true,
       shellOlderSettled: true,
-      agentFeedback: true,
+      // t0: agent feedback is disabled, so clients hide its switch (TELEMETRY-REGISTER.md T0-TEL-02).
+      agentFeedback: false,
     },
   };
 

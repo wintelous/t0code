@@ -2,10 +2,11 @@ import Constants from "expo-constants";
 import { Observe } from "expo-observe";
 
 // Importing expo-observe installs its global JS error handler; reports leave only through the relay.
-const relayUrl: unknown = Constants.expoConfig?.extra?.relay?.url;
 const appVariant: unknown = Constants.expoConfig?.extra?.appVariant;
 
-export const crashReportingAvailable = typeof relayUrl === "string" && relayUrl.trim() !== "";
+// t0: crash reports and launch timings removed (TELEMETRY-REGISTER.md T0-TEL-04). Upstream sent
+// them through the relay to Axiom. Observe is configured with dispatching off on every launch.
+export const crashReportingAvailable = false as boolean;
 
 interface PromiseRejectionTracker {
   readonly enablePromiseRejectionTracker?: (options: {

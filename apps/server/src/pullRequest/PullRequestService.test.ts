@@ -1092,7 +1092,7 @@ it.effect("reads a repository once when several worktrees share it", () =>
           id: "p2",
           title: "t0code worktree",
           workspaceRoot: "/b",
-          repository: "WintEloUS/T0Code",
+          repository: "WinTeloUS/T0Code",
         }),
       ],
       providers: [

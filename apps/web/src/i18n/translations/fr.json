@@ -6238,26 +6238,6 @@
   ],
   "216ab7514aea1d61": "Commencer sans agent",
   "501ce2d99da8bfd1": "Configurez un agent pour commencer.",
-  "a6af33e6496ff812": [
-    "T0 Code collecte des données d’utilisation anonymes pour améliorer l’app. Pour vous désinscrire, consultez la",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "politique de confidentialité"
-    },
-    "."
-  ],
-  "b33f35083757b42c": [
-    "Consultez la",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "politique de confidentialité"
-    },
-    "."
-  ],
   "f77d000c0710f066": "Activer",
   "4ed27bf946e504db": "Configurer",
   "7a26eaacff0607f7": [
@@ -7551,7 +7531,7 @@
   "52814dd6f7d0a15c": "Ajouter le hub",
   "27b770d3402abfa2": "Avancé",
   "584595dfcadab699": "Illustration",
-  "7df1a31c9019f5ff": "Illustration Nightly",
+  "8d60d0d2e2b38a42": "Illustration ciel nocturne",
   "2f265d02c8753150": "Illustration Dev",
   "20160954f38eeb66": "Pastille de version",
   "d5dc7576fd468be7": "Confortable",
@@ -7562,7 +7542,7 @@
   "1ee44eb65708a8aa": "Barres",
   "7670f789e0d8672a": "Seuls les thèmes intégrés affichent une illustration ; ce thème affiche donc la pastille de version.",
   "3c60ded47d8f82e5": "Seuls les thèmes intégrés affichent une illustration.",
-  "a11f85722f908aa4": "Choisissez comment les environnements Dev et Nightly sont identifiés.",
+  "d83237f3bcfa2e8e": "Choisissez l’illustration ou le libellé affiché dans l’en-tête de la barre latérale.",
   "ddfb7f26acaf4d0f": "Afficher l’illustration Dev ou Nightly dans l’en-tête de la barre latérale.",
   "a6ec9f054ea34962": "Couleurs et thèmes",
   "009ed3b10618aa5f": "Interface",
@@ -10258,7 +10238,7 @@
   "c424bee294b9f778": "Cet environnement est géré par {organization}. Certains paramètres et fonctionnalités suivent sa politique.",
   "82d9538af590f58c": "Voyez vos agents, importez des projets et configurez votre téléphone.",
   "6a48fd0a37e725a1": "Mentions légales",
-  "ceda6fee3af22766": "Comment nous traitons vos données, y compris les données d’utilisation anonymes collectées par T0 Code.",
+  "74d553ebb326b328": "T0 Code n’envoie aucune donnée d’utilisation. Il s’agit de la politique du projet d’origine pour ses services hébergés.",
   "e741b1ab9396053a": "Comment nous traitons vos données. {telemetryOff}",
   "e67caf0a0836987a": "Mentions relatives aux dépendances, ressources et outils facultatifs utilisés par T0 Code.",
   "e39a57514be028e9": "Consulter",

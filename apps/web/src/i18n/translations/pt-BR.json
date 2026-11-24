@@ -6237,26 +6237,6 @@
   ],
   "216ab7514aea1d61": "Começar sem agente",
   "501ce2d99da8bfd1": "Configure um agente para começar.",
-  "a6af33e6496ff812": [
-    "O T0 Code coleta dados de uso anônimos para melhorar o app. Para recusar, consulte a",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "política de privacidade"
-    },
-    "."
-  ],
-  "b33f35083757b42c": [
-    "Consulte a",
-    " ",
-    {
-      "t": "a",
-      "i": 1,
-      "c": "política de privacidade"
-    },
-    "."
-  ],
   "f77d000c0710f066": "Ativar",
   "4ed27bf946e504db": "Configurar",
   "7a26eaacff0607f7": [
@@ -7550,7 +7530,7 @@
   "52814dd6f7d0a15c": "Adicionar hub",
   "27b770d3402abfa2": "Avançado",
   "584595dfcadab699": "Arte",
-  "7df1a31c9019f5ff": "Arte do Nightly",
+  "8d60d0d2e2b38a42": "Arte de céu noturno",
   "2f265d02c8753150": "Arte do Dev",
   "20160954f38eeb66": "Pílula de versão",
   "d5dc7576fd468be7": "Confortável",
@@ -7561,7 +7541,7 @@
   "1ee44eb65708a8aa": "Barras",
   "7670f789e0d8672a": "Só os temas integrados mostram arte, então este tema mostra a pílula de versão.",
   "3c60ded47d8f82e5": "Só os temas integrados mostram arte.",
-  "a11f85722f908aa4": "Escolha como os ambientes Dev e Nightly são identificados.",
+  "d83237f3bcfa2e8e": "Escolha a arte ou o rótulo exibido no cabeçalho da barra lateral.",
   "ddfb7f26acaf4d0f": "Mostra a arte do Dev ou do Nightly no cabeçalho da barra lateral.",
   "a6ec9f054ea34962": "Cores e temas",
   "009ed3b10618aa5f": "Interface",
@@ -10258,7 +10238,7 @@
   "c424bee294b9f778": "Este ambiente é gerenciado por {organization}. Algumas configurações e recursos seguem a política dela.",
   "82d9538af590f58c": "Veja seus agentes, importe projetos e configure seu celular.",
   "6a48fd0a37e725a1": "Jurídico",
-  "ceda6fee3af22766": "Como tratamos seus dados, incluindo os dados de uso anônimos que o T0 Code coleta.",
+  "74d553ebb326b328": "O T0 Code não envia dados de uso. Esta é a política do projeto original para os serviços hospedados dele.",
   "e741b1ab9396053a": "Como tratamos seus dados. {telemetryOff}",
   "e67caf0a0836987a": "Avisos de dependências, recursos e ferramentas opcionais usados pelo T0 Code.",
   "e39a57514be028e9": "Revisar",

@@ -17,7 +17,8 @@ vi.mock("expo-constants", () => ({
   },
 }));
 
-it.effect("does not let OTLP serialization failures alter application effects", () => {
+// t0: relay tracing is removed (TELEMETRY-REGISTER.md T0-TEL-03), so spans must never be exported.
+it.effect("keeps application effects intact and exports nothing", () => {
   const fetchFn = vi.fn<typeof fetch>(async () => new Response(null, { status: 202 }));
   const layerTracing = Tracing.layerFromConfig(
     {
@@ -52,10 +53,7 @@ it.effect("does not let OTLP serialization failures alter application effects", 
     Effect.scoped,
     Effect.andThen(
       Effect.sync(() => {
-        expect(fetchFn).toHaveBeenCalledOnce();
-        expect(new TextDecoder().decode(fetchFn.mock.calls[0]?.[1]?.body as Uint8Array)).toContain(
-          "mobile.test.failed-span",
-        );
+        expect(fetchFn).not.toHaveBeenCalled();
       }),
     ),
   );

@@ -82,16 +82,21 @@ export class FeedbackStore extends Context.Service<
 
 const storageError = (cause: unknown) => new FeedbackStorageError({ cause });
 const TraceJson = Schema.NullOr(Schema.fromJsonString(FeedbackTrace));
+const T0_AGENT_FEEDBACK_DISABLED = true as boolean;
 const encodeTrace = Schema.encodeEffect(TraceJson);
 const decodeTrace = Schema.decodeUnknownEffect(TraceJson);
 
-/** The mode rule: nothing while Off, and only approved reports while When I ask. */
+/**
+ * The mode rule: nothing while Off, and only approved reports while When I ask.
+ * t0: agent feedback went to the upstream team, so every mode is treated as Off
+ * (TELEMETRY-REGISTER.md T0-TEL-02).
+ */
 export const allowedBy = (
   mode: AgentFeedbackMode,
   userRequested: boolean,
   source: FeedbackSource,
 ): Effect.Effect<void, FeedbackOffError | FeedbackNotRequestedError> =>
-  mode === "off"
+  T0_AGENT_FEEDBACK_DISABLED || mode === "off"
     ? Effect.fail(new FeedbackOffError({}))
     : mode === "on-request" && !userRequested
       ? Effect.fail(new FeedbackNotRequestedError({ source }))
