@@ -31,15 +31,15 @@ export const threadTitleEvaluationCases = [
   },
   {
     id: "linked-reset-credits",
-    source: "https://github.com/pingdotgg/t3code/pull/10462",
+    source: "https://github.com/wintelous/t0code/pull/10462",
     request: "Review the reset credit routing change.",
     previousTitle: "Review PR 10462",
-    messages: [{ role: "user", text: "Review https://github.com/pingdotgg/t3code/pull/10462" }],
+    messages: [{ role: "user", text: "Review https://github.com/wintelous/t0code/pull/10462" }],
     rubric: "Name reset credit routing. Distinguish it from displaying credit balances.",
   },
   {
     id: "onboarding-merge",
-    source: "https://github.com/pingdotgg/t3code/pull/10465",
+    source: "https://github.com/wintelous/t0code/pull/10465",
     request: "Make onboarding one shared wizard across computers, then merge when green.",
     previousTitle: "Finish onboarding PR",
     messages: [
@@ -119,10 +119,10 @@ export const threadTitleEvaluationCases = [
   {
     id: "research",
     source: "Maintainer title generation request",
-    request: "How can we improve title generation in T3 Code?",
+    request: "How can we improve title generation in T0 Code?",
     previousTitle: "Research title gen improvements",
     messages: [
-      { role: "user", text: "How can we improve title gen further in T3 Code?" },
+      { role: "user", text: "How can we improve title gen further in T0 Code?" },
       {
         role: "assistant",
         text: "Prioritize user messages, refine vague titles once, and resolve PR subjects.",
@@ -136,7 +136,7 @@ export const threadTitleEvaluationCases = [
   },
   {
     id: "project-name",
-    source: "https://github.com/pingdotgg/t3code/pull/33418",
+    source: "https://github.com/wintelous/t0code/pull/33418",
     request: "Make hyperdrive init create a default config instead of crashing.",
     projectTitle: "Hyperdrive",
     previousTitle: "Hyperdrive Init Missing Config Crash",
@@ -154,7 +154,7 @@ export const threadTitleEvaluationCases = [
   },
   {
     id: "custom-title-scheme",
-    source: "https://github.com/pingdotgg/t3code/pull/37565",
+    source: "https://github.com/wintelous/t0code/pull/37565",
     request: "Relay chat to the lead agent, titled with the user's naming scheme.",
     previousTitle: "Relay chat to lead agent",
     instructions: 'Title every thread "Owner: what it does (model effort)".',

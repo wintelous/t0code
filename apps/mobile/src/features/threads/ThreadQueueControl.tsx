@@ -103,8 +103,8 @@ function QueuedRunSender(props: {
             icon: "bubble.left.and.bubble.right" as const,
             label: senderShell?.title.trim() || linkedSender?.title.trim() || gt("Agent"),
           }
-        : attribution === "t3code"
-          ? { icon: null, label: gt("Sent by T3 Code") }
+        : attribution === "t0code"
+          ? { icon: null, label: gt("Sent by T0 Code") }
           : null;
   if (sender === null) return null;
   return (
@@ -159,7 +159,7 @@ export function ThreadQueueSheet({ route }: StaticScreenProps<QueueTarget>) {
   const queuedRuns = workflow?.queuedRuns ?? [];
 
   const hadQueuedRuns = useRef(queuedRuns.length > 0);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- pops the navigator once the server-side queue empties after it had runs
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- pops the navigator once the server-side queue empties after it had runs
   useEffect(() => {
     if (queuedRuns.length > 0) {
       hadQueuedRuns.current = true;

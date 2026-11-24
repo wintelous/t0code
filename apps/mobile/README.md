@@ -1,4 +1,4 @@
-# T3 Code Mobile
+# T0 Code Mobile
 
 > [!NOTE]
 > To install the released app from the App Store or Google Play, see [Mobile app](../../docs/user/install.md#mobile-app). This guide covers building it from source.
@@ -10,13 +10,13 @@
 
 This app has three variants:
 
-- `development`: Expo dev client, installable side-by-side as `T3 Code Dev`
-- `preview`: persistent internal preview build, installable side-by-side as `T3 Code Preview`
-- `production`: store/release build as `T3 Code`
+- `development`: Expo dev client, installable side-by-side as `T0 Code Dev`
+- `preview`: persistent internal preview build, installable side-by-side as `T0 Code Preview`
+- `production`: store/release build as `T0 Code`
 
 Run commands from `apps/mobile`.
 
-T3 Connect is optional and disabled in a fresh clone. Public configuration belongs in the
+T0 Connect is optional and disabled in a fresh clone. Public configuration belongs in the
 repository-root `.env` or `.env.local`, not an `apps/mobile/.env` file. See
 [`../../.env.example`](../../.env.example).
 
@@ -34,10 +34,10 @@ vp run dev:client
 The device argument can be omitted when exactly one device is booted or connected. The helper
 compares this checkout's Expo fingerprint and the installed binary with its last install record,
 and reuses a matching client. Otherwise it installs the build for that fingerprint from
-`~/.cache/t3code/native-clients/artifacts`, then the shared task cache, and builds only when
+`~/.cache/t0code/native-clients/artifacts`, then the shared task cache, and builds only when
 neither has it. A build runs in the `Mobile Dev Client` workflow (Blacksmith runners with warm
 Gradle and ccache state, and a macOS runner for iOS) when `gh` may dispatch workflows on
-`pingdotgg/t3code` and HEAD is pushed; the helper waits for the client in the shared cache.
+`wintelous/t0code` and HEAD is pushed; the helper waits for the client in the shared cache.
 Otherwise, or when HEAD lacks your native edits or `T3_NATIVE_CLIENT_BUILD=local` is set, it builds
 on this machine. Main's client is built there on every native change, so most checkouts hit. One iOS simulator build serves every iPhone and iPad simulator, and one APK per
 ABI (x86_64 or arm64-v8a) serves every emulator and phone of that ABI. Build output goes to the
@@ -88,8 +88,8 @@ reduced-capability local build. Personal Team builds omit the widget and share e
 entitlement, and native Sign in with Apple entitlement; builds without this opt-in are unchanged.
 
 ```bash
-T3CODE_IOS_PERSONAL_TEAM=1 \
-T3CODE_IOS_PERSONAL_TEAM_BUNDLE_ID=com.example.t3code.dev \
+T0CODE_IOS_PERSONAL_TEAM=1 \
+T0CODE_IOS_PERSONAL_TEAM_BUNDLE_ID=com.example.t0code.dev \
 vp run ios:dev
 ```
 
@@ -102,8 +102,8 @@ vp run ios:release
 The Personal Team equivalent also needs a unique bundle identifier:
 
 ```bash
-T3CODE_IOS_PERSONAL_TEAM=1 \
-T3CODE_IOS_PERSONAL_TEAM_BUNDLE_ID=com.example.t3code \
+T0CODE_IOS_PERSONAL_TEAM=1 \
+T0CODE_IOS_PERSONAL_TEAM_BUNDLE_ID=com.example.t0code \
 vp run ios:release
 ```
 
@@ -134,8 +134,8 @@ Preview and production variants use Expo fingerprinting so OTA updates only reac
 
 The development variant uses `appVersion` to avoid recalculating the native fingerprint for each Metro launch manifest. `MOBILE_VERSION_POLICY` can override either default. If you distribute a custom Release build with the development identity and publish OTA updates to it, set `MOBILE_VERSION_POLICY=fingerprint` for both its build and updates. Changing the runtime policy requires a native rebuild for OTA matching; an existing dev client can still load local Metro bundles.
 
-For preview or production EAS environments, set `T3CODE_CLERK_PUBLISHABLE_KEY`,
-`T3CODE_CLERK_JWT_TEMPLATE`, and `T3CODE_RELAY_URL`
+For preview or production EAS environments, set `T0CODE_CLERK_PUBLISHABLE_KEY`,
+`T0CODE_CLERK_JWT_TEMPLATE`, and `T0CODE_RELAY_URL`
 as EAS environment variables. Expo config maps the canonical values into the mobile build.
 
 Create a PR preview dev-client build manually:

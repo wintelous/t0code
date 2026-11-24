@@ -1220,7 +1220,7 @@ export const SETTINGS_SEARCH_ITEMS = [
   },
   {
     id: "pull-request-links-open-in-app",
-    title: msg("Open pull requests in T3 Code"),
+    title: msg("Open pull requests in T0 Code"),
     to: "/settings/diffs",
     searchTerms: [
       `pr commit links ${SOURCE_CONTROL_HOST_LABELS} browser external click default pull request view panel`,
@@ -1405,9 +1405,9 @@ export const SETTINGS_SEARCH_ITEMS = [
     wslAvailableOnly: true,
   },
   {
-    id: "t3-connect",
+    id: "t0-connect",
     localEnvironmentOnly: true,
-    title: msg("T3 Connect"),
+    title: msg("T0 Connect"),
     to: "/settings/access",
     targetId: "connections-environment",
     searchTerms: [msg("managed tunnel cloud other devices remote tunnels limit t3 chat")],

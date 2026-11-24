@@ -1,4 +1,4 @@
-// Starts real T3 Code dev environments for staging a launch video: fresh homes, fictional
+// Starts real T0 Code dev environments for staging a launch video: fresh homes, fictional
 // machine labels, the free replay agent, no paid provider. Import from a staging script.
 import * as NodeChildProcess from "node:child_process";
 import * as NodeCrypto from "node:crypto";
@@ -43,7 +43,7 @@ const identityEnv = (home) => {
   const { label, machine } = JSON.parse(
     NodeFS.readFileSync(NodePath.join(home, "identity.json"), "utf8"),
   );
-  return { T3CODE_ENVIRONMENT_LABEL: label, T3CODE_ENVIRONMENT_MACHINE_KIND: machine };
+  return { T0CODE_ENVIRONMENT_LABEL: label, T0CODE_ENVIRONMENT_MACHINE_KIND: machine };
 };
 
 /**
@@ -141,8 +141,8 @@ export async function startEnvironment(
           FAKE_CLAUDE_LOG: NodePath.join(home, "fake-claude.log"),
         }
       : {}),
-    T3CODE_AUTO_BOOTSTRAP_PROJECT_FROM_CWD: "0",
-    T3CODE_PORT_OFFSET: String(webPort - BASE_WEB_PORT),
+    T0CODE_AUTO_BOOTSTRAP_PROJECT_FROM_CWD: "0",
+    T0CODE_PORT_OFFSET: String(webPort - BASE_WEB_PORT),
     ...env,
   };
   const runner = (mode, extra) => [
@@ -162,8 +162,8 @@ export async function startEnvironment(
     runner("dev:server", ["--host", host]),
     {
       ...baseEnv,
-      T3CODE_DEV_ALLOWED_ORIGINS: [webOrigin, ...allowedOrigins].join(","),
-      T3CODE_DEV_AUTH_TOKEN: token,
+      T0CODE_DEV_ALLOWED_ORIGINS: [webOrigin, ...allowedOrigins].join(","),
+      T0CODE_DEV_AUTH_TOKEN: token,
     },
     log,
   );
@@ -290,9 +290,9 @@ export async function openBrowser({ width = 1440, height = 720, args = [] } = {}
   const context = await browser.newContext({ viewport: { width, height }, colorScheme: "dark" });
   await context.addInitScript(() => {
     // "none" is what a release build shows: no dev or nightly artwork.
-    if (!localStorage.getItem("t3code:client-settings:v1")) {
+    if (!localStorage.getItem("t0code:client-settings:v1")) {
       localStorage.setItem(
-        "t3code:client-settings:v1",
+        "t0code:client-settings:v1",
         JSON.stringify({ environmentIdentificationMode: "none" }),
       );
     }

@@ -133,7 +133,7 @@ export function CodeFontPreview() {
 }
 
 const TERMINAL_PROMPT =
-  "\x1b[1;32m→\x1b[0m \x1b[1;36mt3code\x1b[0m \x1b[1;34mgit:(\x1b[1;31mmain\x1b[1;34m)\x1b[0m \x1b[1;33m✗\x1b[0m ";
+  "\x1b[1;32m→\x1b[0m \x1b[1;36mt0code\x1b[0m \x1b[1;34mgit:(\x1b[1;31mmain\x1b[1;34m)\x1b[0m \x1b[1;33m✗\x1b[0m ";
 const TERMINAL_PREVIEW_TRANSCRIPT =
   `${TERMINAL_PROMPT}vpr dev\r\n` +
   "\r\n" +
@@ -162,7 +162,7 @@ export function TerminalFontPreview({ family, size }: { family: string; size: nu
   const { theme, resolvedTheme } = useTheme();
 
   // The box grows with the font so the whole transcript shows without scrolling.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- applies the font to the Ghostty preview surface and resizes its DOM box to fit the rows
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- applies the font to the Ghostty preview surface and resizes its DOM box to fit the rows
   useEffect(() => {
     if (!surface) return;
     void surface.setFont(previewTerminalFont(family, size)).then(() => {
@@ -176,7 +176,7 @@ export function TerminalFontPreview({ family, size }: { family: string; size: nu
   }, [surface, family, size]);
 
   // Palette changes may preserve light/dark mode; re-read terminal tokens for every theme change.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- pushes theme tokens read from the DOM's computed styles into the Ghostty preview surface
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- pushes theme tokens read from the DOM's computed styles into the Ghostty preview surface
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount || !surface) return;

@@ -25,7 +25,7 @@ import { writeFakeCli } from "@t3tools/provider-testing/fakeCli";
 const decodeClaudeSettings = Schema.decodeSync(ClaudeSettings);
 
 const layerClaudeTextGenerationTest = ServerConfig.ServerConfig.layerTest(process.cwd(), {
-  prefix: "t3code-claude-text-generation-test-",
+  prefix: "t0code-claude-text-generation-test-",
 }).pipe(Layer.provideMerge(NodeServices.layer));
 
 // The stub behaviour lives in Node so the same implementation runs on Windows,
@@ -76,7 +76,7 @@ function withFakeClaudeEnv<A, E, R>(
 ) {
   return Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const tempDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-claude-text-" });
+    const tempDir = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-claude-text-" });
     const binDir = yield* makeFakeClaudeBinary(tempDir, input.lifecyclePort);
     const pathDelimiter = (yield* HostProcess.isWindows) ? ";" : ":";
     const hostEnv = yield* HostProcess.Environment;
@@ -135,7 +135,7 @@ it.layer(layerClaudeTextGenerationTest)("ClaudeTextGeneration", (it) => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
-      const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-claude-guide-" });
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-claude-guide-" });
       const project = path.join(root, "project");
       const checkout = path.join(root, "checkout");
       for (const [directory, origin] of [
@@ -174,7 +174,7 @@ it.layer(layerClaudeTextGenerationTest)("ClaudeTextGeneration", (it) => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
-      const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-claude-guide-" });
+      const root = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-claude-guide-" });
       const home = path.join(root, "home");
       yield* fs.makeDirectory(home);
       yield* fs.writeFileString(
@@ -359,7 +359,7 @@ it.layer(layerClaudeTextGenerationTest)("ClaudeTextGeneration", (it) => {
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
-      const logDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-claude-image-log-" });
+      const logDir = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-claude-image-log-" });
       const imageAttemptLog = path.join(logDir, "image-attempts.log");
       return yield* withFakeClaudeEnv(
         {

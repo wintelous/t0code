@@ -25,7 +25,7 @@ export function CollapsibleUserMessageBody(props: {
   const gradientId = `user-message-fade-${useId().replaceAll(":", "")}`;
   const contentRef = useRef<ViewInstance>(null);
   const [tallEnough, setTallEnough] = useState(false);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the fold depends on the rendered height; measuring before paint avoids one unfolded frame
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the fold depends on the rendered height; measuring before paint avoids one unfolded frame
   useLayoutEffect(() => {
     const height = contentRef.current?.getBoundingClientRect().height;
     if (height !== undefined) setTallEnough(isTallEnoughToFold(height));

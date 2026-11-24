@@ -12,18 +12,18 @@ describe("resolveT3McpToolPresentation", () => {
     for (const tool of T3_MCP_TOOL_NAMES) {
       const presentation = resolveT3McpToolPresentation(tool);
       for (const prefix of [
-        "mcp__t3-code__",
-        "mcp__t3_code__",
-        "mcp__t3code__",
-        "T3-code.",
-        "t3code.",
-        "t3-code-direct.",
-        "mcp__t3_code_direct__",
-        "t3_code/",
-        "t3code:",
-        "mcp_t3-code_",
-        "T3 Code ",
-        "t3-code · ",
+        "mcp__t0-code__",
+        "mcp__t0_code__",
+        "mcp__t0code__",
+        "T0-code.",
+        "t0code.",
+        "t0-code-direct.",
+        "mcp__t0_code_direct__",
+        "t0_code/",
+        "t0code:",
+        "mcp_t0-code_",
+        "T0 Code ",
+        "t0-code · ",
       ]) {
         expect(resolveT3McpToolPresentation(`${prefix}${tool} completed`), tool).toEqual(
           presentation,
@@ -35,16 +35,16 @@ describe("resolveT3McpToolPresentation", () => {
 
   it("matches OpenCode 2's per-thread server names, whose thread ids hold underscores", () => {
     expect(
-      resolveT3McpToolPresentation("t3-code-thread_opencode2-adapter_delegate_task")?.displayName,
+      resolveT3McpToolPresentation("t0-code-thread_opencode2-adapter_delegate_task")?.displayName,
     ).toBe("Delegate a child task");
-    expect(resolveT3McpToolPresentation("t3-code-thread_opencode2-adapter_not_a_tool")).toBeNull();
+    expect(resolveT3McpToolPresentation("t0-code-thread_opencode2-adapter_not_a_tool")).toBeNull();
   });
 });
 
 describe("resolveT3McpToolDefinition", () => {
   it("labels an action tool call as the action it ran", () => {
     expect(
-      resolveT3McpToolDefinition("mcp__t3-code__preview_act", { action: "type" })?.labels,
+      resolveT3McpToolDefinition("mcp__t0-code__preview_act", { action: "type" })?.labels,
     ).toEqual(resolveT3McpToolDefinition("preview_type")?.labels);
     expect(resolveT3McpToolDefinition("t3_thread_transfer", { action: "fork" })?.displayName).toBe(
       resolveT3McpToolDefinition("t3_thread_fork")?.displayName,
@@ -57,7 +57,7 @@ describe("resolveT3McpToolDefinition", () => {
 
 describe("resolveT3McpSummaryAction", () => {
   it("summarizes an action tool by the action each call ran", () => {
-    expect(resolveT3McpSummaryAction("mcp__t3-code__t3_queue", { action: "list" })).toBe(
+    expect(resolveT3McpSummaryAction("mcp__t0-code__t3_queue", { action: "list" })).toBe(
       "queue-list",
     );
     expect(resolveT3McpSummaryAction("t3_queue", { action: "edit" })).toBe("queue-edit");

@@ -186,7 +186,7 @@ function TimelineListFooter({
   readonly children?: ReactNode;
 }) {
   const contentRef = useRef<HTMLDivElement>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- reports growth of the footer's content, which the list does not follow
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- reports growth of the footer's content, which the list does not follow
   useLayoutEffect(() => {
     const content = contentRef.current;
     if (!content || !onGrow) return;
@@ -826,7 +826,7 @@ const ConversationTimeline = memo(function ConversationTimeline({
   // must land before paint, after LegendList's own layout effects applied the
   // new data. A citation request that arrives mid-restore takes over.
   const { findOpenAtOpening } = identityChanged ? { findOpenAtOpening: findOpen } : listState;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- restores LegendList's scroll position for the shown thread before paint, after the list's own layout
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- restores LegendList's scroll position for the shown thread before paint, after the list's own layout
   useLayoutEffect(() => {
     const list = listRef.current;
     const viewport = viewportRef.current;
@@ -1008,7 +1008,7 @@ const ConversationTimeline = memo(function ConversationTimeline({
     });
   });
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the minimap skips refreshes until the restore commits, and the restore can land without a scroll event
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the minimap skips refreshes until the restore commits, and the restore can land without a scroll event
   useLayoutEffect(() => {
     if (!restoringThreadPosition) scheduleMinimapRefresh();
   }, [restoringThreadPosition, scheduleMinimapRefresh]);
@@ -1603,7 +1603,7 @@ function isMessageRow(row: MessagesTimelineRow) {
 // moves a native selection's ends onto other rows. Pin the selected rows.
 function useSelectedTimelineRowIds(viewport: HTMLElement | null) {
   const [rowIds, setRowIds] = useState<ReadonlyArray<string>>([]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes to document selectionchange to track which timeline rows a native selection covers
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes to document selectionchange to track which timeline rows a native selection covers
   useEffect(() => {
     if (!viewport) return;
     const update = () => {
@@ -1809,7 +1809,7 @@ function ContextCompactionTimelineRow({
         label
       )}
       {row.failure ? (
-        // oxlint-disable-next-line t3code/no-untranslated-copy -- separator before server-authored failure text
+        // oxlint-disable-next-line t0code/no-untranslated-copy -- separator before server-authored failure text
         <span className="min-w-0 truncate opacity-80">&middot; {row.failure}</span>
       ) : null}
     </span>
@@ -1861,7 +1861,7 @@ function useDeferredWorkLoading(
     );
   };
   const loadOnExpand = useEffectEvent(load);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Restored expanded folds load their deferred server history on mount.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Restored expanded folds load their deferred server history on mount.
   useEffect(() => {
     if (row.expanded && anchorsKey && environmentId && threadId) loadOnExpand();
   }, [row.expanded, anchorsKey, environmentId, threadId]);

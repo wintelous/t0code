@@ -31,7 +31,7 @@ export function FileMetadataThreadProvider(props: {
     checkpoints: OrchestrationV2ThreadProjection["checkpoints"];
   } | null>(null);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- invalidates the server file metadata cache for files whose checkpoints changed
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- invalidates the server file metadata cache for files whose checkpoints changed
   useEffect(() => {
     if (!threadRef || !cwd || !checkpoints) {
       previous.current = null;

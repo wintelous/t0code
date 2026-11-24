@@ -232,7 +232,7 @@ export function useSubmitAfterPreparingImages(targetKey: string, blocked = false
     readonly cancelGeneration: number;
     readonly submit: () => void;
   } | null>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- sends only after the render where the compressed images joined the draft
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- sends only after the render where the compressed images joined the draft
   useEffect(() => {
     const pending = pendingRef.current;
     if (!pending) return;

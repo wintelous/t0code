@@ -24,7 +24,7 @@ import {
 } from "./connectDeviceApproval";
 
 /**
- * Asks to approve T3 Connect devices waiting on hosts that require it and this phone manages,
+ * Asks to approve T0 Connect devices waiting on hosts that require it and this phone manages,
  * and tells it about devices that got in on hosts that do not.
  */
 export function ConnectDeviceApprovalCoordinator() {
@@ -102,14 +102,14 @@ const newDeviceNotices = createApprovalPromptQueue<NewDeviceNotice>((notice, ans
       unseen.length === 1
         ? m(
             msg(
-              "{device} connected through {product}. If this was not you, remove it in Settings → Access in T3 Code on that computer.",
-              { device: firstDevice, product: "T3 Connect" },
+              "{device} connected through {product}. If this was not you, remove it in Settings → Access in T0 Code on that computer.",
+              { device: firstDevice, product: "T0 Connect" },
             ),
           )
         : m(
             msg(
-              "{count, plural, one {{count} device} other {{count} devices}} connected through {product}. If this was not you, remove them in Settings → Access in T3 Code on that computer.",
-              { count: unseen.length, product: "T3 Connect" },
+              "{count, plural, one {{count} device} other {{count} devices}} connected through {product}. If this was not you, remove them in Settings → Access in T0 Code on that computer.",
+              { count: unseen.length, product: "T0 Connect" },
             ),
           ),
       [
@@ -152,11 +152,11 @@ function NewConnectDeviceWatcher(props: {
       { pairingLinkId: `${props.environmentId}:${newest}`, environmentId: props.environmentId },
     ]);
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- a device this phone has not announced opens a native alert
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- a device this phone has not announced opens a native alert
   useEffect(() => {
     if (devices !== undefined) void check(devices);
   }, [devices]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- forgets this host and drops its queued notice when it goes away
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- forgets this host and drops its queued notice when it goes away
   useEffect(() => {
     const environmentId = props.environmentId;
     return () => {
@@ -260,7 +260,7 @@ function EnvironmentApprovalWatcher(props: {
       })),
     );
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- registers this host with the module-level prompt queue and drops its prompts when it goes away
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- registers this host with the module-level prompt queue and drops its prompts when it goes away
   useEffect(() => {
     const environmentId = props.environmentId;
     watchedEnvironments.add(environmentId);
@@ -269,7 +269,7 @@ function EnvironmentApprovalWatcher(props: {
       approvalPrompts.drop((prompt) => prompt.environmentId === environmentId);
     };
   }, [props.environmentId]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- a new request on the access stream opens a native alert
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- a new request on the access stream opens a native alert
   useEffect(() => {
     if (pairingLinks !== undefined) offerPrompts(pairingLinks);
   }, [pairingLinks]);

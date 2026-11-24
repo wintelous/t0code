@@ -332,7 +332,7 @@ function UsageChartPlot({
     plot.style.setProperty("--usage-tooltip-top", `${top}px`);
   };
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- positions the hover tooltip through plot CSS variables before paint and on ResizeObserver
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- positions the hover tooltip through plot CSS variables before paint and on ResizeObserver
   useLayoutEffect(() => {
     if (hoverIndex === null) return;
     positionTooltip();

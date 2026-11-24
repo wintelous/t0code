@@ -18,7 +18,7 @@ import { imageMimeType } from "@t3tools/shared/image";
 import { videoMimeType } from "@t3tools/shared/video";
 import { msg } from "gt-i18n";
 
-/** The working row while T3 Code's own compaction runs. */
+/** The working row while T0 Code's own compaction runs. */
 export const IDLE_COMPACTING_LABELS = {
   beforeCacheExpires: msg("Compacting before the cache expires…"),
   onReturn: msg("Compacting…"),
@@ -69,7 +69,7 @@ export function resolveUserMessagePresentation(message: {
   readonly context?: { readonly guest?: GuestMessageAttribution | undefined } | undefined;
 }): {
   readonly text: string;
-  readonly attribution: "automation" | "agent" | "t3code" | "guest" | null;
+  readonly attribution: "automation" | "agent" | "t0code" | "guest" | null;
   readonly scheduledTaskId: ScheduledTaskId | undefined;
   /** Set when `attribution` is "guest". */
   readonly guestName?: string;
@@ -112,7 +112,7 @@ export function resolveUserMessagePresentation(message: {
       message.createdBy !== "agent"
         ? null
         : message.creationSource === "server"
-          ? "t3code"
+          ? "t0code"
           : "agent",
     scheduledTaskId: undefined,
   };

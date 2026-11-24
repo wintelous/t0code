@@ -3,7 +3,7 @@ const test = require("node:test");
 const { createRecord, readClient } = require("./mobile-ios-preview-record.cjs");
 
 test("only clients with an unexpired provisioning profile are reused", () => {
-  const link = "https://expo.dev/accounts/pingdotgg/projects/t3-code/builds/client";
+  const link = "https://expo.dev/accounts/pingdotgg/projects/t0-code/builds/client";
   const profile =
     "<plist><dict><key>ExpirationDate</key><date>2027-01-01T00:00:00Z</date></dict></plist>";
   const record = createRecord(link, profile);

@@ -254,7 +254,7 @@ export function SnapShotCoordinator() {
   const rememberProject = useEffectEvent((projectKey: string) => {
     if (projectKey !== lastUsedProjectKey) setLastUsedProjectKey(projectKey);
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Persist route changes without overwriting project choices from other tabs.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Persist route changes without overwriting project choices from other tabs.
   useEffect(() => {
     if (currentProjectKey) rememberProject(currentProjectKey);
   }, [currentProjectKey]);
@@ -500,7 +500,7 @@ export function SnapShotCoordinator() {
       }
     },
   );
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes to SnapShot events from the desktop bridge and drains pending ones while enabled
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes to SnapShot events from the desktop bridge and drains pending ones while enabled
   useEffect(() => {
     const bridge = getDesktopSnapShotBridge();
     if (
@@ -513,7 +513,7 @@ export function SnapShotCoordinator() {
     return bridge.onSnapShotEvent((event) => handleSnapShotEvent(bridge, event));
   }, [enabled, defaultProjectFallbackReady, hasDefaultProject, lastRouteTarget]);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- attaches window blur, focus and visibilitychange listeners to dismiss or drain SnapShot animations
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- attaches window blur, focus and visibilitychange listeners to dismiss or drain SnapShot animations
   useEffect(() => {
     const dismissOnBlur = () => {
       pendingAnimationStartsRef.current.clear();

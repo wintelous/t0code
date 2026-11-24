@@ -69,7 +69,7 @@ export const installCli = Effect.fn("cli.install.install")(function* () {
   }
   // Absolute, so the PATH hint never adds a folder that changes with the working directory.
   const binDir = path.resolve(
-    environment.T3CODE_INSTALL_BIN_DIR?.trim() || path.join(home, ".local", "bin"),
+    environment.T0CODE_INSTALL_BIN_DIR?.trim() || path.join(home, ".local", "bin"),
   );
   const name = windows ? "t3.cmd" : "t3";
   const link = path.join(binDir, name);

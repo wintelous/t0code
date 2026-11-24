@@ -4,7 +4,7 @@ const test = require("node:test");
 const { main, mergeState, readState, render } = require("./mobile-preview-comment.cjs");
 
 const fingerprint = "c31608b37a8a2dca35ccee39cfd2ec7305042629";
-const run = "https://github.com/pingdotgg/t3code/actions/runs/1";
+const run = "https://github.com/wintelous/t0code/actions/runs/1";
 
 test("the comment round-trips its state", () => {
   const state = {
@@ -107,7 +107,7 @@ test("publishing consolidates platform comments and preserves unrelated comments
   ]);
   await main({
     env: {
-      GITHUB_REPOSITORY: "pingdotgg/t3code",
+      GITHUB_REPOSITORY: "wintelous/t0code",
       PR: "1",
       GH_TOKEN: "test",
       ANDROID_FINGERPRINT: fingerprint,
@@ -131,14 +131,14 @@ test("publishing consolidates platform comments and preserves unrelated comments
   assert.equal(comments.get(3).user.login, "contributor");
   await main({
     env: {
-      GITHUB_REPOSITORY: "pingdotgg/t3code",
+      GITHUB_REPOSITORY: "wintelous/t0code",
       PR: "1",
       GH_TOKEN: "test",
       ANDROID_FINGERPRINT: fingerprint,
       PR_HEAD_SHA: "old-head",
     },
     request: async (path) => {
-      assert.equal(path, "/repos/pingdotgg/t3code/pulls/1");
+      assert.equal(path, "/repos/wintelous/t0code/pulls/1");
       return { head: { sha: "new-head" } };
     },
   });

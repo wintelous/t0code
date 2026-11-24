@@ -57,7 +57,7 @@ export default function SideThreadPane(props: {
   const { threadId } = surface;
   const gt = useGT();
   const threadRef = scopeThreadRef(parentRef.environmentId, threadId);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- registers the parent panel as host in the panel store, and closes this side chat's find with its pane
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- registers the parent panel as host in the panel store, and closes this side chat's find with its pane
   useEffect(() => {
     const ref = scopeThreadRef(parentRef.environmentId, threadId);
     const unhost = hostRightPanel(ref, parentRef);

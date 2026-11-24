@@ -1568,7 +1568,7 @@ describe("AcpRegistryAdapterV2", () => {
       const plainHttp = (authorization: string) => [
         {
           type: "http",
-          name: "t3-code",
+          name: "t0-code",
           url: endpoint,
           headers: [{ name: "Authorization", value: authorization }],
         },
@@ -1576,7 +1576,7 @@ describe("AcpRegistryAdapterV2", () => {
       const http = (authorization: string) => [
         {
           type: "http",
-          name: "t3-code",
+          name: "t0-code",
           url: endpoint,
           headers: [
             { name: "Authorization", value: authorization },
@@ -1586,7 +1586,7 @@ describe("AcpRegistryAdapterV2", () => {
       ];
       const stdio = (authorization: string) => [
         {
-          name: "t3-code",
+          name: "t0-code",
           command: selfInvocation.command,
           args: [...selfInvocationArgs(selfInvocation, ["acp-mcp-bridge"])],
           env: [
@@ -1601,7 +1601,7 @@ describe("AcpRegistryAdapterV2", () => {
         yield* sessionMcpServers({ agentId: "github-copilot-cli" }, { T3_ACP_MCP_HTTP: "1" }),
         { new: http("Bearer opened-token"), load: http("Bearer rotated-token") },
       );
-      const acp = [{ type: "acp", name: "t3-code", serverId: "t3-code" }];
+      const acp = [{ type: "acp", name: "t0-code", serverId: "t0-code" }];
       assert.deepEqual(
         yield* sessionMcpServers(
           { agentId: "github-copilot-cli" },
@@ -1717,7 +1717,7 @@ describe("AcpRegistryAdapterV2", () => {
         (environment) => environment?.T3_ACP_SESSION_LIFECYCLE === "1",
       );
       assert.isDefined(agentEnvironment, "the agent itself must have been spawned");
-      assert.equal(agentEnvironment?.T3CODE_THREAD_ID, "thread-acp-registry-thread-env");
+      assert.equal(agentEnvironment?.T0CODE_THREAD_ID, "thread-acp-registry-thread-env");
       assert.equal(agentEnvironment?.T3_ACP_MCP_ENDPOINT, endpoint);
       assert.equal(agentEnvironment?.T3_ACP_MCP_AUTHORIZATION, "Bearer thread-env-token");
     }).pipe(Effect.provide(layerTest)),
@@ -3445,7 +3445,7 @@ describe("AcpRegistryAdapterV2", () => {
               event.turnItem.nativeItemRef?.nativeId ===
                 "agent-1:session:grandchild:tool:terminal-tool" &&
               event.turnItem.threadId === row.subagent.childThreadId &&
-              event.turnItem.toolName === "t3-code.orchestrator_capabilities",
+              event.turnItem.toolName === "t0-code.orchestrator_capabilities",
           ),
           "embedded agent-terminal commands preserve nested MCP identity",
         );

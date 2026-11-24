@@ -1,6 +1,6 @@
 ---
 name: launch-video
-description: Make a short launch video (1920x1080 MP4 plus an outro PNG) that demos a T3 Code feature, built from the real app with added motion, for an X/Twitter announcement or release thread. Use when asked for a launch video, demo video, feature teaser or announcement clip, or to add a video to a release tweet.
+description: Make a short launch video (1920x1080 MP4 plus an outro PNG) that demos a T0 Code feature, built from the real app with added motion, for an X/Twitter announcement or release thread. Use when asked for a launch video, demo video, feature teaser or announcement clip, or to add a video to a release tweet.
 ---
 
 # Launch videos
@@ -59,7 +59,7 @@ There are two ways to build one:
    - Data a real flow can't produce cheaply goes into the app's own stores, never into pixels.
      `insertPeerLinks` writes link rows into a stopped server; `serveDescriptors` makes fake
      machines answer the reachability probe. The client's saved environments and routes live
-     in IndexedDB (`t3code:connection-runtime` / `catalog` / `document`): write the document
+     in IndexedDB (`t0code:connection-runtime` / `catalog` / `document`): write the document
      from the page after its first load, then reload. Route kinds come from hostnames
      (`*.localhost` is LAN, `*.ts.net` Tailscale); Chrome's
      `--host-resolver-rules=MAP *.tail-demo.ts.net 127.0.0.1` makes fake tailnet names work.
@@ -78,8 +78,8 @@ There are two ways to build one:
    `scripts/sheet.sh ~/launch-videos/<slug> 1,4.5,8,12,16,21,26` then Read `sheet.png`.
    The times are video seconds (after `Kit.timeline`), not animation seconds. Read the
    full-size frames in `probe/` to check small text. A probe takes about 2 s a frame.
-7. **Render:** `scripts/render.sh ~/launch-videos/<slug> t3code-<slug>` gives
-   `t3code-<slug>.mp4` and `outro.png`. A 30 s video takes 3–6 minutes.
+7. **Render:** `scripts/render.sh ~/launch-videos/<slug> t0code-<slug>` gives
+   `t0code-<slug>.mp4` and `outro.png`. A 30 s video takes 3–6 minutes.
 8. **Hand back** with the video and outro embedded (`![...](/abs/path.mp4)`), the caption
    copy, any `Kit.text` edits, and anything you assumed rather than verified.
 
@@ -89,7 +89,7 @@ harness's task stop; it ends its servers' process groups.
 
 ### Staging traps
 
-- **Machine names and icons.** `T3CODE_ENVIRONMENT_LABEL` and `T3CODE_ENVIRONMENT_MACHINE_KIND`
+- **Machine names and icons.** `T0CODE_ENVIRONMENT_LABEL` and `T0CODE_ENVIRONMENT_MACHINE_KIND`
   (laptop, desktop, cloud, linux, mac-mini, mac-studio) override what the server detects.
   `prepareHome({ label, machine })` records them and `startEnvironment` and `cli()` pass them
   on; the CLI needs them too, because a link introduces the machine by its label.
@@ -182,7 +182,7 @@ seeks every animation (in the story and inside each beat) to each frame's time.
   throws if two overlap; two captions crossfading read as garbled text.
 - **Pacing**: `Kit.timeline([[realSeconds, animFrom, animTo], ...])` maps video time to
   animation time; `animFrom == animTo` holds a frame. It also sets the video length.
-- **Outro** `.outro`: logo, a two-line headline, "Available now in **T3 Code** `<version>`",
+- **Outro** `.outro`: logo, a two-line headline, "Available now in **T0 Code** `<version>`",
   `t3.codes`. Change the headline and version, keep the rest. Hold it about 3 s.
 
 Two animations on one property of one element fight (the later one wins for its whole

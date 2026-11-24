@@ -196,7 +196,7 @@ export function ThreadMcpApp(props: {
     reopenDocument();
     setPresentedFullscreen(false);
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Navigation focus is outside React; listen only while the app is presented full screen, and stop on unmount.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Navigation focus is outside React; listen only while the app is presented full screen, and stop on unmount.
   useEffect(() => {
     if (!presentedFullscreen) return;
     return navigation.addListener("focus", () => returnedFromFullscreen());
@@ -243,7 +243,7 @@ export function ThreadMcpApp(props: {
   // The attached WebView owns its host; state lets the tool-call effect pair
   // a host only with an atom from a render after that host existed.
   const [host, setHost] = useState<McpAppHost | null>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- resends host context to the MCP app host after commits that change theme, insets, tool or size
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- resends host context to the MCP app host after commits that change theme, insets, tool or size
   useEffect(() => {
     const previous = latest.current;
     latest.current = live;
@@ -262,7 +262,7 @@ export function ThreadMcpApp(props: {
   // The host sends the call once the app initializes, so a stored item that
   // lands late still reaches it. A completed call can arrive under a new
   // revision, which is a new atom, so the host follows the current one.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes the MCP host to the current tool call
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes the MCP host to the current tool call
   useEffect(() => {
     if (host === null) return;
     return appAtomRegistry.subscribe(
@@ -313,7 +313,7 @@ export function ThreadMcpApp(props: {
         platform: "mobile",
         locale: Intl.DateTimeFormat().resolvedOptions().locale,
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        userAgent: `t3-code/${Constants.expoConfig?.version ?? "0.0.0"}`,
+        userAgent: `t0-code/${Constants.expoConfig?.version ?? "0.0.0"}`,
         deviceCapabilities: { touch: true, hover: false },
         safeAreaInsets: isFullscreen
           ? { top: 0, right: current.insets.right, bottom: 0, left: current.insets.left }

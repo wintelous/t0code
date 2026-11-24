@@ -275,7 +275,7 @@ it.layer(NodeServices.layer)("server self update", (it) => {
       for (const harness of [service, desktop]) {
         expect(
           (yield* harness.selfUpdate.update({ targetVersion: "1.1.0" }).pipe(Effect.flip)).reason,
-        ).toBe("Example Corp manages T3 Code updates.");
+        ).toBe("Example Corp manages T0 Code updates.");
       }
       expect([...service.order, ...desktop.order]).toEqual([]);
     }),
@@ -291,7 +291,7 @@ it.layer(NodeServices.layer)("server self update", (it) => {
             updates: {
               mode: "auto",
               allowNightly: false,
-              feedUrl: "https://updates.example.com/t3code/",
+              feedUrl: "https://updates.example.com/t0code/",
             },
           },
         },
@@ -299,7 +299,7 @@ it.layer(NodeServices.layer)("server self update", (it) => {
       expect(
         (yield* selfUpdate.update({ targetVersion: "1.2.0-nightly.20261028.1" }).pipe(Effect.flip))
           .reason,
-      ).toBe("Example Corp manages T3 Code updates. Only stable releases can be installed.");
+      ).toBe("Example Corp manages T0 Code updates. Only stable releases can be installed.");
       expect(order).toEqual([]);
       // The mirror lists only 1.1.0's archive.
       expect((yield* selfUpdate.update({ targetVersion: "1.2.0" }).pipe(Effect.flip)).reason).toBe(
@@ -309,7 +309,7 @@ it.layer(NodeServices.layer)("server self update", (it) => {
       // The release comes from the policy's mirror, not GitHub.
       expect(urls.length).toBeGreaterThan(0);
       for (const url of urls)
-        expect(url).toMatch(/^https:\/\/updates\.example\.com\/t3code\/v1\.[12]\.0\//);
+        expect(url).toMatch(/^https:\/\/updates\.example\.com\/t0code\/v1\.[12]\.0\//);
     }),
   );
 
@@ -481,7 +481,7 @@ it.layer(NodeServices.layer)("pruning runtimes on start", (it) => {
       if (input.servicePlistThroughLink) yield* fs.symlink(realHome, programHome);
       const program = path.join(programHome, "runtime", "versions", input.servicePlistStarts, "t3");
       yield* fs.writeFileString(
-        path.join(agentsDir, "com.t3tools.t3code.service.plist"),
+        path.join(agentsDir, "com.t3tools.t0code.service.plist"),
         `<plist><dict>\n<key>ProgramArguments</key>\n<array>\n<string>${program}</string>\n<string>__service-launcher</string>\n</array>\n</dict></plist>\n`,
       );
     }

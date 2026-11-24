@@ -42,7 +42,7 @@ export function ListSearchToolbar(props: {
     recordScrollOffset(section, tab.searchEntryOffset);
     dispatch({ type: "cancel", tab: section });
   };
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes to BackHandler while searching to close the list search on Android back
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes to BackHandler while searching to close the list search on Android back
   useEffect(() => {
     if (!searching) return;
     const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -59,7 +59,7 @@ export function ListSearchToolbar(props: {
   }, [searching, closeSearch, navigation, isTabActive, section]);
   return (
     <AppBar
-      title="T3 Code"
+      title="T0 Code"
       titleContent={
         <WorkspaceConnectionTitle
           grow

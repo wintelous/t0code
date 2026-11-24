@@ -75,7 +75,7 @@ export class RelayConfiguration extends Context.Service<
     readonly legacyTunnelGraceMinutes?: number;
     readonly t3Chat?: T3ChatSettings;
   }
->()("t3code-relay/Config/RelayConfiguration") {}
+>()("t0code-relay/Config/RelayConfiguration") {}
 
 export const layer = (configuration: RelayConfiguration["Service"]) =>
   Layer.succeed(RelayConfiguration, RelayConfiguration.of(configuration));

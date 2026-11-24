@@ -86,7 +86,7 @@ function DocumentPreview(props: {
         gt("A compatible viewer must be installed. Check your connection and try again."),
       );
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- opens the attachment in an external viewer and aborts the open on cleanup
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- opens the attachment in an external viewer and aborts the open on cleanup
   useEffect(() => {
     const controller = new AbortController();
     const input = {
@@ -180,7 +180,7 @@ function ImagePreview(props: ImagePreviewProps) {
     }
     return saveController.current.signal;
   };
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- saves survive a page change but stop when the gallery unmounts
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- saves survive a page change but stop when the gallery unmounts
   useEffect(
     () => () => {
       saveController.current?.abort();

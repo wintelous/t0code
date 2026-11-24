@@ -106,7 +106,7 @@ export const buildInitialKiroProviderSnapshot = Effect.fn(
     auth: { status: "unknown" },
     message: settings.enabled
       ? "Checking Kiro CLI availability..."
-      : "Kiro is disabled in T3 Code settings.",
+      : "Kiro is disabled in T0 Code settings.",
   });
 });
 
@@ -350,7 +350,7 @@ const probeKiroAgents = Effect.fn("KiroProvider.probeKiroAgents")(function* (
     settings,
     environment,
     cwd: yield* HostProcess.WorkingDirectory,
-    clientInfo: { name: "t3-code-provider-probe", version: "0.0.0" },
+    clientInfo: { name: "t0-code-provider-probe", version: "0.0.0" },
   });
   yield* runtime.initialize();
   return kiroAgentDescriptor(yield* runtime.request("_kiro/config/template", {}));
@@ -371,7 +371,7 @@ export const checkKiroProviderStatus = Effect.fn("checkKiroProviderStatus")(func
       version: null,
       status: "warning",
       auth: { status: "unknown" },
-      message: "Kiro is disabled in T3 Code settings.",
+      message: "Kiro is disabled in T0 Code settings.",
     });
   }
 

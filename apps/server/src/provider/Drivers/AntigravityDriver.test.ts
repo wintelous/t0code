@@ -468,7 +468,7 @@ it.layer(layerTest)("AntigravityDriver", (it) => {
       Effect.gen(function* () {
         const h = yield* makeHarness({
           environment: [
-            { name: "T3CODE_THREAD_ID", value: "thread-antigravity-ambient" },
+            { name: "T0CODE_THREAD_ID", value: "thread-antigravity-ambient" },
             { name: "T3_ACP_MCP_ENDPOINT", value: "http://127.0.0.1:9/ambient" },
             { name: "T3_ACP_MCP_AUTHORIZATION", value: "Bearer ambient-token" },
             { name: "T3_ACP_MCP_NODE", value: "/ambient/node" },
@@ -517,7 +517,7 @@ it.layer(layerTest)("AntigravityDriver", (it) => {
         );
         expect(agentLaunches).toHaveLength(2);
         expect(agentLaunches[1]?.environment).toMatchObject({
-          T3CODE_THREAD_ID: threadId,
+          T0CODE_THREAD_ID: threadId,
           T3_ACP_MCP_ENDPOINT: endpoint,
           T3_ACP_MCP_AUTHORIZATION: "Bearer antigravity-thread-token",
           T3_ACP_MCP_NODE: process.execPath,
@@ -525,7 +525,7 @@ it.layer(layerTest)("AntigravityDriver", (it) => {
         });
         // Model refresh and sign-in launches are not part of a thread.
         expect(agentLaunches[0]?.environment).toMatchObject({
-          T3CODE_THREAD_ID: "thread-antigravity-ambient",
+          T0CODE_THREAD_ID: "thread-antigravity-ambient",
           T3_ACP_MCP_ENDPOINT: "http://127.0.0.1:9/ambient",
           T3_ACP_MCP_AUTHORIZATION: "Bearer ambient-token",
           T3_ACP_MCP_NODE: "/ambient/node",
@@ -561,7 +561,7 @@ it.layer(layerTest)("AntigravityDriver", (it) => {
             yield* session.ensureThread({ threadId, modelSelection, runtimePolicy });
           }),
         ).pipe(Effect.flip);
-        const message = `Antigravity 1.4.5 does not work with this T3 Code release. Update the Antigravity executable at ${old.executablePath} to >=1.5.12 <2, then retry.`;
+        const message = `Antigravity 1.4.5 does not work with this T0 Code release. Update the Antigravity executable at ${old.executablePath} to >=1.5.12 <2, then retry.`;
         expect(knownProviderFailureMessage(error)).toBe(message);
         expect((yield* h.refresh().pipe(Effect.flip)).detail).toBe(message);
         const methods = (yield* h.readRequests).map((request) => request.method);

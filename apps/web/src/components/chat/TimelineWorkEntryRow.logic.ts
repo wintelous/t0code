@@ -28,7 +28,7 @@ export function toolGroupSummaryIconName(
     case "command":
       return "terminal";
     case "thread-create":
-      return "t3-code";
+      return "t0-code";
     case "browser":
       return "browser";
     case "device":
@@ -165,7 +165,7 @@ export function workEntryIconName(workEntry: TimelineWorkEntry): WorkEntryIconNa
       case "background_task":
         return "zap";
       case "system":
-        return "t3-code";
+        return "t0-code";
       default:
         source satisfies never;
         return "zap";

@@ -383,7 +383,7 @@ describe("ProcessRunner.layer", () => {
       Effect.gen(function* () {
         const runner = yield* ProcessRunner.ProcessRunner;
         const error = yield* runner
-          .run({ command: "t3code-missing-command", args: [] })
+          .run({ command: "t0code-missing-command", args: [] })
           .pipe(Effect.flip);
 
         expect(error._tag).toBe("ProcessSpawnError");

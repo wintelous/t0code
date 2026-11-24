@@ -143,7 +143,7 @@ export function AddEnvironmentDialog({
   // The discovery atom is kept alive across dialog opens, so re-read SSH config
   // each time the SSH tab is shown; stale hosts stay visible while it refreshes.
   const refreshDesktopSshHosts = desktopSshHosts.refresh;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- rereads desktop SSH config through the bridge each time the SSH tab is shown
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- rereads desktop SSH config through the bridge each time the SSH tab is shown
   useEffect(() => {
     if (isSshDiscoveryActive) refreshDesktopSshHosts();
   }, [isSshDiscoveryActive, refreshDesktopSshHosts]);
@@ -489,7 +489,7 @@ export function AddEnvironmentDialog({
       type: "success",
       title: gt("Route added"),
       description: gt(
-        "{environment} falls back to T3 Connect when its other routes are unreachable.",
+        "{environment} falls back to T0 Connect when its other routes are unreachable.",
         { environment: routeTarget.label },
       ),
     });
@@ -499,7 +499,7 @@ export function AddEnvironmentDialog({
       {relayRouteOffer !== null ? (
         <div className="flex items-center justify-between gap-3 rounded-md border border-border px-3 py-2">
           <p className="text-xs text-muted-foreground">
-            <T>This machine is on your T3 Connect account. Use it as a fallback route.</T>
+            <T>This machine is on your T0 Connect account. Use it as a fallback route.</T>
           </p>
           <Button
             size="xs"
@@ -507,7 +507,7 @@ export function AddEnvironmentDialog({
             disabled={isAddingSavedBackend}
             onClick={() => void addRelayRoute()}
           >
-            <T>Add T3 Connect</T>
+            <T>Add T0 Connect</T>
           </Button>
         </div>
       ) : null}

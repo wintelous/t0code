@@ -58,7 +58,7 @@ it.effect("authenticates each release page until the requested channel is found"
     const httpClient = HttpClient.make((request) => {
       const url = new URL(request.url);
       assert.equal(url.origin, "https://api.github.com");
-      assert.equal(url.pathname, "/repos/pingdotgg/t3code/releases");
+      assert.equal(url.pathname, "/repos/wintelous/t0code/releases");
       assert.equal(request.headers.accept, "application/vnd.github+json");
       assert.equal(request.headers.authorization, "Bearer gh-token");
       const page = url.searchParams.get("page") ?? "";
@@ -80,7 +80,7 @@ it.effect("reads the newest version from the update feed file a mirror publishes
     const requested: string[] = [];
     const mirror = {
       organization: "Example Corp",
-      feedUrl: "https://updates.example.com/t3code/?token=abc",
+      feedUrl: "https://updates.example.com/t0code/?token=abc",
     };
     const resolve = (
       channel: "stable" | "nightly" | "preview",
@@ -111,8 +111,8 @@ it.effect("reads the newest version from the update feed file a mirror publishes
       "1.5.0-nightly.20261101.2",
     );
     assert.deepStrictEqual(requested, [
-      "https://updates.example.com/t3code/latest-mac.yml?token=abc",
-      "https://updates.example.com/t3code/nightly-linux-arm64.yml?token=abc",
+      "https://updates.example.com/t0code/latest-mac.yml?token=abc",
+      "https://updates.example.com/t0code/nightly-linux-arm64.yml?token=abc",
     ]);
     // A feed for the wrong track is not trusted to mean the requested one.
     assert.include(
@@ -158,7 +158,7 @@ it.layer(NodeServices.layer)("t3 update under a managed policy", (it) => {
   it.effect("refuses to update when updates are off", () =>
     Effect.gen(function* () {
       const error = yield* runWithPolicy({ mode: "off" });
-      assert.equal(error.message, "Example Corp manages T3 Code updates.");
+      assert.equal(error.message, "Example Corp manages T0 Code updates.");
     }),
   );
 
@@ -175,7 +175,7 @@ it.layer(NodeServices.layer)("t3 update under a managed policy", (it) => {
       for (const error of [byChannel, byVersion]) {
         assert.equal(
           error.message,
-          "Example Corp manages T3 Code updates. Only stable releases can be installed.",
+          "Example Corp manages T0 Code updates. Only stable releases can be installed.",
         );
       }
     }),
@@ -185,7 +185,7 @@ it.layer(NodeServices.layer)("t3 update under a managed policy", (it) => {
     Effect.gen(function* () {
       const requested: string[] = [];
       const error = yield* runWithPolicy(
-        { mode: "auto", feedUrl: "https://updates.example.com/t3code" },
+        { mode: "auto", feedUrl: "https://updates.example.com/t0code" },
         { channel: "stable" },
         HttpClient.make((request) => {
           requested.push(new URL(request.url).origin);
@@ -574,7 +574,7 @@ it.layer(NodeServices.layer)("t3 update with a background service", (it) => {
       yield* fs.makeDirectory(runtime.versionDir, { recursive: true });
       yield* fs.writeFileString(runtime.entryPath, "");
       yield* fs.writeFileString(runtime.sentinelPath, `${version}\n`);
-      const unitPath = path.join(baseDir, "t3code.service");
+      const unitPath = path.join(baseDir, "t0code.service");
       const logPath = path.join(baseDir, "boot-service.log");
       // An earlier `t3 update` pointed the service at this version without restarting it.
       const service = Layer.mock(BootService.BootService, {
@@ -713,7 +713,7 @@ it.layer(NodeServices.layer)("t3 update checks the database before switching", (
           supported: true,
           installed: false,
           current: false,
-          unitPath: path.join(baseDir, "t3code.service"),
+          unitPath: path.join(baseDir, "t0code.service"),
           logPath: path.join(baseDir, "boot-service.log"),
         }),
       });

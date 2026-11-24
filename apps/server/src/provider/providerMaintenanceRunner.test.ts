@@ -247,7 +247,7 @@ const makeTestRunner = (
     currentModels: {},
     compatibility: [CODEX_DRIVER, OPENCODE_DRIVER].map((driver) => ({
       driver,
-      t3CodeRange: ">=0.0.42",
+      t0CodeRange: ">=0.0.42",
       ranges: [],
     })),
   },
@@ -598,7 +598,7 @@ describe("providerMaintenanceRunner", () => {
         // The registry reports no new version, so a command that exits 0 ends as "unchanged".
         assert.strictEqual(
           result.providers[0]?.updateState?.message,
-          "Update command completed, but T3 Code still detects an outdated provider version.",
+          "Update command completed, but T0 Code still detects an outdated provider version.",
         );
       }).pipe(
         Effect.provide(
@@ -1463,7 +1463,7 @@ it.effect.each([
       compatibility: [
         {
           driver: OPENCODE_DRIVER,
-          t3CodeRange: ">=0.0.42",
+          t0CodeRange: ">=0.0.42",
           recommendedVersion: "1.14.20",
           ranges: [{ range: "=1.14.20", status: "supported" }],
         },
@@ -1564,7 +1564,7 @@ it.effect(
       compatibility: [
         {
           driver: "codex",
-          t3CodeRange: ">=0.0.42",
+          t0CodeRange: ">=0.0.42",
           ranges: [
             { range: "<=2.0.0", status: "supported" },
             { range: ">2.0.0", status: "broken" },
@@ -1628,7 +1628,7 @@ it.effect("refuses incompatible latest versions and unapproved or unpinnable tar
     compatibility: [
       {
         driver: "codex",
-        t3CodeRange: ">=0.0.42",
+        t0CodeRange: ">=0.0.42",
         recommendedVersion: "2.0.0",
         ranges: [
           { range: "=2.0.0", status: "supported" },

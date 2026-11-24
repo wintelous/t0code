@@ -88,7 +88,7 @@ export class BootstrapCredentialScopeNotGrantedError extends Schema.TaggedError<
   }
 }
 
-/** The credential is valid but its T3 Connect device key still waits for approval. */
+/** The credential is valid but its T0 Connect device key still waits for approval. */
 export class BootstrapCredentialConnectApprovalPendingError extends Schema.TaggedError<BootstrapCredentialConnectApprovalPendingError>()(
   "BootstrapCredentialConnectApprovalPendingError",
   {
@@ -96,7 +96,7 @@ export class BootstrapCredentialConnectApprovalPendingError extends Schema.Tagge
   },
 ) {
   override get message(): string {
-    return "This T3 Connect device is waiting for approval.";
+    return "This T0 Connect device is waiting for approval.";
   }
 }
 
@@ -188,7 +188,7 @@ export class ConnectDevicesError extends Schema.TaggedError<ConnectDevicesError>
   },
 ) {
   override get message(): string {
-    return `Failed to ${this.operation} T3 Connect devices.`;
+    return `Failed to ${this.operation} T0 Connect devices.`;
   }
 }
 
@@ -256,7 +256,7 @@ export class PairingGrantStore extends Context.Service<
       readonly purpose?: "startup";
       /** Issues a hidden `<LEVEL>-` code that only an agent sign-in at this level can spend. */
       readonly mcpApproval?: AuthMcpClientAccess;
-      /** Spendable only after someone trusts `proofKeyThumbprint` as a T3 Connect device. */
+      /** Spendable only after someone trusts `proofKeyThumbprint` as a T0 Connect device. */
       readonly requiresConnectApproval?: boolean;
     }) => Effect.Effect<IssuedBootstrapCredential, BootstrapCredentialInternalError>;
     /** A device's open or denied request, reused so retries keep one request and one code. */

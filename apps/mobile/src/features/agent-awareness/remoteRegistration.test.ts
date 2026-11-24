@@ -278,7 +278,7 @@ const layerRelayTest = ManagedRelayLayer.layer("https://relay.example.test").pip
 const runBackgroundOperations = Effect.fn("TestRemoteRegistration.runBackgroundOperations")(
   function* () {
     let idlePasses = 0;
-    // oxlint-disable-next-line t3code/no-polling-loop-in-tests -- This harness drains mocked runtime jobs and their promise continuations, not external I/O or elapsed time.
+    // oxlint-disable-next-line t0code/no-polling-loop-in-tests -- This harness drains mocked runtime jobs and their promise continuations, not external I/O or elapsed time.
     for (;;) {
       yield* Effect.promise(() => Promise.resolve());
       const pending = backgroundRuntime.pending.shift();
@@ -1026,7 +1026,7 @@ describe("makeRelayDeviceRegistrationRequest", () => {
     });
 
     const aggregate: RelayAgentActivityAggregateState = {
-      title: "T3 Code",
+      title: "T0 Code",
       subtitle: "Agent work in progress",
       activeCount: 1,
       updatedAt: "2026-10-18T10:00:00.000Z",
@@ -1034,7 +1034,7 @@ describe("makeRelayDeviceRegistrationRequest", () => {
         {
           environmentId: "env-1" as EnvironmentId,
           threadId: "thread-1" as ThreadId,
-          projectTitle: "t3code",
+          projectTitle: "t0code",
           threadTitle: "Fix the widget",
           modelTitle: "GPT-5.5",
           phase: "running",

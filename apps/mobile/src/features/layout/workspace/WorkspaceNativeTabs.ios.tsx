@@ -53,7 +53,7 @@ function RetainedWorkspaceTab(props: {
   const workspace = useWorkspaceTabs()!;
   // Whether this slot is the visible one, read by cleanups after the switch has committed.
   const activeRef = useRef(props.active);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- publishes the committed active flag to a ref that header cleanups read after the tab switch commits
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- publishes the committed active flag to a ref that header cleanups read after the tab switch commits
   useLayoutEffect(() => {
     activeRef.current = props.active;
   }, [props.active]);
@@ -93,7 +93,7 @@ function RetainedWorkspaceTab(props: {
   const mounted = content !== null && !content.headerOnly;
   const headerOnly = content?.headerOnly === true;
   const { slot, setMountedSlots, setPrewarmRequests } = props;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- reports the slot's mount to the host, which uncovers the tab then
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- reports the slot's mount to the host, which uncovers the tab then
   useEffect(() => {
     if (!mounted) return;
     // Each header write commits in the render after it; the slot is ready once a frame passes
@@ -104,7 +104,7 @@ function RetainedWorkspaceTab(props: {
     return () => cancelAnimationFrame(frame);
     // oxlint-disable-next-line react/exhaustive-effect-dependencies -- each header write re-arms the frame
   }, [mounted, optionsByRoute, slot, setMountedSlots]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- a replacement slot (e.g. a re-enabled fourth tab) must report its own mount
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- a replacement slot (e.g. a re-enabled fourth tab) must report its own mount
   useEffect(
     () => () =>
       setMountedSlots((current) => {
@@ -115,7 +115,7 @@ function RetainedWorkspaceTab(props: {
       }),
     [slot, setMountedSlots],
   );
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- asks UIKit to prewarm a hidden header after each write, since bar items it rebuilds fade in on their own first entry
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- asks UIKit to prewarm a hidden header after each write, since bar items it rebuilds fade in on their own first entry
   useEffect(() => {
     if (!headerOnly || optionsByRoute.size === 0) return;
     const frame = requestAnimationFrame(() =>
@@ -189,7 +189,7 @@ export function WorkspaceNativeTabs(props: {
     () => new Map(),
   );
   const prewarmReady = mountedSlots.size > 0;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- waits for the JS thread to go idle after the first tab mounts
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- waits for the JS thread to go idle after the first tab mounts
   useEffect(() => {
     if (!prewarmReady || prewarm) return;
     const handle = requestIdleCallback(() => setPrewarm(true), { timeout: 2_000 });

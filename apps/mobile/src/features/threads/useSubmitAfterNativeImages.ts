@@ -23,7 +23,7 @@ export function useSubmitAfterNativeImages(props: {
       props.onSubmit(held.followUp);
     }
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- submits from the render where the native images joined the draft
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- submits from the render where the native images joined the draft
   useEffect(() => {
     if (!releasedSend || props.blocked || consumedSend.current === releasedSend) return;
     consumedSend.current = releasedSend;

@@ -92,7 +92,7 @@ export const buildInitialGrokProviderSnapshot = Effect.fn(
         version: null,
         status: "warning",
         auth: { status: "unknown" },
-        message: "Grok is disabled in T3 Code settings.",
+        message: "Grok is disabled in T0 Code settings.",
       },
     });
   }
@@ -386,7 +386,7 @@ const discoverGrokMetadataViaAcpInitialize = Effect.fn(
     grokSettings,
     environment,
     cwd: process.cwd(),
-    clientInfo: { name: "t3-code-provider-probe", version: "0.0.0" },
+    clientInfo: { name: "t0-code-provider-probe", version: "0.0.0" },
   });
   const initialized = yield* acp.initialize();
   return {
@@ -418,7 +418,7 @@ export const checkGrokProviderStatus = Effect.fn("checkGrokProviderStatus")(func
         version: null,
         status: "warning",
         auth: { status: "unknown" },
-        message: "Grok is disabled in T3 Code settings.",
+        message: "Grok is disabled in T0 Code settings.",
       },
     });
   }

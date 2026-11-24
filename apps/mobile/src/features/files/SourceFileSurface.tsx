@@ -286,7 +286,7 @@ function JavaScriptSourceFileSurface(props: SourceFileSurfaceProps) {
   const usesTextSelection = props.selectable === true && !usesWebSelection;
 
   // Layout effect so a pending jump is cancelled in the commit that swaps the file.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- scrolls the list to the target line and cancels a pending jump when the file changes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- scrolls the list to the target line and cancels a pending jump when the file changes
   useLayoutEffect(() => {
     if (targetIndex === null || !usesLineList) {
       return;

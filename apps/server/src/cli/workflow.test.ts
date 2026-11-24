@@ -95,7 +95,7 @@ const runCli = (
         NodeServices.layer,
         NodeCrypto.layer,
         NetService.layer,
-        ConfigProvider.layer(ConfigProvider.fromEnv({ env: { T3CODE_PORT: "3773" } })),
+        ConfigProvider.layer(ConfigProvider.fromEnv({ env: { T0CODE_PORT: "3773" } })),
       ),
     ),
   );
@@ -145,7 +145,7 @@ it.effect("reports what the server refused instead of calling it unreachable", (
     const refused = yield* runCli(["start", "review", "--key", "r1"], () =>
       Effect.fail(
         new McpBridge.AcpMcpBridgeError({
-          message: "T3 Code MCP tools/call failed.",
+          message: "T0 Code MCP tools/call failed.",
           rpcError: {
             code: -32602,
             message: 'Expected a non-blank string\n  at ["idempotencyKey"]',

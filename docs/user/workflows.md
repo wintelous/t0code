@@ -10,9 +10,9 @@ Workflows are a Labs feature, off by default. Turn on **Settings → Labs → Wo
 
 ## Create a workflow
 
-Workflow files live in `~/.t3/workflows/` (or wherever `T3CODE_WORKFLOWS` points — a folder or a single file). The server watches the folder and reloads changes without a restart.
+Workflow files live in `~/.t3/workflows/` (or wherever `T0CODE_WORKFLOWS` points — a folder or a single file). The server watches the folder and reloads changes without a restart.
 
-- **Ask an agent (recommended):** copy the [`t3-workflows` skill](https://github.com/pingdotgg/t3code/blob/main/skills/t3-workflows/SKILL.md) into your agent's skills folder (such as `~/.claude/skills/` or `~/.agents/skills/`) and describe what you want.
+- **Ask an agent (recommended):** copy the [`t3-workflows` skill](https://github.com/wintelous/t0code/blob/main/skills/t3-workflows/SKILL.md) into your agent's skills folder (such as `~/.claude/skills/` or `~/.agents/skills/`) and describe what you want.
 - **Edit directly:** edit files in `~/.t3/workflows/`, or use **Definitions** on the Workflows page (saving and deleting in the app require terminal access). Before anything has run, open the page with **Open workflows** in the command palette.
 
 A small workflow, saved as `~/.t3/workflows/release.ts`:
@@ -64,7 +64,7 @@ Every start needs a `--key`: starting twice with the same key returns the same r
 
 - **Schedules:** `every` runs on an interval, starting one interval after the workflow loads; `daily` runs at a local time of day (a time missed by more than 10 minutes while the server is down is skipped).
 - **Webhooks:** `t3 workflow hooks` prints each hook's path; prepend your server's address. The path contains the hook's secret, so share it only with the sender. A sender's retry that repeats its delivery header (such as GitHub's `X-GitHub-Delivery`) starts no second run, and bodies over 1 MiB are refused. A hook starts at most 60 runs a minute; requests past that get `429` and can be sent again a minute later. Organization policies blocking webhook tasks block workflow webhooks too.
-- **Issues and pull requests:** workflows can start on new issues or pull requests and read, comment on, or update them via **Settings → Source control & issues** — no webhook needed. T3 Code checks roughly once a minute, and only items opened after the workflow was first loaded start runs.
+- **Issues and pull requests:** workflows can start on new issues or pull requests and read, comment on, or update them via **Settings → Source control & issues** — no webhook needed. T0 Code checks roughly once a minute, and only items opened after the workflow was first loaded start runs.
 
 ## Follow runs in the app
 

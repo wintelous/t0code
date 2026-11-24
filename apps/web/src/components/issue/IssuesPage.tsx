@@ -433,7 +433,7 @@ export function IssuesPage() {
   };
 
   // A link into the page names an issue before any row was pressed.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- opens the URL-linked issue in the right panel store
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- opens the URL-linked issue in the right panel store
   useEffect(() => {
     if (
       rightPanelRef === null ||
@@ -493,7 +493,7 @@ export function IssuesPage() {
     if (!event.repeat) toggleRightPanel();
   });
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes to the document right panel shortcut
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes to the document right panel shortcut
   useEffect(() => {
     document.addEventListener("keydown", onRightPanelKeyDown);
     return () => document.removeEventListener("keydown", onRightPanelKeyDown);
@@ -507,7 +507,7 @@ export function IssuesPage() {
   const listBody: ReactNode = !issuesSupported ? (
     <PullRequestsUnavailableState
       title={gt("Issues unavailable")}
-      error={gt("Update this environment's T3 Code server to browse issues.")}
+      error={gt("Update this environment's T0 Code server to browse issues.")}
     />
   ) : noneAnswered && list.isPending ? (
     <PullRequestListGhost />
@@ -791,7 +791,7 @@ export function IssuesPage() {
             open={rightPanelState.isOpen}
             keybindings={keybindings}
             getShortcutContext={getShortcutContext}
-            widthStorageKey="t3code:issue-panel-width"
+            widthStorageKey="t0code:issue-panel-width"
             defaultWidth={typeof window === "undefined" ? 640 : Math.floor(window.innerWidth / 2)}
             surfaces={presence.value?.surfaces ?? []}
             environmentId={panelEnvironmentId}

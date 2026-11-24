@@ -216,7 +216,7 @@ function Surface({
     enableBeforeUnload: () => dirty && !released.current,
   });
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the editor draws markers itself and takes them only through its own method
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the editor draws markers itself and takes them only through its own method
   useEffect(() => {
     editorRef.current?.setMarkers(markersOf(problems));
   }, [problems]);

@@ -133,7 +133,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NetService.layer))("t3 uninstall com
               current: true,
               installedBaseDir: "/home/me/.t3",
               ...(++reads >= input.otherFromRead ? { otherBaseDir: "/home/me/.t3" } : {}),
-              unitPath: "/home/me/.config/systemd/user/t3code.service",
+              unitPath: "/home/me/.config/systemd/user/t0code.service",
               logPath: "/home/me/.t3/userdata/logs/boot-service.log",
             })),
             withStopped: (operation) => operation,
@@ -279,7 +279,7 @@ it.layer(NodeServices.layer)("t3 uninstall launcher", (it) => {
       const cmd = path.join(root, "bin/t3.cmd");
       const edited = path.join(root, "bin/edited.cmd");
       yield* fs.writeFileString(cmd, `@echo off\r\n"${exe}" %*`);
-      yield* fs.writeFileString(edited, `@echo off\r\nset "T3CODE_HOME=D:\\other"\r\n"${exe}" %*`);
+      yield* fs.writeFileString(edited, `@echo off\r\nset "T0CODE_HOME=D:\\other"\r\n"${exe}" %*`);
       yield* fs.writeFileString(path.join(root, "runtime/launchers"), `${cmd}\r\n${edited}\r\n`);
       assert.deepStrictEqual(
         yield* findRecordedLaunchers(versionsDir).pipe(

@@ -364,7 +364,7 @@ describe("AcpSessionRuntime", () => {
         Effect.provideService(AgentScope, {
           ...AgentScope.defaultValue(),
           wrap: ({ command, args }) =>
-            Effect.succeed({ command, args, unit: "t3code-acp-test.scope" }),
+            Effect.succeed({ command, args, unit: "t0code-acp-test.scope" }),
           stop: (unit) => Deferred.succeed(stopped, unit).pipe(Effect.asVoid),
         }),
       );
@@ -372,7 +372,7 @@ describe("AcpSessionRuntime", () => {
       expect(yield* Deferred.isDone(stopped)).toBe(false);
       yield* runtime.notify("_test/exit", {});
       const events = yield* runtime.getEvents().pipe(Stream.take(1), Stream.runCollect);
-      expect(yield* Deferred.await(stopped)).toBe("t3code-acp-test.scope");
+      expect(yield* Deferred.await(stopped)).toBe("t0code-acp-test.scope");
       const event = events[0];
       expect(event).toMatchObject({ _tag: "ConnectionTerminated", error: { code: 19 } });
       if (event?._tag !== "ConnectionTerminated") return;
@@ -614,7 +614,7 @@ describe("AcpSessionRuntime", () => {
         (event) => event.method === "session/new" && event.status === "started",
       );
       expect(created?.payload).toMatchObject({
-        mcpServers: [{ type: "acp", name: "t3-code", serverId: "t3-code" }],
+        mcpServers: [{ type: "acp", name: "t0-code", serverId: "t0-code" }],
       });
       // This agent does not advertise additional directories, so the thread's other folders stay out.
       expect(created?.payload).not.toHaveProperty("additionalDirectories");
@@ -629,8 +629,8 @@ describe("AcpSessionRuntime", () => {
           cwd: process.cwd(),
           clientInfo: { name: "t3-test", version: "0.0.0" },
           authMethodId: "test",
-          mcpServers: [{ type: "stdio", name: "t3-code", command: "/usr/bin/node", args: [] }],
-          acpMcpServers: [{ type: "acp", name: "t3-code", serverId: "t3-code" }],
+          mcpServers: [{ type: "stdio", name: "t0-code", command: "/usr/bin/node", args: [] }],
+          acpMcpServers: [{ type: "acp", name: "t0-code", serverId: "t0-code" }],
           extraRoots: ["/tmp/t3-tracked"],
           requestLogger: (event) =>
             Effect.sync(() => {

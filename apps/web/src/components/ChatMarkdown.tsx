@@ -622,7 +622,7 @@ function useChatMarkdownState(
     setLocalMedia(null);
   }
   // Layout cleanup blocks stale requests from reaching onImageExpand before paint.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- layout cleanup invalidates media requests still loading for the old scope before paint
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- layout cleanup invalidates media requests still loading for the old scope before paint
   useLayoutEffect(
     () => () => {
       mediaRequestId.current += 1;
@@ -2057,7 +2057,7 @@ const MarkdownSource = memo(function MarkdownSource({
 }) {
   const render = markdownRenderer(markdown);
   const entry = render.parse(text);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Caching during render would make React Compiler rebuild the element when `cache` flips.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Caching during render would make React Compiler rebuild the element when `cache` flips.
   useEffect(() => {
     if (cache) render.remember(text, entry);
   }, [render, text, entry, cache]);

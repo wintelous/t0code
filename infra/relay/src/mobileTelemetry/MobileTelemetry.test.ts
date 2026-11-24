@@ -274,7 +274,7 @@ describe("MobileTelemetry", () => {
       const harness = makeHarness({ objects: { [`ios/build/${BUILD_ID}.map`]: "{}" } });
       const iosStack =
         "Error: x\n    at render (address at /private/var/containers/Bundle/Application/" +
-        "0C1D/T3Code.app/main.jsbundle:1:12)";
+        "0C1D/T0Code.app/main.jsbundle:1:12)";
       const record = (stack: string) => ({
         scopeLogs: [{ logRecords: [{ attributes: [str("exception.stacktrace", stack)] }] }],
       });

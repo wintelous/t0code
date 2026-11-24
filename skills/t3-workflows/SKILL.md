@@ -1,11 +1,11 @@
 ---
 name: t3-workflows
-description: Author, edit, run, and debug durable T3 Code workflows (`~/.t3/workflows/*.ts`). Use when asked to build or change a multi-step T3 Code automation tying together agent threads, code steps, schedules, webhooks, issue/PR trackers, or human approvals, or to inspect, resume, signal, or cancel workflow runs.
+description: Author, edit, run, and debug durable T0 Code workflows (`~/.t3/workflows/*.ts`). Use when asked to build or change a multi-step T0 Code automation tying together agent threads, code steps, schedules, webhooks, issue/PR trackers, or human approvals, or to inspect, resume, signal, or cancel workflow runs.
 ---
 
-# T3 Code workflows
+# T0 Code workflows
 
-A workflow is a TypeScript function the T3 Code server runs durably on Effect v4 (`effect/workflow`). Every step's result is stored, so restarts replay to where the run left off and a failing step pauses the run instead of losing it. Runs can sleep for days, wait on signals or pull requests, ask a person a question, and launch agents in ordinary threads.
+A workflow is a TypeScript function the T0 Code server runs durably on Effect v4 (`effect/workflow`). Every step's result is stored, so restarts replay to where the run left off and a failing step pauses the run instead of losing it. Runs can sleep for days, wait on signals or pull requests, ask a person a question, and launch agents in ordinary threads.
 
 Use a workflow for multi-stage work that must not be lost or repeated (triage → fix → verify, nightly reports, webhook reactions). For a single prompt on a timer, use a scheduled task instead.
 
@@ -13,7 +13,7 @@ Use a workflow for multi-stage work that must not be lost or repeated (triage �
 
 Workflows are a Labs feature, off by default. If `t3 workflow` says workflows are off, ask the user to turn them on in Settings → Labs → Workflows; do not edit their settings yourself.
 
-Put a `.ts` file in `~/.t3/workflows/` (the `workflows` folder of T3 home, or the path in `T3CODE_WORKFLOWS`). Once workflows are on, the server watches the folder and reloads files automatically—nothing to restart. A file name with a space or other unusual character (`fix issue.ts`) is skipped with a warning in the server log: use letters, digits, `-`, `_` and `.`. Files run with Node's type stripping, so only erasable TypeScript works: no `enum`, `namespace` or parameter properties.
+Put a `.ts` file in `~/.t3/workflows/` (the `workflows` folder of T3 home, or the path in `T0CODE_WORKFLOWS`). Once workflows are on, the server watches the folder and reloads files automatically—nothing to restart. A file name with a space or other unusual character (`fix issue.ts`) is skipped with a warning in the server log: use letters, digits, `-`, `_` and `.`. Files run with Node's type stripping, so only erasable TypeScript works: no `enum`, `namespace` or parameter properties.
 
 Workflow files import nothing from T3 or Effect. `T3`, `Effect`, `Schema`, `Option`, `Duration`, and `Schedule` are injected as globals. Never `import` from `effect` (that loads a second runtime copy the engine cannot run). Node built-ins (`node:fs`, `node:crypto`) can be imported normally.
 

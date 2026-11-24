@@ -174,7 +174,7 @@ function subscriptionUsageText(
     asOf: resolve(msg("As of {time}", { time: "{time}" })),
     tapToConnect: resolve(msg("Tap to connect in {app}", { app: "T3" })),
     providerAccessibility: resolve(
-      // oxlint-disable-next-line t3code/no-untranslated-copy -- placeholders the widget fills in
+      // oxlint-disable-next-line t0code/no-untranslated-copy -- placeholders the widget fills in
       msg("{provider}. {detail}.", { provider: "{provider}", detail: "{detail}" }),
     ),
     windowAccessibility: resolve(
@@ -183,7 +183,7 @@ function subscriptionUsageText(
         window: "{window}",
         remaining: "{remaining}",
         reset: "{reset}",
-        // oxlint-disable-next-line t3code/no-untranslated-copy -- placeholders the widget fills in
+        // oxlint-disable-next-line t0code/no-untranslated-copy -- placeholders the widget fills in
         detail: "{detail}",
       }),
     ),

@@ -87,7 +87,7 @@ export const protectedResourceMetadata = (
   authorization_servers: [urls.issuer],
   scopes_supported: MCP_OAUTH_SCOPES,
   bearer_methods_supported: ["header"],
-  resource_name: "T3 Code",
+  resource_name: "T0 Code",
 });
 
 export const authorizationServerMetadata = (
@@ -149,7 +149,7 @@ const ClientIdPayload = Schema.Struct({
   v: Schema.Literal(1),
   n: Schema.String,
   r: Schema.Array(Schema.String),
-  /** Registered as another T3 Code environment's peer link. */
+  /** Registered as another T0 Code environment's peer link. */
   p: Schema.optionalKey(Schema.Literal(1)),
 });
 const decodeClientIdPayload = Schema.decodeUnknownOption(Schema.fromJsonString(ClientIdPayload));
@@ -214,7 +214,7 @@ export class McpOAuth extends Context.Service<
       readonly urls: McpOAuthUrls;
       readonly request: AuthMcpAuthorizationRequest;
     }) => Effect.Effect<AuthorizationRequest, McpOAuthPageError | McpOAuthRedirectError>;
-    /** A browser cookie session, or a T3 Connect session from the hosted app, that may approve. */
+    /** A browser cookie session, or a T0 Connect session from the hosted app, that may approve. */
     readonly approvingSession: (
       request: HttpServerRequest.HttpServerRequest,
       authorization: AuthorizationRequest,

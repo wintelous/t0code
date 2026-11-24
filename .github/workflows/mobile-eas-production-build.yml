@@ -81,13 +81,13 @@ jobs:
           profile: production
           environment: production
           expo-token: ${{ secrets.EXPO_PRODUCTION_TOKEN }}
-          output: ${{ runner.temp }}/t3code.aab
+          output: ${{ runner.temp }}/t0code.aab
           sourcemaps-r2: ${{ secrets.MOBILE_SOURCEMAPS_R2 }}
 
       - name: Check ABIs
         if: steps.record.outputs.built != 'true'
         run: |
-          abis="$(unzip -Z1 "$RUNNER_TEMP/t3code.aab" | sed -n 's|^base/lib/\([^/]*\)/.*|\1|p' | sort -u | paste -sd, -)"
+          abis="$(unzip -Z1 "$RUNNER_TEMP/t0code.aab" | sed -n 's|^base/lib/\([^/]*\)/.*|\1|p' | sort -u | paste -sd, -)"
           echo "### Android $BUILD_TAG: \`$abis\`" >> "$GITHUB_STEP_SUMMARY"
           if [ "$abis" != "arm64-v8a,armeabi-v7a" ]; then
             echo "::error::Expected only ARM native libraries in the AAB, found $abis"
@@ -100,7 +100,7 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: android-store-aab-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/t3code.aab
+          path: ${{ runner.temp }}/t0code.aab
           retention-days: 14
           if-no-files-found: error
 
@@ -108,7 +108,7 @@ jobs:
         name: Submit to Google Play
         if: steps.record.outputs.built != 'true'
         working-directory: apps/mobile
-        run: eas submit --platform android --profile production --path "$RUNNER_TEMP/t3code.aab" --non-interactive
+        run: eas submit --platform android --profile production --path "$RUNNER_TEMP/t0code.aab" --non-interactive
 
   # No sticky disk: it mounts ext4 and only works on Linux runners.
   ios:
@@ -156,14 +156,14 @@ jobs:
           profile: ${{ env.PROFILE }}
           environment: production
           expo-token: ${{ secrets.EXPO_PRODUCTION_TOKEN }}
-          output: ${{ runner.temp }}/t3code.ipa
+          output: ${{ runner.temp }}/t0code.ipa
           sourcemaps-r2: ${{ secrets.MOBILE_SOURCEMAPS_R2 }}
 
       - id: submit
         name: Submit to App Store Connect
         if: steps.record.outputs.built != 'true'
         working-directory: apps/mobile
-        run: eas submit --platform ios --profile "$PROFILE" --path "$RUNNER_TEMP/t3code.ipa" --non-interactive
+        run: eas submit --platform ios --profile "$PROFILE" --path "$RUNNER_TEMP/t0code.ipa" --non-interactive
 
   # The tag means "delivered", so it follows the submit. If it can't be
   # pushed, the next merge rebuilds with a new build number; nothing is lost.

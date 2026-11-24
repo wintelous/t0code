@@ -427,7 +427,7 @@ export function useRetainedVoiceInputSession(input: {
   const { grantId, cloudProvider, cloudModel } = input;
   const prepared = input.onDevice ? null : input.prepared;
   const ready = (input.onDevice === true || prepared !== null) && grantId !== null;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- retains the shared recording session for this destination while mounted
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- retains the shared recording session for this destination while mounted
   useEffect(() => {
     if (!ready || !grantId || typeof navigator === "undefined") return;
     return retainVoiceInputSession({ prepared, grantId, cloudProvider, cloudModel });

@@ -110,9 +110,9 @@ describe("applyOrchestrationV2ProjectionEvent", () => {
   it("applies a compact PR sync without replacing other links or thread metadata", () => {
     const link = (number: number): ThreadPullRequestLink => ({
       host: "github.com",
-      repository: "pingdotgg/t3code",
+      repository: "wintelous/t0code",
       number,
-      url: `https://github.com/pingdotgg/t3code/pull/${number}`,
+      url: `https://github.com/wintelous/t0code/pull/${number}`,
       source: "manual",
       linkedAt: DateTime.formatIso(now),
       snapshot: null,

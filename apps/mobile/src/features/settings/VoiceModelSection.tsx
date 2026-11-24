@@ -52,7 +52,7 @@ export function useVoiceModels(environmentId: EnvironmentId, label: string) {
   const models = AsyncResult.getOrElse(modelsResult, () => null)?.models ?? [];
   const downloading = requested !== null || models.some(isDownloading);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- polls the environment's download progress while one runs
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- polls the environment's download progress while one runs
   useEffect(() => {
     if (!downloading) return;
     const timer = setInterval(refreshModels, 1_000);
@@ -336,7 +336,7 @@ export function LocalModelChoice(props: {
             : voice.canManage
               ? gt("No model installed · Choose one to download")
               : gt("No model installed · Add one using {product} on {environment}", {
-                  product: "T3 Code",
+                  product: "T0 Code",
                   environment: props.label,
                 })
       }

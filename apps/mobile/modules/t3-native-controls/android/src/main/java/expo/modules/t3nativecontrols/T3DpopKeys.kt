@@ -40,7 +40,7 @@ internal object T3DpopKeys {
 
   // JCA cannot derive a public point, so prove the pair by signing and verifying.
   fun matches(privateKey: ByteArray, publicKey: ByteArray): Boolean {
-    val probe = "t3code dpop key check".toByteArray()
+    val probe = "t0code dpop key check".toByteArray()
     val signature = Signature.getInstance(ALGORITHM).run {
       initSign(privateKey(privateKey))
       update(probe)

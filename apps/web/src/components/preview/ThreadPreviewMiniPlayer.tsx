@@ -468,7 +468,7 @@ function MiniPlayerShell({
   const [pillOpen, setPillOpen] = useState(false);
   const handleTappedRef = useRef(false);
   const handleRef = useRef<HTMLDivElement | null>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- document pointerdown listener closes the open pill on an outside press
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- document pointerdown listener closes the open pill on an outside press
   useEffect(() => {
     if (!pillOpen) return;
     const dismiss = (event: PointerEvent) => {
@@ -523,7 +523,7 @@ function MiniPlayerShell({
   const endInterruptedGesture = useEffectEvent(() => {
     finishGesture();
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- window blur ends a gesture whose release went to another window, and unmount ends one in progress
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- window blur ends a gesture whose release went to another window, and unmount ends one in progress
   useEffect(() => {
     window.addEventListener("blur", endInterruptedGesture);
     return () => {

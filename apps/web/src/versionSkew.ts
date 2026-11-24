@@ -19,7 +19,7 @@ export interface VersionMismatch {
   readonly hint: string;
 }
 
-const VERSION_MISMATCH_DISMISSALS_STORAGE_KEY = "t3code:version-mismatch-dismissals:v1";
+const VERSION_MISMATCH_DISMISSALS_STORAGE_KEY = "t0code:version-mismatch-dismissals:v1";
 
 const dismissedServerUpdateFailures = new WeakSet<ServerUpdateState>();
 
@@ -77,7 +77,7 @@ export function resolveVersionMismatch(
     clientVersion: normalizedClientVersion,
     serverVersion: normalizedServerVersion,
     hint: resolve(
-      msg("Version mismatch. Try syncing the client and server to the same T3 Code version."),
+      msg("Version mismatch. Try syncing the client and server to the same T0 Code version."),
     ),
   };
 }
@@ -110,7 +110,7 @@ export function manualServerUpdateCommand(
     return `npm install --global --prefix ${quote(installation.prefix)} t3@${targetVersion}`;
   }
   if (installation?.kind === "t3-launcher") {
-    // An inherited T3CODE_HOME would otherwise send the update to a home the launcher is not in.
+    // An inherited T0CODE_HOME would otherwise send the update to a home the launcher is not in.
     return `${quote(installation.launcher)} update --base-dir ${quote(installation.baseDir)} ${targetVersion}`;
   }
   const runner =

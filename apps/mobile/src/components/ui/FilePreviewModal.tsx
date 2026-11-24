@@ -56,7 +56,7 @@ function NativeFilePreview(props: FilePreviewViewerProps) {
       );
   });
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- presents the native file preview and dismisses it on cleanup
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- presents the native file preview and dismisses it on cleanup
   useEffect(() => {
     let canceled = false;
     let presentation: Promise<void>;
@@ -97,7 +97,7 @@ function NativeFilePreview(props: FilePreviewViewerProps) {
   }, [presented, identifier]);
 
   const images = props.source.kind === "image" ? props.source.images : undefined;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- hands image URLs that resolve after opening to the native viewer
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- hands image URLs that resolve after opening to the native viewer
   useEffect(() => {
     images?.forEach((image, index) => {
       const uri = nativeUri(image);

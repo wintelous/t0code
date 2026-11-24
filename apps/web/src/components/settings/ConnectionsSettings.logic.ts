@@ -454,7 +454,7 @@ export function resolveCurrentOriginPairingUrl(
   currentHref: string = window.location.href,
 ): string | null {
   const url = new URL("/pair", currentHref);
-  // The packaged desktop window loads from t3code://app, which no other device can open.
+  // The packaged desktop window loads from t0code://app, which no other device can open.
   if ((url.protocol !== "http:" && url.protocol !== "https:") || isLoopbackHostname(url.hostname)) {
     return null;
   }
@@ -509,7 +509,7 @@ export function resolveAccessEnvironmentId(input: {
   );
 }
 
-/** A short name for a T3 Connect device: its label, or what it runs on. */
+/** A short name for a T0 Connect device: its label, or what it runs on. */
 export function connectDeviceName(
   {
     client,
@@ -521,7 +521,7 @@ export function connectDeviceName(
   return client?.label ?? client?.os ?? client?.browser ?? resolve(msg("this device"));
 }
 
-/** How a T3 Connect device describes itself. It can say anything, so the code is what to trust. */
+/** How a T0 Connect device describes itself. It can say anything, so the code is what to trust. */
 export function describeConnectDeviceClient(
   {
     client,

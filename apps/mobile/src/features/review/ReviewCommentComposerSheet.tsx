@@ -57,7 +57,7 @@ export function ReviewCommentComposerSheet(props: ReviewCommentComposerSheetProp
     attachmentsRef.current = next;
     setAttachments(next);
   };
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- releases owned image files when the sheet unmounts
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- releases owned image files when the sheet unmounts
   useEffect(() => {
     isMountedRef.current = true;
     return () => {

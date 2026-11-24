@@ -4,9 +4,9 @@ import * as NodePath from "node:path";
 import * as NodeURL from "node:url";
 import * as NodeUtil from "node:util";
 
-// oxlint-disable-next-line t3code/no-global-process-runtime -- The Swift compiler targets the actual host; this script has no Effect runtime.
+// oxlint-disable-next-line t0code/no-global-process-runtime -- The Swift compiler targets the actual host; this script has no Effect runtime.
 const hostArch = process.arch;
-// oxlint-disable-next-line t3code/no-global-process-runtime -- The Speech framework exists only in the macOS SDK.
+// oxlint-disable-next-line t0code/no-global-process-runtime -- The Speech framework exists only in the macOS SDK.
 const hostPlatform = process.platform;
 
 const { values } = NodeUtil.parseArgs({

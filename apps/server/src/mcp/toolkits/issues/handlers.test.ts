@@ -61,16 +61,16 @@ const project: OrchestrationProjectShell = {
   defaultModelSelection: null,
   scripts: [],
   repositoryIdentity: {
-    canonicalKey: "github.com/t3tools/t3code",
+    canonicalKey: "github.com/t3tools/t0code",
     locator: {
       source: "git-remote",
       remoteName: "origin",
-      remoteUrl: "git@github.com:T3Tools/T3Code.git",
+      remoteUrl: "git@github.com:T3Tools/T0Code.git",
     },
     provider: SourceControlProviderKind.make("github"),
-    displayName: "T3Tools/T3Code",
+    displayName: "T3Tools/T0Code",
     owner: "T3Tools",
-    name: "T3Code",
+    name: "T0Code",
   },
   createdAt: "2026-08-01T00:00:00.000Z",
   updatedAt: "2026-08-01T00:00:00.000Z",
@@ -102,11 +102,11 @@ function makeThread(issues: ReadonlyArray<ThreadIssueLink>) {
 const detail: IssueDetail = {
   tracker: GITHUB,
   host: "github.com",
-  scope: "t3tools/t3code",
+  scope: "t3tools/t0code",
   key: "7",
   displayKey: "#7",
   title: "Seven",
-  url: "https://github.com/T3Tools/T3Code/issues/7",
+  url: "https://github.com/T3Tools/T0Code/issues/7",
   author: null,
   state: { category: "open", name: "open" },
   createdAt: "2026-08-01T00:00:00.000Z",
@@ -164,14 +164,14 @@ const makeHarness = Effect.fn("makeIssuesToolkitHarness")(function* (
             projectId,
             tracker: GITHUB,
             host: "github.com",
-            scope: "t3tools/t3code",
+            scope: "t3tools/t0code",
           }),
         resolveUrl: (url) =>
           Effect.succeed({
             projectId: PROJECT_ID,
             tracker: GITHUB,
             host: "github.com",
-            scope: "t3tools/t3code",
+            scope: "t3tools/t0code",
             key: url.split("/").at(-1)!,
             writable: true,
           }),
@@ -376,15 +376,15 @@ describe("issue toolkit handlers", () => {
     Effect.gen(function* () {
       const harness = yield* makeHarness();
       const result = yield* harness.call("link_issue", {
-        url: "https://github.com/T3Tools/T3Code/issues/7",
+        url: "https://github.com/T3Tools/T0Code/issues/7",
       });
       expect(result).toEqual({
         projectId: PROJECT_ID,
         tracker: "github",
         host: "github.com",
-        scope: "t3tools/t3code",
+        scope: "t3tools/t0code",
         key: "7",
-        url: "https://github.com/T3Tools/T3Code/issues/7",
+        url: "https://github.com/T3Tools/T0Code/issues/7",
         alreadyLinked: false,
       });
       expect(yield* Ref.get(harness.links)).toEqual([
@@ -394,10 +394,10 @@ describe("issue toolkit handlers", () => {
             projectId: PROJECT_ID,
             tracker: "github",
             host: "github.com",
-            scope: "t3tools/t3code",
+            scope: "t3tools/t0code",
             key: "7",
           },
-          url: "https://github.com/T3Tools/T3Code/issues/7",
+          url: "https://github.com/T3Tools/T0Code/issues/7",
           displayKey: detail.displayKey,
           title: detail.title,
           source: "agent",
@@ -426,7 +426,7 @@ describe("issue toolkit handlers", () => {
         {
           tracker: GITHUB,
           host: "github.com",
-          scope: "t3tools/t3code",
+          scope: "t3tools/t0code",
           key: "7",
           projectId: PROJECT_ID,
           url: detail.url,

@@ -162,7 +162,7 @@ export const repointLaunchers = Effect.fn("cloud.service_launcher_client.repoint
     const platform = yield* HostProcess.Platform;
     if (platform !== "linux" && platform !== "darwin") return;
     const installBinDir =
-      environment["T3CODE_INSTALL_BIN_DIR"] ||
+      environment["T0CODE_INSTALL_BIN_DIR"] ||
       (environment["HOME"] ? path.join(environment["HOME"], ".local", "bin") : undefined);
     const candidates = new Set<string>();
     if (installBinDir !== undefined) candidates.add(path.join(installBinDir, "t3"));

@@ -218,12 +218,12 @@ export function useEnvironmentSpeechInput(input: HookInput) {
 
   const startRequestRef = useRef(0);
   const latestRef = useRef({ input, clientSettings, cleanupPrepared, projectWords, session });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- publishes committed props before an async completion can read them through the session
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- publishes committed props before an async completion can read them through the session
   useLayoutEffect(() => {
     latestRef.current = { input, clientSettings, cleanupPrepared, projectWords, session };
   });
   const mountedRef = useRef(false);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- abandons this editor's pending work, and a recording that cannot outlive it, on unmount or a destination change
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- abandons this editor's pending work, and a recording that cannot outlive it, on unmount or a destination change
   useEffect(() => {
     mountedRef.current = true;
     return () => {
@@ -232,13 +232,13 @@ export function useEnvironmentSpeechInput(input: HookInput) {
       session?.ownerChanged(latestRef.current.input.ownerKey);
     };
   }, [session]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- tells the global indicator this draft is on screen
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- tells the global indicator this draft is on screen
   useEffect(
     () => (input.presented === false ? undefined : presentVoiceOwner(input.ownerKey)),
     [input.ownerKey, input.presented],
   );
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- probes the chosen environment's speech status once its connection is available
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- probes the chosen environment's speech status once its connection is available
   useEffect(() => {
     if (!prepared || cloudProvider) return;
     let disposed = false;
@@ -256,7 +256,7 @@ export function useEnvironmentSpeechInput(input: HookInput) {
   const currentStatus = !cloudProvider && status?.prepared === prepared ? status.value : null;
   const setupModelId = setup.model?.id;
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- polls download progress while the setup dialog owns an active model download
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- polls download progress while the setup dialog owns an active model download
   useEffect(() => {
     if (!setup.open || !setup.downloading || !prepared || !setupModelId) return;
     let disposed = false;
@@ -286,7 +286,7 @@ export function useEnvironmentSpeechInput(input: HookInput) {
   }, [prepared, setup.downloading, setup.open, setupModelId]);
 
   const previousOwnerRef = useRef(input.ownerKey);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- abandons a recording that cannot outlive its editor when the draft's owner changes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- abandons a recording that cannot outlive its editor when the draft's owner changes
   useEffect(() => {
     const previous = previousOwnerRef.current;
     if (previous === input.ownerKey && !input.disabled) return;
@@ -345,7 +345,7 @@ export function useEnvironmentSpeechInput(input: HookInput) {
     };
   });
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- a remounted editor takes over its draft's running recording so a queued Send still sees the transcript
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- a remounted editor takes over its draft's running recording so a queued Send still sees the transcript
   useEffect(() => {
     if (session?.ownerKey === input.ownerKey && voiceInputBlocksSubmission(session.state))
       session.adopt(createTarget());

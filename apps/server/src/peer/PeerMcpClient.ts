@@ -21,7 +21,7 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as McpInvocationContext from "../mcp/McpInvocationContext.ts";
 import * as PeerLinks from "./PeerLinks.ts";
 
-/** The only MCP protocol version a T3 Code `/mcp` registers. */
+/** The only MCP protocol version a T0 Code `/mcp` registers. */
 const PROTOCOL_VERSION = "2025-06-18";
 
 /** A title can be any length; the header carrying it stays well under HTTP header limits. */
@@ -160,7 +160,7 @@ const make = Effect.gen(function* () {
           params: {
             protocolVersion: PROTOCOL_VERSION,
             capabilities: {},
-            clientInfo: { name: "t3code-peer", version: "1" },
+            clientInfo: { name: "t0code-peer", version: "1" },
           },
         },
         limitHeader,

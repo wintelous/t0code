@@ -111,7 +111,7 @@ describe.runIf(NodeProcess.platform === "darwin" || NodeProcess.platform === "li
           await NodeFSP.mkdtemp(NodePath.join(NodeOS.tmpdir(), "t3-record-")),
         );
         cleanup.defer(() => NodeFSP.rm(stateDir, { recursive: true, force: true }));
-        const directory = NodePath.join(stateDir, "t3code-backend-recovery");
+        const directory = NodePath.join(stateDir, "t0code-backend-recovery");
         await NodeFSP.mkdir(directory, { mode: 0o700 });
         const scope = NodeCrypto.createHash("sha256")
           .update(JSON.stringify([stateDir, await NodeFSP.realpath(NodeProcess.execPath)]))
@@ -194,7 +194,7 @@ describe.runIf(NodeProcess.platform === "darwin" || NodeProcess.platform === "li
       await otherHome.recover();
       assert.deepEqual(recovered, []);
 
-      const records = NodePath.join(appDataDirectory, "t3code-backend-recovery");
+      const records = NodePath.join(appDataDirectory, "t0code-backend-recovery");
       for (const name of await NodeFSP.readdir(records))
         await NodeFSP.chmod(NodePath.join(records, name), 0o644);
       await recovery.recover();
@@ -220,7 +220,7 @@ describe.runIf(NodeProcess.platform === "darwin" || NodeProcess.platform === "li
         );
         cleanup.defer(() => NodeFSP.rm(appDataDirectory, { recursive: true, force: true }));
         const stateDir = NodePath.join(appDataDirectory, "home");
-        const appImage = NodePath.join(appDataDirectory, "T3-Code.AppImage");
+        const appImage = NodePath.join(appDataDirectory, "T0-Code.AppImage");
         await NodeFSP.writeFile(appImage, "");
         // The previous launch ran from another mount, so its executable path differs from ours.
         const previousMount = NodePath.join(appDataDirectory, "mount-previous");

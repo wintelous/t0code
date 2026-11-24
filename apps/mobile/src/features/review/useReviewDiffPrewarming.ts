@@ -109,7 +109,7 @@ export function useReviewDiffPrewarming(input: {
   const { sections, selectedSectionId, threadKey } = input;
   const locale = useLocale();
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- prewarms pending review diff sections in idle callbacks and cancels the idle handle on cleanup
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- prewarms pending review diff sections in idle callbacks and cancels the idle handle on cleanup
   useEffect(() => {
     if (!threadKey) {
       return;

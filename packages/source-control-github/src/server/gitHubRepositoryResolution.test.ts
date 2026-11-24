@@ -177,7 +177,7 @@ describe("gitHubApiHostForRemote", () => {
       "git@[2001:db8::1]:team/repo.git",
     ]) {
       const remotes = [
-        "origin\tgit@github.com:pingdotgg/t3code.git (fetch)",
+        "origin\tgit@github.com:wintelous/t0code.git (fetch)",
         `backup\t${url} (fetch)`,
       ].join("\n");
       assert.deepStrictEqual(
@@ -187,7 +187,7 @@ describe("gitHubApiHostForRemote", () => {
           hostHint: undefined,
           defaultHost: "github.com",
         }),
-        { host: "github.com", locator: { host: "github.com", owner: "pingdotgg", name: "t3code" } },
+        { host: "github.com", locator: { host: "github.com", owner: "wintelous", name: "t0code" } },
         url,
       );
     }

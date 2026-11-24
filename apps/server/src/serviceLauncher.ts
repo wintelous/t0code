@@ -76,7 +76,7 @@ interface ManagedChild {
 
 const runtimePaths = (baseDir: string, version: string) => {
   const versionDir = NodePath.join(baseDir, "runtime", "versions", version);
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   const executableName = process.platform === "win32" ? "t3.exe" : "t3";
   return {
     versionDir,
@@ -204,7 +204,7 @@ async function serviceUnitFromEnvironment(
   if (unitName.endsWith(".xml")) {
     const localAppData = env.LOCALAPPDATA?.trim();
     if (!localAppData) return undefined;
-    const path = NodePath.win32.join(localAppData, "t3code", unitName);
+    const path = NodePath.win32.join(localAppData, "t0code", unitName);
     const taskName = serviceTaskName(env.USERDOMAIN ?? "", env.USERNAME ?? "");
     return { path, reload: () => registerServiceTask(path, taskName) };
   }
@@ -334,7 +334,7 @@ async function pathExists(target: string): Promise<boolean> {
 
 const MANAGED_SERVICE_ENV_NAMES = new Set([
   "PATH",
-  "T3CODE_HOME",
+  "T0CODE_HOME",
   "T3_BOOT_SERVICE_UNIT",
   SERVICE_LAUNCHER_CONTEXT_ENV,
 ]);
@@ -396,7 +396,7 @@ async function copyDatabaseFile(
   destination: string,
   signal?: AbortSignal,
 ): Promise<void> {
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   const platform = process.platform;
   // cp -c replaces files and breaks hard links; copy into hard-linked destinations instead.
   const hardLinked =
@@ -434,7 +434,7 @@ async function statDatabaseFiles(dbPath: string): Promise<ReadonlyArray<NodeFS.S
 
 // cp -c silently copies across volumes; require one device matching the APFS system volume's filesystem type.
 async function backupCanClone(dbPath: string, backupRoot: string): Promise<boolean> {
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   const platform = process.platform;
   if (platform === "darwin") {
     const [backupDirectory, backupFs, systemFs] = await Promise.all([
@@ -514,7 +514,7 @@ export async function databaseBackupBlocker(
 
 // A child-process copy: closing any descriptor this process opens on the database drops the snapshot's POSIX locks.
 async function copyWithoutOpening(source: string, destination: string): Promise<void> {
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   if (process.platform === "win32") return NodeFSP.copyFile(source, destination);
   if (!(await runCp([source, destination]))) throw new Error(`cp ${source} failed.`);
 }
@@ -804,7 +804,7 @@ async function terminateChild(
 }
 
 /** Task Scheduler names are machine-wide, so each Windows account runs its own task. */
-export const serviceTaskName = (domain: string, userName: string) => `t3code-${domain}-${userName}`;
+export const serviceTaskName = (domain: string, userName: string) => `t0code-${domain}-${userName}`;
 
 export const serviceLauncherLockPath = (baseDir: string) =>
   NodePath.join(baseDir, "runtime", SERVICE_LAUNCHER_LOCK_FILE);
@@ -881,7 +881,7 @@ export async function stateDirOwned(baseDir: string): Promise<boolean> {
     "startedAt" in record && typeof record.startedAt === "string" ? record.startedAt : "",
   );
   if (!Number.isFinite(recordedAt)) return true;
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   const platform = process.platform;
   const { command, args, env } = legacyOwnerStartTimeCommand(pid, platform, process.env);
   const output = await new Promise<string | undefined>((resolve) =>
@@ -945,7 +945,7 @@ export class Launcher {
     this.#environment = { ...(options.environment ?? process.env) };
     this.#output = options.output;
     this.#lockPath = options.lockPath;
-    // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+    // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
     this.#stopChildOverIpc = options.stopChildOverIpc ?? process.platform === "win32";
     this.#statePath = NodePath.join(baseDir, "runtime", SERVICE_STATE_FILE);
     this.#state = state;
@@ -984,7 +984,7 @@ export class Launcher {
       const lock = await tryAcquireSqliteLock(lockPath);
       if (lock !== undefined) return lock;
       if (attempt >= LOCK_ATTEMPTS) {
-        throw new Error("Another T3 Code service launcher still runs for this T3 home.");
+        throw new Error("Another T0 Code service launcher still runs for this T3 home.");
       }
       await new Promise((resolve) => setTimeout(resolve, LOCK_RETRY_MS));
     }
@@ -1089,7 +1089,7 @@ export class Launcher {
     ]);
     const free = Math.min(...available);
     return free < MIN_SERVICE_START_FREE_BYTES
-      ? `T3 Code needs at least ${MIN_SERVICE_START_FREE_BYTES} bytes free before starting the server; ${free} bytes available.`
+      ? `T0 Code needs at least ${MIN_SERVICE_START_FREE_BYTES} bytes free before starting the server; ${free} bytes available.`
       : undefined;
   }
 
@@ -1518,7 +1518,7 @@ export class Launcher {
     }
     this.#releaseServing();
     this.#log(
-      "[service-launcher] Another T3 Code server owns this T3 home. This service starts again once it stops.\n",
+      "[service-launcher] Another T0 Code server owns this T3 home. This service starts again once it stops.\n",
     );
     this.#stateDirFreeProbes = 0;
     // The interval also keeps Node alive: signal listeners alone do not.
@@ -1585,13 +1585,13 @@ export interface LauncherOptions {
 }
 
 export async function main(options: LauncherOptions = {}): Promise<void> {
-  const baseDir = options.baseDir ?? process.env.T3CODE_HOME;
+  const baseDir = options.baseDir ?? process.env.T0CODE_HOME;
   if (baseDir === undefined || baseDir.trim() === "") {
-    throw new Error("T3CODE_HOME is required by the T3 Code service launcher.");
+    throw new Error("T0CODE_HOME is required by the T0 Code service launcher.");
   }
   const output =
     options.logFile === undefined ? undefined : NodeFS.openSync(options.logFile, "a", 0o600);
-  // oxlint-disable-next-line t3code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
+  // oxlint-disable-next-line t0code/no-global-process-runtime -- Standalone launcher has no Effect runtime.
   const windows = process.platform === "win32";
   let logTimer: NodeJS.Timeout | undefined;
   // A failed stderr write (ENOSPC on a redirected log) is emitted asynchronously; without a listener it is fatal.
@@ -1601,7 +1601,7 @@ export async function main(options: LauncherOptions = {}): Promise<void> {
     // changes only what the server gets.
     const managerEnvironment = {
       ...process.env,
-      T3CODE_HOME: baseDir,
+      T0CODE_HOME: baseDir,
       ...(options.serviceUnit === undefined ? {} : { [SERVICE_UNIT_ENV]: options.serviceUnit }),
     };
     const environment = await readServiceEnvironment(baseDir, managerEnvironment);

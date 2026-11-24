@@ -545,7 +545,7 @@ export const makePiAdapterV2 = Effect.fn("makePiAdapterV2")(function* (
           const launch = buildPiRpcLaunch({
             launchArgs: resolvedLaunchArgs.args,
             // PortScanner.AGENT_THREAD_ENV, as a literal because this package cannot reach apps/server.
-            environment: { ...options.environment, T3CODE_THREAD_ID: input.threadId },
+            environment: { ...options.environment, T0CODE_THREAD_ID: input.threadId },
             mcpSession,
             extensionPath,
             sessionPath,
@@ -571,7 +571,7 @@ export const makePiAdapterV2 = Effect.fn("makePiAdapterV2")(function* (
             cwd,
             env: launch.env,
           });
-          // Its tools carry T3CODE_THREAD_ID, so port discovery must scan while Pi runs.
+          // Its tools carry T0CODE_THREAD_ID, so port discovery must scan while Pi runs.
           const trackAgent = host.trackAgent;
           if (trackAgent !== undefined) {
             yield* Effect.acquireRelease(Effect.sync(trackAgent), (release) =>
@@ -3348,7 +3348,7 @@ export const makePiAdapterV2 = Effect.fn("makePiAdapterV2")(function* (
           // Pi before 0.99 acknowledges a handled extension command without a disposition.
           const disposition = recordString(result, "disposition");
           if (disposition !== undefined && disposition !== "handled") {
-            return yield* protocolError("T3 Code's Pi extension did not apply the service tier");
+            return yield* protocolError("T0 Code's Pi extension did not apply the service tier");
           }
           serviceTierMayBeSet = serviceTier !== null;
         }
@@ -4457,7 +4457,7 @@ const rpivField = (input: unknown, key: string) =>
   recordString(input, key)?.replace(/\r\n/g, "\n").replace(/\r/g, "");
 
 const rpivOptionLine = (option: unknown, index: number) =>
-  // oxlint-disable-next-line t3code/no-em-dash-copy -- Matches the extension's option line format.
+  // oxlint-disable-next-line t0code/no-em-dash-copy -- Matches the extension's option line format.
   `${index + 1}. ${rpivField(option, "label")} — ${rpivField(option, "description")}`;
 
 /** The extension folds option previews into the select title, the only place clients show them. */

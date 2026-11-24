@@ -535,7 +535,7 @@ it.effect("says Git is not installed when a named project cannot start Git", () 
       Effect.gen(function* () {
         const folders = yield* ManagedProjectFolders.ManagedProjectFolders;
 
-        const failure = yield* Effect.flip(folders.createNamedProject({ name: "T3Code Test" }));
+        const failure = yield* Effect.flip(folders.createNamedProject({ name: "T0Code Test" }));
 
         assert.strictEqual(
           failure.message,

@@ -56,7 +56,7 @@ export function AppBar(props: AppBarProps) {
   const closeInspector = use(InspectorCloseContext);
   const setOptions = useScreenOptionsWriter();
   const ownsInspectorBar = closeInspector !== null && !props.embedded && !props.sheet;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- an inspector pane that stops drawing its bar must not leave it in the out-of-tree inspector bar
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- an inspector pane that stops drawing its bar must not leave it in the out-of-tree inspector bar
   useLayoutEffect(() => {
     if (!ownsInspectorBar || !setOptions) return;
     setOptions({ headerShown: true });
@@ -97,7 +97,7 @@ export function AppBar(props: AppBarProps) {
   const searchBarRef = useRef<SearchBarCommands>(null);
   const nativeSearchText = useRef(search?.value ?? "");
   const searchValue = search?.value;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the native search bar keeps its own text; a value the caller changes (a reset) has to be pushed into it
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the native search bar keeps its own text; a value the caller changes (a reset) has to be pushed into it
   useLayoutEffect(() => {
     if (searchValue === undefined || searchValue === nativeSearchText.current) return;
     nativeSearchText.current = searchValue;

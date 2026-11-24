@@ -1,8 +1,8 @@
 # MCP tool use
 
-Replays small fake threads on Claude and Codex models and checks how they use T3's MCP tools: delegation, PR linking, previews, scheduling, and more. Each case reproduces a real mistake an agent made in T3 Code.
+Replays small fake threads on Claude and Codex models and checks how they use T3's MCP tools: delegation, PR linking, previews, scheduling, and more. Each case reproduces a real mistake an agent made in T0 Code.
 
-The model sees what it sees in T3 Code. A trimmed capture of a real harness turn supplies the harness prompt and native tools. T3's instructions, tool descriptions, and schemas come from this checkout. A cheap model plays the shell, so nothing runs on your machine.
+The model sees what it sees in T0 Code. A trimmed capture of a real harness turn supplies the harness prompt and native tools. T3's instructions, tool descriptions, and schemas come from this checkout. A cheap model plays the shell, so nothing runs on your machine.
 
 ## Run
 
@@ -13,7 +13,7 @@ pnpm mcp-tool-use --model claude-opus-5-5 --out runs/opus
 ```
 
 - `ANTHROPIC_API_KEY` in the repo root `.env` pays for Claude models and the Haiku shell simulator.
-- Codex models (`gpt-*` in `MODELS` in `run.ts`) go through a CLIProxyAPI server, set up as the Codex model provider: `model_provider` in `$CODEX_HOME/config.toml` (default `~/.codex/config.toml`) when it names a `[model_providers.<name>]` table, otherwise `[model_providers.vibeproxy]`. Set `T3CODE_EVAL_MODEL_PROVIDER=<name>` to use another table, such as `vibeproxy` when your everyday `model_provider` is a different custom provider. That table needs `base_url` (the proxy's OpenAI-compatible URL, such as `http://localhost:8317/v1`) and a key in `experimental_bearer_token` or the variable named by `env_key`. Keep the proxy under about 12 samples in flight across all runs.
+- Codex models (`gpt-*` in `MODELS` in `run.ts`) go through a CLIProxyAPI server, set up as the Codex model provider: `model_provider` in `$CODEX_HOME/config.toml` (default `~/.codex/config.toml`) when it names a `[model_providers.<name>]` table, otherwise `[model_providers.vibeproxy]`. Set `T0CODE_EVAL_MODEL_PROVIDER=<name>` to use another table, such as `vibeproxy` when your everyday `model_provider` is a different custom provider. That table needs `base_url` (the proxy's OpenAI-compatible URL, such as `http://localhost:8317/v1`) and a key in `experimental_bearer_token` or the variable named by `env_key`. Keep the proxy under about 12 samples in flight across all runs.
 - `--shell-model` picks the model that plays the shell: `claude-haiku-5-5` by default, or `gpt-6.1-terra` / `gpt-6-luna` through the same proxy, so Codex runs need no Anthropic key. Prefer Terra: Luna often contradicts the case's world (it calls named checkouts missing or files empty). Compare runs only when they used the same shell model.
 - Flags: `--case <ids>`, `--cases <file.ndjson>`, `--samples <n>` (default 2, and a 3rd when the first 2 disagree), `--concurrency <n>` (samples in flight, default 8), `--max-steps <n>`, `--effort <level>`, `--dry-run` (prints request bodies, no model calls), and `--context` (prints the size of T3's text and schemas, no key needed).
 - `--baseline <results.jsonl> --stop-on-regression` stops as soon as a case that passed every baseline sample fails. Use it to test one copy change against a baseline run.
@@ -34,7 +34,7 @@ Check that the case builds with `--dry-run --case <id>`. Then run it on the text
 
 ## Device manager cases
 
-`cases/device-manager.ndjson` ports nine mechanisms from the [device-routing investigation described in #25661](https://github.com/pingdotgg/t3code/pull/25661) and adds seven cases from t3dotgg’s 2026-10-26 fleet device investigation. All prompts, files, hosts and prior turns are authored Acme data; the fleet cases cite finding ids without carrying source transcripts or identifiers.
+`cases/device-manager.ndjson` ports nine mechanisms from the [device-routing investigation described in #25661](https://github.com/wintelous/t0code/pull/25661) and adds seven cases from t3dotgg’s 2026-10-26 fleet device investigation. All prompts, files, hosts and prior turns are authored Acme data; the fleet cases cite finding ids without carrying source transcripts or identifiers.
 
 | Case           | Kind    | What it checks                                                                                                                                                                                     |
 | -------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -306,7 +306,7 @@ Both arms see the same world. Shell mocks apply to either arm's commands, so an 
 
 Some cases are capability cases rather than mistake cases:
 
-- `cli-rate-limited-read` and `cli-auth-missing` assume T3 is signed in through the T3 Code for GitHub app, whose quota and token are separate from `gh`'s.
+- `cli-rate-limited-read` and `cli-auth-missing` assume T3 is signed in through the T0 Code for GitHub app, whose quota and token are separate from `gh`'s.
 - The git.cafe cases come in two forms. The plain ones say nothing about the forge. The `-instructed` ones put "use cafe" in the project instructions, as a maintained AGENTS.md would.
 
 ### Results
@@ -343,7 +343,7 @@ Errored samples are left out.
 
 `cli-merge-at-head-moved`, a control where the head moved past the reviewed commit, was added after these runs. On GPT-6.1 Sol both arms passed it 3/3: neither merged.
 
-**With the fixes.** "tools+fixes" (Sonnet, earlier git.cafe world) applied [#39899](https://github.com/pingdotgg/t3code/pull/39899), [#39901](https://github.com/pingdotgg/t3code/pull/39901), [#39903](https://github.com/pingdotgg/t3code/pull/39903) and [#39906](https://github.com/pingdotgg/t3code/pull/39906). It passed 42/42 with 2.5 model calls and 83 ktokens per sample, against 2.8 and 90 for "tools" on the same cases.
+**With the fixes.** "tools+fixes" (Sonnet, earlier git.cafe world) applied [#39899](https://github.com/wintelous/t0code/pull/39899), [#39901](https://github.com/wintelous/t0code/pull/39901), [#39903](https://github.com/wintelous/t0code/pull/39903) and [#39906](https://github.com/wintelous/t0code/pull/39906). It passed 42/42 with 2.5 model calls and 83 ktokens per sample, against 2.8 and 90 for "tools" on the same cases.
 
 Limits: the shell is simulated, so a CLI's output is the simulator's reading of the world and of the error texts the cases copy from real sessions. Polling never really waits, so these runs measure what polling decides, not the wall-clock time it takes. The simulator also sees the whole world, and early runs leaked it into invented files, such as an AGENTS.md naming `cafe` or a Forgejo API on git.cafe. The git.cafe worlds now rule both out. Read failing and passing transcripts before you trust a new case.
 
@@ -359,7 +359,7 @@ Limits: the shell is simulated, so a CLI's output is the simulator's reading of 
 
 `templates/` holds one trimmed capture per harness. Refresh them when a harness changes its prompt or native tools:
 
-1. Capture one T3 Code turn through CLIProxyAPI, with T3's MCP server connected.
+1. Capture one T0 Code turn through CLIProxyAPI, with T3's MCP server connected.
 2. From `evals/`, run `pnpm mcp-tool-use:trim-capture <claude|codex> <capture.json> mcp-tool-use/templates/<claude|codex>.json.gz`. It keeps only what `run.ts` reads, and removes user instructions, the user's own skills and agents, account ids, and home paths.
 3. Read the output for user data before you commit it: `zcat <file> | less`.
 4. Run the full eval on the old and new templates, and compare.

@@ -30,7 +30,7 @@ const imageProps = {
   jsonLd={[
     softwareJsonLd(messagesFor(locale).layout.defaultDescription),
     breadcrumbJsonLd([
-      { name: "T3 Code", path: localizedHref(locale, "/") },
+      { name: "T0 Code", path: localizedHref(locale, "/") },
       { name: t.breadcrumb, path: localizedHref(locale, "/download") },
     ]),
   ]}
@@ -174,8 +174,8 @@ const imageProps = {
         </div>
         <code class="cli-line cli-line--stable">curl -fsSL https://t3.codes/install.sh | sh</code>
         <code class="cli-line cli-line--stable">irm https://t3.codes/install.ps1 | iex</code>
-        <code class="cli-line cli-line--nightly">curl -fsSL https://t3.codes/install.sh | T3CODE_CHANNEL=nightly sh</code>
-        <code class="cli-line cli-line--nightly">$env:T3CODE_CHANNEL="nightly"; irm https://t3.codes/install.ps1 | iex</code>
+        <code class="cli-line cli-line--nightly">curl -fsSL https://t3.codes/install.sh | T0CODE_CHANNEL=nightly sh</code>
+        <code class="cli-line cli-line--nightly">$env:T0CODE_CHANNEL="nightly"; irm https://t3.codes/install.ps1 | iex</code>
         <p class="cli-note">{t.tryOnce}</p>
         <code class="cli-line cli-line--stable">npx t3@latest</code>
         <code class="cli-line cli-line--nightly">npx t3@nightly</code>

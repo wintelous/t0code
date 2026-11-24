@@ -477,7 +477,7 @@ interface SummaryView {
 // Session-only: switching right-panel tabs unmounts the Summary, which comes back as it was left.
 const summaryViewByScopeKey = new Map<string, SummaryView>();
 
-const COMMENT_FILTER_STORAGE_KEY = "t3code:pull-request-comment-filter:v1";
+const COMMENT_FILTER_STORAGE_KEY = "t0code:pull-request-comment-filter:v1";
 const CommentFilterSchema = Schema.Struct({ bots: Schema.Boolean, resolved: Schema.Boolean });
 const DEFAULT_COMMENT_FILTER: typeof CommentFilterSchema.Type = { bots: false, resolved: false };
 
@@ -705,12 +705,12 @@ export function PullRequestSummaryTab({
     onRevealSettled?.(revealUrl);
   });
   const editingDescription = bodyScope?.url === detail.url;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- scrolls to a linked section, description or heading once it renders
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- scrolls to a linked section, description or heading once it renders
   useEffect(() => {
     revealSummary();
     // oxlint-disable-next-line react/exhaustive-effect-dependencies -- retries once the description markdown renders, including after its editor closes
   }, [revealUrl, description, checksReveals, descriptionReveals, editingDescription]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- puts a remounted Summary back at the scroll position it left, before paint
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- puts a remounted Summary back at the scroll position it left, before paint
   useLayoutEffect(() => {
     const scrollTop = summaryViewByScopeKey.get(viewKey)?.scrollTop ?? 0;
     if (!scrollRef.current || scrollTop === 0) return;
@@ -720,7 +720,7 @@ export function PullRequestSummaryTab({
     });
     // oxlint-disable-next-line react/exhaustive-effect-dependencies -- restores once per mount
   }, []);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the hold observes DOM outside React and must end with the tab
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the hold observes DOM outside React and must end with the tab
   useEffect(() => () => stopHolding.current?.(), []);
   // Checkbox ticks and the editor share one draft, so each starts from the other's latest body.
   const saveDescription = async (body: string) => {

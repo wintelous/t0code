@@ -67,7 +67,7 @@ export function PullRequestLabelsScreen({ route }: StaticScreenProps<PullRequest
     `${candidate.name} ${candidate.description ?? ""}`.toLowerCase().includes(needle),
   );
   const latest = result.data?.candidates;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- picks are sent when the sheet leaves the navigation stack, however it is dismissed
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- picks are sent when the sheet leaves the navigation stack, however it is dismissed
   useEffect(
     () =>
       navigation.addListener("beforeRemove", () => {

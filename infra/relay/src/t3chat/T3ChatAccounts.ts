@@ -70,7 +70,7 @@ export class T3ChatAccounts extends Context.Service<
       readonly userId: string;
     }) => Effect.Effect<void, T3ChatNotConfigured | T3ChatRequestFailed>;
   }
->()("t3code-relay/t3chat/T3ChatAccounts") {}
+>()("t0code-relay/t3chat/T3ChatAccounts") {}
 
 /** Token format shared with T3 Chat: `<base64url JSON payload>.<base64url HMAC-SHA256>`. */
 export const signLinkToken = (
@@ -146,19 +146,19 @@ export const make = Effect.gen(function* () {
         email,
         exp: Math.floor(now.epochMilliseconds / 1_000) + LINK_TOKEN_TTL_SECONDS,
       });
-      const url = new URL("/link/t3code", baseUrl);
+      const url = new URL("/link/t0code", baseUrl);
       url.searchParams.set("token", token);
       return url.toString();
     }),
     getLink: Effect.fn("relay.t3chat.get_link")(function* (input) {
-      const body = yield* post("get-link", "/api/t3code/link", input.userId);
+      const body = yield* post("get-link", "/api/t0code/link", input.userId);
       const decoded = yield* decodeLinkResponse(body).pipe(
         Effect.mapError((cause) => new T3ChatRequestFailed({ operation: "get-link", cause })),
       );
       return decoded.link;
     }),
     unlink: Effect.fn("relay.t3chat.unlink")(function* (input) {
-      yield* post("unlink", "/api/t3code/unlink", input.userId);
+      yield* post("unlink", "/api/t0code/unlink", input.userId);
     }),
   });
 });

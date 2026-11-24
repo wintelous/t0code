@@ -92,7 +92,7 @@ const threadSearch = createThreadSearchResultsAtomFamily({
 export function useDebouncedValue<A>(value: A, delayMs: number): A {
   const [debounced, setDebounced] = useState(value);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- debounce timer that publishes the value after delayMs
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- debounce timer that publishes the value after delayMs
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setDebounced(value);
@@ -154,7 +154,7 @@ export function useThreadSearch(
     : { query: "", matches: EMPTY_THREAD_SEARCH_MATCHES };
   // The shown results' rows stay mounted until newer results replace them.
   const shownKey = visible.query === "" ? null : searchKeyOf(visible.query);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- mounts the shown search results' rows into the thread family registry until newer results replace them
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- mounts the shown search results' rows into the thread family registry until newer results replace them
   useEffect(() => {
     if (shownKey === null) return;
     const environments = (JSON.parse(shownKey) as [ReadonlyArray<EnvironmentId>])[0];
@@ -425,7 +425,7 @@ export function useProjectContentSearch(
       ? result.failure
       : null;
   const { refresh } = result;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- retry timer: nothing tells the client when the server's first scan ends
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- retry timer: nothing tells the client when the server's first scan ends
   useEffect(() => {
     if (settledScanTimeout === null) return;
     const timer = window.setTimeout(refresh, PROJECT_CONTENT_SEARCH_SCAN_RETRY_MS);

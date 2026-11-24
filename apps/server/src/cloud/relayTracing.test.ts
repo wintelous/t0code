@@ -15,7 +15,7 @@ const tracesTo = (policy?: ManagedPolicyDocument) =>
   Effect.service(RelayTracing.RelayClientTracer).pipe(
     Effect.provide(
       relayLayer(
-        { serviceName: "t3code-server", runtime: "node", client: "environment-server" },
+        { serviceName: "t0code-server", runtime: "node", client: "environment-server" },
         { tracesUrl: "https://traces.example.com", tracesDataset: "relay", tracesToken: "token" },
       ).pipe(
         Layer.provide(ManagedPolicy.layerTest(policy)),
@@ -30,7 +30,7 @@ const tracesTo = (policy?: ManagedPolicyDocument) =>
     Effect.map(Option.isSome),
   );
 
-it.effect("a policy with telemetry off stops relay tracing to T3 Connect", () =>
+it.effect("a policy with telemetry off stops relay tracing to T0 Connect", () =>
   Effect.gen(function* () {
     assert.isTrue(yield* tracesTo());
     assert.isFalse(

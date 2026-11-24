@@ -55,10 +55,10 @@ function entry(
     provider: SourceControlProviderKind.make("github"),
     host: "github.com",
     projectId: "project-1",
-    projectTitle: "t3code",
-    repository: "pingdotgg/t3code",
+    projectTitle: "t0code",
+    repository: "wintelous/t0code",
     title: "Add the pull requests page",
-    url: `https://github.com/pingdotgg/t3code/pull/${overrides.number}`,
+    url: `https://github.com/wintelous/t0code/pull/${overrides.number}`,
     author: { login: "octocat", name: null, avatarUrl: null },
     headBranch: `feat/branch-${overrides.number}`,
     baseBranch: "main",
@@ -102,7 +102,7 @@ describe("visible pull request line-count targets", () => {
     );
     expect([...keys]).toEqual([secondKey]);
     expect(pullRequestStatsBatches(entriesByKey, keys)[0]?.input.refs).toEqual([
-      { projectId: "project-1", repository: "pingdotgg/t3code", number: 2 },
+      { projectId: "project-1", repository: "wintelous/t0code", number: 2 },
     ]);
   });
 
@@ -701,7 +701,7 @@ describe("pull request list overrides", () => {
   const entry = (number: number, state: "open" | "closed" | "merged") =>
     ({
       host: "github.com",
-      repository: "pingdotgg/t3code",
+      repository: "wintelous/t0code",
       number,
       state,
       isDraft: false,

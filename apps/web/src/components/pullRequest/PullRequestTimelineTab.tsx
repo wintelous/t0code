@@ -904,12 +904,12 @@ export function PullRequestTimelineTab({
       onRevealSettled?.(url);
     });
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- reveals a link destination after activity loading and virtual list mounting
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- reveals a link destination after activity loading and virtual list mounting
   useEffect(() => {
     reveal();
     // oxlint-disable-next-line react/exhaustive-effect-dependencies -- runs for each clicked link and again when activity resolves its row
   }, [revealUrl, targetIndex]);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the hold observes DOM outside React and must end with the tab
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the hold observes DOM outside React and must end with the tab
   useEffect(() => () => stopHolding.current?.(), []);
   const openOnHost = (url: string) => {
     void readLocalApi()?.shell.openExternal(url);

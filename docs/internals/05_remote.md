@@ -1,7 +1,7 @@
 # Remote architecture
 
 Each connection joins a client to one environment over HTTP and WebSocket. Direct access, Tailscale,
-SSH, and T3 Connect change how the client reaches the server; they do not introduce a different
+SSH, and T0 Connect change how the client reaches the server; they do not introduce a different
 execution model.
 
 ## Identity is independent of the route
@@ -22,7 +22,7 @@ execution model.
 ## Peer links
 
 A [peer link](../../apps/server/src/peer/PeerLinks.ts) lets one environment's agents work in another
-by signing in to the target's `/mcp` as an ordinary OAuth client (`t3code-peer-link`). The receiving
+by signing in to the target's `/mcp` as an ordinary OAuth client (`t0code-peer-link`). The receiving
 side lists and revokes it in Sharing & access like any other session, and owns its expiry/renewal.
 
 - **Mode ceilings always narrow.** Forwarded calls carry the calling agent's modes in

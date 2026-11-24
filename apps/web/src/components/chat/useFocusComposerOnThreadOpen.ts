@@ -11,7 +11,7 @@ export function useFocusComposerOnThreadOpen(
   terminalOpen: boolean,
   focusComposer: () => void,
 ) {
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- restores DOM focus on thread entry and after the drawer opens or closes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- restores DOM focus on thread entry and after the drawer opens or closes
   useEffect(() => {
     if (!threadRef || !enabled || !root) return;
     let frame: number | undefined;

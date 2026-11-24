@@ -60,7 +60,7 @@ export function useLinkedEnvironments(
   );
   const registry = useContext(RegistryContext);
   const queried = offered ? environmentId : null;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- links made outside this client are not pushed, so meeting an unknown machine asks the server again
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- links made outside this client are not pushed, so meeting an unknown machine asks the server again
   useEffect(() => {
     if (queried === null || wanted === undefined) return;
     peerLinkEnvironment.refreshNamesLacking(registry, queried, [wanted]);
@@ -84,7 +84,7 @@ export function usePeerLinkHosts() {
 
 /**
  * The user's other machines, for picking one to link `environmentId` to,
- * including those only on their T3 Connect account. Reads that environment's
+ * including those only on their T0 Connect account. Reads that environment's
  * links only while `enabled`, since listing them asks every linked machine
  * whether it answers.
  */
@@ -98,7 +98,7 @@ export function useLinkableMachines(environmentId: EnvironmentId, enabled: boole
   const discoverIfUnasked = useEffectEvent(() => {
     if (discovery.environments.size === 0 && !discovery.refreshing) void refreshDiscovery();
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- discovery follows the picker's visibility, which a card's mount or a dialog's open sets
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- discovery follows the picker's visibility, which a card's mount or a dialog's open sets
   useEffect(() => {
     if (enabled) discoverIfUnasked();
   }, [enabled]);

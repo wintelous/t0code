@@ -24,13 +24,13 @@ const none = Option.none<boolean>();
 
 it.each([
   {
-    label: "a new machine starts from T3 Connect and asks",
+    label: "a new machine starts from T0 Connect and asks",
     setup: { installed: false, connect: false, lan: false },
     flags: { connect: none, lan: none },
     expected: { routes: { connect: true, lan: false }, ask: ["connect", "lan"] },
   },
   {
-    label: "a build without T3 Connect never offers it",
+    label: "a build without T0 Connect never offers it",
     setup: { installed: false, connect: null, lan: false },
     flags: { connect: none, lan: none },
     expected: { routes: { connect: false, lan: false }, ask: ["lan"] },
@@ -61,7 +61,7 @@ const SERVICE = {
   supported: true,
   installed: true,
   current: true,
-  unitPath: "/home/me/.config/systemd/user/t3code.service",
+  unitPath: "/home/me/.config/systemd/user/t0code.service",
   logPath: "/home/me/.t3/userdata/logs/boot-service.log",
 } as const;
 
@@ -114,7 +114,7 @@ it.each([
     revoked: false,
     on: false,
   },
-] as const)("T3 Connect is on for $label: $on", ({ label: _, on, ...link }) => {
+] as const)("T0 Connect is on for $label: $on", ({ label: _, on, ...link }) => {
   expect(connectEnabled(link)).toBe(on);
 });
 
@@ -179,21 +179,21 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     {
       label: "nothing changed",
       installed: true,
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--no-lan"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "the local network opens",
       prints: ["Run `t3 pair --base-dir <baseDir>`."],
       installed: true,
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--lan"],
       installs: 0,
       restarts: 1,
-      envAfter: "T3CODE_LAN=true\n",
+      envAfter: "T0CODE_LAN=true\n",
     },
     {
       label: "a new service starts with its settings",
@@ -202,27 +202,27 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       args: ["--lan"],
       installs: 1,
       restarts: 0,
-      envAfter: "T3CODE_LAN=true\n",
+      envAfter: "T0CODE_LAN=true\n",
     },
     {
       label: "a route turns off with no service to run",
-      prints: ["Run `t3 --base-dir <baseDir>` to use T3 Code here."],
+      prints: ["Run `t3 --base-dir <baseDir>` to use T0 Code here."],
       installed: false,
-      env: "T3CODE_LAN=true\n",
+      env: "T0CODE_LAN=true\n",
       args: ["--no-lan"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "a stopped newer service starts as it is",
       installed: true,
       status: { current: false, installedVersion: "999.0.0", problems: ["service-stopped"] },
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--yes"],
       installs: 0,
       restarts: 1,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "a failed update keeps service.env matching the old service",
@@ -241,22 +241,22 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       label: "a failed restart puts service.env back and restarts on it",
       installed: true,
       restartFails: true,
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--lan"],
       installs: 0,
       restarts: 2,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "declining an update changes nothing",
       installed: true,
       status: { current: false },
       answer: "n",
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--lan"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "a service for another home is refused without a restart",
@@ -264,11 +264,11 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       status: { current: false, otherBaseDir: "/srv/t3 home" },
       fails: true,
       answer: "y",
-      env: "T3CODE_LAN=false\n",
+      env: "T0CODE_LAN=false\n",
       args: ["--lan"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=false\n",
+      envAfter: "T0CODE_LAN=false\n",
     },
     {
       label: "another home's service supplies no local network default",
@@ -303,13 +303,13 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       label: "a host override gets no --no-lan hint it would ignore",
       installed: true,
       reportStatus: true,
-      prints: ["overridden · T3CODE_HOST=0.0.0.0"],
+      prints: ["overridden · T0CODE_HOST=0.0.0.0"],
       omits: "--no-lan",
-      env: "T3CODE_HOST=0.0.0.0\n",
+      env: "T0CODE_HOST=0.0.0.0\n",
       args: [],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_HOST=0.0.0.0\n",
+      envAfter: "T0CODE_HOST=0.0.0.0\n",
     },
     {
       label: "no service manager still records the choice",
@@ -319,7 +319,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       args: ["--lan"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=true\n",
+      envAfter: "T0CODE_LAN=true\n",
     },
     {
       label: "the old default is kept",
@@ -328,7 +328,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       args: ["--yes"],
       installs: 0,
       restarts: 0,
-      envAfter: "T3CODE_LAN=true\n",
+      envAfter: "T0CODE_LAN=true\n",
     },
   ])("keeps service changes and access settings consistent: $label", (input) =>
     Effect.gen(function* () {
@@ -424,23 +424,23 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
 });
 
 it("rewrites only the named service.env keys and keeps the user's lines", () => {
-  const before = ["# my settings", "T3CODE_PORT=4000", "export T3CODE_LAN=0", "T3CODE_LAN=1", ""];
-  expect(upsertServiceEnv(before.join("\n"), { T3CODE_LAN: "true", T3CODE_HOST: undefined })).toBe(
-    ["# my settings", "T3CODE_PORT=4000", "T3CODE_LAN=true", ""].join("\n"),
+  const before = ["# my settings", "T0CODE_PORT=4000", "export T0CODE_LAN=0", "T0CODE_LAN=1", ""];
+  expect(upsertServiceEnv(before.join("\n"), { T0CODE_LAN: "true", T0CODE_HOST: undefined })).toBe(
+    ["# my settings", "T0CODE_PORT=4000", "T0CODE_LAN=true", ""].join("\n"),
   );
-  expect(upsertServiceEnv("", { T3CODE_LAN: "false" })).toBe("T3CODE_LAN=false\n");
+  expect(upsertServiceEnv("", { T0CODE_LAN: "false" })).toBe("T0CODE_LAN=false\n");
   expect(
-    upsertServiceEnv('T3CODE_LAN="a\nb"\nCUSTOM="x\nT3CODE_LAN=y"\nT3CODE_LAN=true\n', {
-      T3CODE_LAN: "false",
+    upsertServiceEnv('T0CODE_LAN="a\nb"\nCUSTOM="x\nT0CODE_LAN=y"\nT0CODE_LAN=true\n', {
+      T0CODE_LAN: "false",
     }),
-  ).toBe('T3CODE_LAN=false\nCUSTOM="x\nT3CODE_LAN=y"\n');
+  ).toBe('T0CODE_LAN=false\nCUSTOM="x\nT0CODE_LAN=y"\n');
   expect(
-    upsertServiceEnv('T3CODE_LAN=\u00a0"unused\nCUSTOM=keep\nEND="\nT3CODE_LAN=true\n', {
-      T3CODE_LAN: "false",
+    upsertServiceEnv('T0CODE_LAN=\u00a0"unused\nCUSTOM=keep\nEND="\nT0CODE_LAN=true\n', {
+      T0CODE_LAN: "false",
     }),
-  ).toBe('T3CODE_LAN=false\nCUSTOM=keep\nEND="\n');
+  ).toBe('T0CODE_LAN=false\nCUSTOM=keep\nEND="\n');
   const long = `CUSTOM="${"\n".repeat(130_000)}"\n`;
-  expect(upsertServiceEnv(`${long}T3CODE_LAN=true\n`, { T3CODE_LAN: "false" })).toBe(
-    `${long}T3CODE_LAN=false\n`,
+  expect(upsertServiceEnv(`${long}T0CODE_LAN=true\n`, { T0CODE_LAN: "false" })).toBe(
+    `${long}T0CODE_LAN=false\n`,
   );
 });

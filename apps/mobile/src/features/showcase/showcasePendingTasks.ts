@@ -12,9 +12,9 @@ import type { QueuedThreadMessage } from "../../state/thread-outbox-model";
 
 export const SHOWCASE_PENDING_TASK_DEFINITIONS = [
   {
-    projectId: "t3code",
+    projectId: "t0code",
     id: "offline-launch-checklist",
-    // oxlint-disable-next-line t3code/no-untranslated-copy -- showcase fixture data
+    // oxlint-disable-next-line t0code/no-untranslated-copy -- showcase fixture data
     text: "Ship the offline launch checklist before touchdown ✈️",
     branch: "feat/offline-launchpad",
     minutesAgo: 8,
@@ -22,7 +22,7 @@ export const SHOWCASE_PENDING_TASK_DEFINITIONS = [
   {
     projectId: "react",
     id: "train-tunnel-suspense",
-    // oxlint-disable-next-line t3code/no-untranslated-copy -- showcase fixture data
+    // oxlint-disable-next-line t0code/no-untranslated-copy -- showcase fixture data
     text: "Polish the Suspense handoff for the train tunnel 🚇",
     branch: "perf/tunnel-handoff",
     minutesAgo: 27,

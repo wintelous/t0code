@@ -499,7 +499,7 @@ it.live.each(["pooled", "exclusive"] as const)(
                             ordinal: 1,
                             status: "running",
                             title: "t3_worktree_handoff",
-                            toolName: "t3-code.t3_worktree_handoff",
+                            toolName: "t0-code.t3_worktree_handoff",
                             input: {},
                             output: null,
                             startedAt: now,

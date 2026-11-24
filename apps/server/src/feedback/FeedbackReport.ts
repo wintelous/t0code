@@ -66,7 +66,7 @@ export const FeedbackAwaitingApproval = Schema.Struct({
 export type FeedbackAwaitingApproval = typeof FeedbackAwaitingApproval.Type;
 
 export const FEEDBACK_OFF_MESSAGE =
-  "Agent feedback is off. Turn it on in T3 Code under Settings > Labs, then try again.";
+  "Agent feedback is off. Turn it on in T0 Code under Settings > Labs, then try again.";
 
 export class FeedbackOffError extends Schema.TaggedError<FeedbackOffError>()(
   "FeedbackOffError",
@@ -213,15 +213,15 @@ export const FEEDBACK_SUBJECT_MESSAGE =
   "Set subject to the exact T3 tool name, the t3 command, or `general`.";
 
 // The shared resolver knows the presented tools; the prefix covers the rest, such as these.
-// Codex also registers `t3-code-direct` for T3 tools it keeps out of Code Mode.
-const T3_PREFIX = /^(?:mcp__t3[-_]?code(?:[-_]direct)?__|t3[-_]?code(?:[-_]direct)?[.:/])/iu;
+// Codex also registers `t0-code-direct` for T3 tools it keeps out of Code Mode.
+const T3_PREFIX = /^(?:mcp__t0[-_]?code(?:[-_]direct)?__|t0[-_]?code(?:[-_]direct)?[.:/])/iu;
 
 /** The bare name of a registered T3 tool however a provider prefixed it, else undefined. */
 export const resolveT3ToolName = (name: string, toolNames: ReadonlyArray<string>) => {
   const tool = resolveT3McpToolId(name) ?? name.replace(T3_PREFIX, "");
   if (toolNames.includes(tool)) return tool;
-  // OpenCode 2 prefixes tools with `t3-code-<thread>_`, underscores and all: the longest name wins.
-  if (!/^t3-code-/iu.test(name)) return undefined;
+  // OpenCode 2 prefixes tools with `t0-code-<thread>_`, underscores and all: the longest name wins.
+  if (!/^t0-code-/iu.test(name)) return undefined;
   return toolNames
     .filter((candidate) => name.endsWith(`_${candidate}`))
     .toSorted((a, b) => b.length - a.length)[0];

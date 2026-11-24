@@ -107,7 +107,7 @@ export function antigravitySessionMeta(
 export function antigravityClientInfo(version: string | null | undefined) {
   const parsed = parseAntigravityVersion(version);
   return parsed !== undefined && compareVersions(parsed, OPEN_MODEL_ACCESS_RELEASE) >= 0
-    ? { name: "t3-code", title: "T3 Code", version: packageJson.version }
+    ? { name: "t0-code", title: "T0 Code", version: packageJson.version }
     : { name: "zed", version: "0.0.0" };
 }
 
@@ -185,7 +185,7 @@ export function antigravitySessionMode(
 
 // Only calls that name T3's server: before agy 1.5.8 "Running <tool>" names no server, so another
 // MCP server's tool of the same name would pass.
-const ANTIGRAVITY_T3_MCP_TITLE = /^Run mcp_t3-code_(?<tool>[A-Za-z0-9_]+)\??$/;
+const ANTIGRAVITY_T3_MCP_TITLE = /^Run mcp_t0-code_(?<tool>[A-Za-z0-9_]+)\??$/;
 
 // call_mcp_tool is the one call whose rawInput names a server and tool; in every other call
 // rawInput is the tool's own arguments.
@@ -197,7 +197,7 @@ function isAntigravityT3McpRequest(request: EffectAcpSchema.RequestPermissionReq
   const proxiedTool = ANTIGRAVITY_PROXIED_MCP_TITLE.exec(title)?.groups?.tool;
   if (proxiedTool !== undefined) {
     return (
-      rawInput?.ServerName === "t3-code" &&
+      rawInput?.ServerName === "t0-code" &&
       rawInput.ToolName === proxiedTool &&
       T3_MCP_TOOL_NAMES.has(proxiedTool)
     );

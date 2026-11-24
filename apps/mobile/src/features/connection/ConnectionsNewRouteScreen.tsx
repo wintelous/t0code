@@ -286,7 +286,7 @@ function PairingForm({
             </Text>
           </View>
 
-          {hasCloudPublicConfig() ? <T3ConnectSection /> : null}
+          {hasCloudPublicConfig() ? <T0ConnectSection /> : null}
         </View>
       </ScrollView>
     </SettingsScreen>
@@ -388,7 +388,7 @@ function PairingScanCard(props: {
   );
 }
 
-function T3ConnectSection() {
+function T0ConnectSection() {
   const gt = useGT();
   const { isLoaded, isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
   const navigation = useNavigation();
@@ -413,7 +413,7 @@ function T3ConnectSection() {
         />
       ) : (
         <ListRow
-          label={gt("Sign in to {product}", { product: "T3 Connect" })}
+          label={gt("Sign in to {product}", { product: "T0 Connect" })}
           description={gt("Reach your machines from anywhere, no network setup.")}
           disabled={!isLoaded}
           onPress={() => navigation.navigate("SettingsAuth")}

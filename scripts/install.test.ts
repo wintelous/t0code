@@ -39,10 +39,10 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer home
           env: {
             ...process.env,
             HOME: root,
-            T3CODE_HOME: homeName,
-            T3CODE_VERSION: version,
-            T3CODE_INSTALL_BIN_DIR: NodePath.dirname(launcher),
-            T3CODE_RELEASE_BASE_URL: "http://127.0.0.1:1",
+            T0CODE_HOME: homeName,
+            T0CODE_VERSION: version,
+            T0CODE_INSTALL_BIN_DIR: NodePath.dirname(launcher),
+            T0CODE_RELEASE_BASE_URL: "http://127.0.0.1:1",
           },
           encoding: "utf8",
         });
@@ -51,7 +51,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer home
       expect(first.status, first.stdout + first.stderr).toBe(0);
       const { status, stdout, stderr } = install();
       expect(status, stdout + stderr).toBe(0);
-      expect(stderr).toContain(`Installed T3 Code ${version}`);
+      expect(stderr).toContain(`Installed T0 Code ${version}`);
       expect(await NodeFSP.readFile(launcher, "utf8")).toBe(
         launcherScript(NodePath.join(target, "t3")),
       );
@@ -80,10 +80,10 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chan
       if (failures-- > 0) return response.writeHead(504).end();
       const url = new URL(request.url ?? "/", "http://fixture");
       const body =
-        url.pathname === "/pingdotgg/t3code/releases/latest" &&
+        url.pathname === "/wintelous/t0code/releases/latest" &&
         request.headers.accept === "application/json"
           ? { tag_name: "v1.2.3" }
-          : url.pathname === "/repos/pingdotgg/t3code/releases"
+          : url.pathname === "/repos/wintelous/t0code/releases"
             ? { "1": nightlies, "2": [{ tag_name: `v${version}` }, { tag_name: "v1.2.3" }] }[
                 url.searchParams.get("page") ?? ""
               ]
@@ -111,12 +111,12 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chan
           const child = NodeChildProcess.spawn("sh", [installer], {
             env: {
               ...process.env,
-              T3CODE_VERSION: "",
-              T3CODE_CHANNEL: channel,
-              T3CODE_HOME: NodePath.join(root, "home"),
-              T3CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
+              T0CODE_VERSION: "",
+              T0CODE_CHANNEL: channel,
+              T0CODE_HOME: NodePath.join(root, "home"),
+              T0CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
               // A wrong version must fail here instead of downloading a real release.
-              T3CODE_RELEASE_BASE_URL: origin,
+              T0CODE_RELEASE_BASE_URL: origin,
             },
             stdio: ["ignore", "pipe", "pipe"],
           });
@@ -128,7 +128,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chan
         },
       );
       expect(code, output).toBe(0);
-      expect(output).toContain(`Installed T3 Code ${version}`);
+      expect(output).toContain(`Installed T0 Code ${version}`);
     } finally {
       server.closeAllConnections();
       await new Promise<void>((resolve) => server.close(() => resolve()));
@@ -162,11 +162,11 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")(
               {
                 env: {
                   ...process.env,
-                  T3CODE_CHANNEL: "",
-                  T3CODE_VERSION: "1.2.3",
-                  T3CODE_HOME: NodePath.join(root, "home"),
-                  T3CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
-                  T3CODE_RELEASE_BASE_URL: `http://127.0.0.1:${address.port}`,
+                  T0CODE_CHANNEL: "",
+                  T0CODE_VERSION: "1.2.3",
+                  T0CODE_HOME: NodePath.join(root, "home"),
+                  T0CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
+                  T0CODE_RELEASE_BASE_URL: `http://127.0.0.1:${address.port}`,
                 },
                 stdio: ["ignore", "pipe", "pipe"],
               },
@@ -210,11 +210,11 @@ async function installOver(input: {
     ...(input.cwd === undefined ? {} : { cwd: input.cwd }),
     env: {
       ...process.env,
-      T3CODE_CHANNEL: "",
-      T3CODE_VERSION: "1.2.3",
-      T3CODE_HOME: input.home,
-      T3CODE_INSTALL_BIN_DIR: input.binDir,
-      T3CODE_RELEASE_BASE_URL: "http://127.0.0.1:9",
+      T0CODE_CHANNEL: "",
+      T0CODE_VERSION: "1.2.3",
+      T0CODE_HOME: input.home,
+      T0CODE_INSTALL_BIN_DIR: input.binDir,
+      T0CODE_RELEASE_BASE_URL: "http://127.0.0.1:9",
       ...input.env,
     },
   });
@@ -299,7 +299,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("install.sh t3 
         env: { HOME: root, PATH: `${binDir}/:/usr/bin:/bin` },
       });
       expect(slashed.code, slashed.output).toBe(0);
-      expect(slashed.output).toContain("Run t3 to use T3 Code here");
+      expect(slashed.output).toContain("Run t3 to use T0 Code here");
 
       // A relative folder is made absolute, so the PATH command never follows the working directory.
       const relative = await installOver({
@@ -346,7 +346,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "win32")("install.ps1 t3
       const shim = NodePath.join(binDir, "t3.cmd");
       await NodeFSP.mkdir(binDir, { recursive: true });
 
-      const desktopShim = '@echo off\r\n"C:\\Program Files\\T3 Code\\T3 Code.exe" "x" %*\r\n';
+      const desktopShim = '@echo off\r\n"C:\\Program Files\\T0 Code\\T0 Code.exe" "x" %*\r\n';
       await NodeFSP.writeFile(shim, desktopShim);
       const foreign = await installOver({ script: "install.ps1", home, binDir });
       expect(foreign.code).not.toBe(0);
@@ -354,7 +354,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "win32")("install.ps1 t3
       expect(await NodeFSP.readFile(shim, "utf8")).toBe(desktopShim);
 
       // A hand-edited wrapper may set its own environment; replacing it would drop that.
-      const edited = `@echo off\r\nset "T3CODE_HOME=D:\\other"\r\n"${NodePath.join(home, "runtime", "versions", "1.0.0", "t3.exe")}" %*`;
+      const edited = `@echo off\r\nset "T0CODE_HOME=D:\\other"\r\n"${NodePath.join(home, "runtime", "versions", "1.0.0", "t3.exe")}" %*`;
       await NodeFSP.writeFile(shim, edited, "utf8");
       const wrapper = await installOver({ script: "install.ps1", home, binDir });
       expect(wrapper.code).not.toBe(0);
@@ -403,7 +403,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "win32")("install.ps1 t3
         env: { [pathKey]: `${binDir}\\;${process.env[pathKey] ?? ""}` },
       });
       expect(slashed.code, slashed.output).toBe(0);
-      expect(slashed.output).toContain("to use T3 Code here");
+      expect(slashed.output).toContain("to use T0 Code here");
       // The same when the install folder itself is given with a trailing separator.
       const bothSlashed = await installOver({
         script: "install.ps1",
@@ -412,7 +412,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "win32")("install.ps1 t3
         env: { [pathKey]: `${binDir}\\;${process.env[pathKey] ?? ""}` },
       });
       expect(bothSlashed.code, bothSlashed.output).toBe(0);
-      expect(bothSlashed.output).toContain("to use T3 Code here");
+      expect(bothSlashed.output).toContain("to use T0 Code here");
     } finally {
       await NodeFSP.rm(root, { recursive: true, force: true });
     }
@@ -495,10 +495,10 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chec
                   env: {
                     ...process.env,
                     PATH: tools,
-                    T3CODE_VERSION: version,
-                    T3CODE_HOME: home,
-                    T3CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
-                    T3CODE_RELEASE_BASE_URL: `http://127.0.0.1:${address.port}`,
+                    T0CODE_VERSION: version,
+                    T0CODE_HOME: home,
+                    T0CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin"),
+                    T0CODE_RELEASE_BASE_URL: `http://127.0.0.1:${address.port}`,
                   },
                   stdio: ["ignore", "pipe", "pipe"],
                 },
@@ -524,7 +524,7 @@ describe.skipIf(HostProcess.Platform.defaultValue() !== "linux")("installer chec
           } else {
             expect(code).not.toBe(0);
             expect(output).toContain("checksum mismatch");
-            expect(output).not.toContain("Installed T3 Code");
+            expect(output).not.toContain("Installed T0 Code");
             expect(await NodeFSP.readdir(versions)).toEqual([]);
           }
         } finally {
@@ -603,10 +603,10 @@ if (process.env.T3_TEST_INSTALLER === 'first') await fetch(process.env.T3_TEST_O
               env: {
                 ...process.env,
                 PATH: `${tools}:${process.env.PATH}`,
-                T3CODE_VERSION: version,
-                T3CODE_HOME: NodePath.join(root, "home"),
-                T3CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin", id),
-                T3CODE_RELEASE_BASE_URL: origin,
+                T0CODE_VERSION: version,
+                T0CODE_HOME: NodePath.join(root, "home"),
+                T0CODE_INSTALL_BIN_DIR: NodePath.join(root, "bin", id),
+                T0CODE_RELEASE_BASE_URL: origin,
                 T3_TEST_ORIGIN: origin,
                 T3_TEST_INSTALLER: id,
               },

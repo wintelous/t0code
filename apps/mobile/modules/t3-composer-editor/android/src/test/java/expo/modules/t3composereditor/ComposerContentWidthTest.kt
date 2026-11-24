@@ -38,7 +38,7 @@ class ComposerContentWidthTest {
   // JS keeps the compact row when the reported width is at most the compact slot's.
   @Test
   fun reportedWidthStillFitsOnOneLine() {
-    editor.setText("I know t3 code exposes a websocket")
+    editor.setText("I know t0 code exposes a websocket")
     val wide = layoutAt(10_000)
     val natural = wide.getLineMax(0)
     assertNotEquals("the draft needs a fractional width", floor(natural), natural)

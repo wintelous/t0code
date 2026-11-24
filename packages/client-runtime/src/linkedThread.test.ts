@@ -314,7 +314,7 @@ describe("connectLinkedEnvironment", () => {
       return Promise.resolve(true);
     });
     try {
-      // oxlint-disable-next-line t3code/no-real-time-wait-in-tests -- Let the already runnable probe continuations finish while the last probe stays pending.
+      // oxlint-disable-next-line t0code/no-real-time-wait-in-tests -- Let the already runnable probe continuations finish while the last probe stays pending.
       const pending = NodeTimersPromises.setImmediate("still waiting for an address");
       expect(await Promise.race([connecting, pending])).toEqual(row.expected);
     } finally {

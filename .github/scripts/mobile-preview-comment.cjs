@@ -1,5 +1,5 @@
 const PROJECT_ID = "d763fcb8-d37c-41ea-a773-b54a0ab4a454";
-const APP_SCHEME = "t3-code";
+const APP_SCHEME = "t0-code";
 
 function readState(body) {
   const match = /^<!-- mobile-preview(?:-(android|ios))? (\{.*\}) -->/.exec(body ?? "");

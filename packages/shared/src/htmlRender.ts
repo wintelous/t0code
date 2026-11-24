@@ -1,6 +1,6 @@
 import {
-  T3_CODE_DARK_THEME_COLORS,
-  T3_CODE_LIGHT_THEME_COLORS,
+  T0_CODE_DARK_THEME_COLORS,
+  T0_CODE_LIGHT_THEME_COLORS,
   type ThemeAppearance,
   type ThemeColors,
 } from "./themePalettes.ts";
@@ -419,8 +419,8 @@ const BOOTSTRAP_SCRIPT = `(function(){var s=document.getElementById("t3-theme"),
 // The tag patterns below stop at the next `<` outside a quoted value, so matching stays linear in
 // the length of the document.
 function bootstrapMarkup(markup: string): string {
-  const dark = htmlRenderTheme(T3_CODE_DARK_THEME_COLORS, "dark");
-  const light = htmlRenderTheme(T3_CODE_LIGHT_THEME_COLORS, "light");
+  const dark = htmlRenderTheme(T0_CODE_DARK_THEME_COLORS, "dark");
+  const light = htmlRenderTheme(T0_CODE_LIGHT_THEME_COLORS, "light");
   const defaultCss = `${rootRule(dark)}@media (prefers-color-scheme: light){${rootRule(light)}}${BASE_CSS}`;
   return [
     /<meta\s[^<>]*charset/i.test(markup.slice(0, 4096)) ? "" : '<meta charset="utf-8">',

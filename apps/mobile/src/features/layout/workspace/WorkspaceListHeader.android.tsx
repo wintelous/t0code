@@ -39,7 +39,7 @@ export function WorkspaceListHeader(props: WorkspaceListHeaderProps) {
     Keyboard.dismiss();
   };
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- subscribes to BackHandler while searching to close search on Android back
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- subscribes to BackHandler while searching to close search on Android back
   useEffect(() => {
     if (!searching || !listFocused) return;
     const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
@@ -60,7 +60,7 @@ export function WorkspaceListHeader(props: WorkspaceListHeaderProps) {
 
   return (
     <AppBar
-      title="T3 Code"
+      title="T0 Code"
       titleContent={
         <WorkspaceBrandTitle
           accessibilityLabel={props.accessibilityLabel}

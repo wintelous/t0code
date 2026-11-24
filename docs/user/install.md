@@ -1,12 +1,12 @@
-# Install T3 Code
+# Install T0 Code
 
-T3 Code runs coding agents on your computer and lets you control them from its
+T0 Code runs coding agents on your computer and lets you control them from its
 desktop, web, or mobile app. Set up the machine where the agents will work first.
 
 ## Requirements
 
 You need an installed, authenticated provider before starting a thread. You can
-launch T3 Code and configure providers afterwards.
+launch T0 Code and configure providers afterwards.
 
 ## Command line
 
@@ -25,8 +25,8 @@ This installs the `t3` command to `~/.local/bin`. If that folder is not on your
 a command to add it. On Windows, `t3` works in the same PowerShell window right
 away; add the folder to your `PATH` for new windows. If a `t3` that the
 installer or the desktop app did not create is already there, it leaves that
-one alone and stops. Set `T3CODE_CHANNEL=nightly` to install the nightly train, or
-`T3CODE_VERSION` to pin an exact version.
+one alone and stops. Set `T0CODE_CHANNEL=nightly` to install the nightly train, or
+`T0CODE_VERSION` to pin an exact version.
 
 | Task                                  | Command                                                                 |
 | ------------------------------------- | ----------------------------------------------------------------------- |
@@ -47,7 +47,7 @@ command it names and open the pairing URL to connect to that server. Stop it
 before starting a replacement, or use a different `--base-dir` for an
 independent server.
 
-To try T3 Code once without installing it, run `npx t3@latest` instead (needs
+To try T0 Code once without installing it, run `npx t3@latest` instead (needs
 Node.js for `npx`). It offers to install the `t3` command first. If you say no,
 it asks again at the next minor release, and `npx t3 install` installs it later.
 `npx t3` always runs the version npm picked, even when a `t3` is installed. On
@@ -61,8 +61,8 @@ run a server there, build it from source with `vp`, which provides the Node vers
 ([Install vp](../operations/00_development.md#first-checkout)):
 
 ```bash
-git clone https://github.com/pingdotgg/t3code
-cd t3code && vp i && vp run build:desktop
+git clone https://github.com/wintelous/t0code
+cd t0code && vp i && vp run build:desktop
 node apps/server/dist/bin.mjs
 ```
 
@@ -71,18 +71,18 @@ update it with `git pull` and a rebuild.
 
 ## Desktop app
 
-Download a release from [GitHub Releases](https://github.com/pingdotgg/t3code/releases),
+Download a release from [GitHub Releases](https://github.com/wintelous/t0code/releases),
 or use a package manager:
 
 | Platform           | Install                                                      |
 | ------------------ | ------------------------------------------------------------ |
-| Windows            | `winget install T3Tools.T3Code`                              |
-| Windows (Scoop)    | `scoop install extras/t3code`                                |
-| macOS              | `brew install --cask t3-code`                                |
-| Debian, Ubuntu     | `sudo apt install ./T3-Code-*.deb`                           |
-| Arch Linux         | `yay -S t3code-bin`                                          |
-| Arch Linux nightly | `yay -S t3code-nightly-bin`                                  |
-| Nix                | `nix profile add github:NixOS/nixpkgs/nixos-unstable#t3code` |
+| Windows            | `winget install T3Tools.T0Code`                              |
+| Windows (Scoop)    | `scoop install extras/t0code`                                |
+| macOS              | `brew install --cask t0-code`                                |
+| Debian, Ubuntu     | `sudo apt install ./T0-Code-*.deb`                           |
+| Arch Linux         | `yay -S t0code-bin`                                          |
+| Arch Linux nightly | `yay -S t0code-nightly-bin`                                  |
+| Nix                | `nix profile add github:NixOS/nixpkgs/nixos-unstable#t0code` |
 
 ### Linux
 
@@ -92,11 +92,11 @@ architecture with `uname -m`: for `x86_64`, choose a file ending in
 `arm64.deb`.
 
 To launch an AppImage, open a terminal in its download folder. Replace
-`T3-Code.AppImage` below with the exact filename you downloaded:
+`T0-Code.AppImage` below with the exact filename you downloaded:
 
 ```bash
-chmod +x ./T3-Code.AppImage
-./T3-Code.AppImage
+chmod +x ./T0-Code.AppImage
+./T0-Code.AppImage
 ```
 
 The `.deb` updates itself like the other desktop builds. It asks for your
@@ -109,22 +109,22 @@ in-app updater.
 
 ### Nix (nixpkgs)
 
-T3 Code is maintained in [nixpkgs](https://github.com/NixOS/nixpkgs/tree/nixos-unstable/pkgs/by-name/t3/t3code).
+T0 Code is maintained in [nixpkgs](https://github.com/NixOS/nixpkgs/tree/nixos-unstable/pkgs/by-name/t3/t0code).
 The command above installs from `nixos-unstable` and requires Nix 2.30 or later with
-`nix-command` and `flakes` enabled. Launch the desktop app with `t3code-desktop`;
+`nix-command` and `flakes` enabled. Launch the desktop app with `t0code-desktop`;
 the package also includes the `t3` command.
 
 On NixOS, you can instead add the package to your system configuration, using
-a nixpkgs revision that includes `t3code`:
+a nixpkgs revision that includes `t0code`:
 
 ```nix
-environment.systemPackages = [ pkgs.t3code ];
+environment.systemPackages = [ pkgs.t0code ];
 ```
 
 Apply the change with `sudo nixos-rebuild switch`. For Home Manager, add
-`pkgs.t3code` to `home.packages` and run `home-manager switch`.
+`pkgs.t0code` to `home.packages` and run `home-manager switch`.
 
-Update a profile installation with `nix profile upgrade t3code`. For NixOS or
+Update a profile installation with `nix profile upgrade t0code`. For NixOS or
 Home Manager, update your configuration's nixpkgs input or channel and rebuild.
 Nix manages both the desktop app and the bundled
 `t3` command; use Nix to update them instead of the in-app updater or `t3 update`.
@@ -143,7 +143,7 @@ add it again. If you already have another `t3`, it stays as it is.
 ### Windows Subsystem for Linux
 
 Choose a WSL distro in **Settings → Sharing & access** to run agents and projects
-there. Install the provider CLIs inside that distro. T3 Code installs its own
+there. Install the provider CLIs inside that distro. T0 Code installs its own
 server runtime there automatically; the first launch after an app update can
 take longer.
 
@@ -169,18 +169,18 @@ folder paths, so in the web app use **Add project** instead.
 
 ## Mobile app
 
-Install T3 Code from the
+Install T0 Code from the
 [App Store](https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824) or
 [Google Play](https://play.google.com/store/apps/details?id=com.t3tools.t3code).
 The phone connects to a server on another machine. Follow
-[remote access](./remote-access.md) to link it through T3 Connect or a pairing URL.
+[remote access](./remote-access.md) to link it through T0 Connect or a pairing URL.
 
 Store links and QR codes are also available in **Settings → About → Mobile app**
 on web and desktop. The store apps work with both stable and Nightly servers. Test builds are optional:
 
 - **iPhone and iPad:** TestFlight is invite-only.
 - **Android:** download an APK from the
-  [Android beta releases](https://github.com/pingdotgg/t3code/releases?q=android-beta-).
+  [Android beta releases](https://github.com/wintelous/t0code/releases?q=android-beta-).
 
 If the app crashes during launch, open Settings → Diagnostics on the next launch
 that succeeds. It lists startup crashes from the last 7 days with the error and
@@ -203,19 +203,19 @@ computer.
 | Grok Build          | Install [Grok Build CLI](https://x.ai/cli), then run `grok login`.                                                                                        |
 | Kiro                | Install [Kiro CLI](https://kiro.dev/docs/cli/), then run `kiro-cli login`.                                                                                |
 | OpenCode            | Install [OpenCode](https://opencode.ai), then run `opencode auth login`.                                                                                  |
-| Antigravity         | Install and sign in with Google from T3 Code's provider settings.                                                                                         |
+| Antigravity         | Install and sign in with Google from T0 Code's provider settings.                                                                                         |
 | Pi                  | Install [Pi](./providers-pi.md#set-up-pi) with Node.js 22.19 or newer, then run `pi` and `/login`.                                                        |
 | Muse Code           | Install [Muse Code](https://dev.meta.ai/docs/muse-code) on the server, run `muse login`, then enable it in Settings → Providers.                          |
 | fx                  | Install [fx](https://fx.sh) with `curl -fsSL https://fx.sh/setup.sh \| bash`, then run `fx login`.                                                        |
 | ACP Registry agents | Add GitHub Copilot and other [ACP agents](./providers-acp.md#add-an-agent) from **Settings → Providers → Add provider → Show more**.                      |
 
-Provider CLIs must be on the server's `PATH`. If T3 Code cannot find one, set its
+Provider CLIs must be on the server's `PATH`. If T0 Code cannot find one, set its
 **Binary path** in provider settings, especially when using a version manager.
 Cursor's executable is `cursor-agent`, although its login command is
 `agent login`. Codex connected through ChatGPT and Antigravity can use their
 managed runtimes without a `PATH` entry.
 
-T3 Code warns when a provider version has known compatibility problems with your
+T0 Code warns when a provider version has known compatibility problems with your
 release. Check **Settings → Providers** on that environment for the recommended
 version or range. When its package manager supports installing a specific version,
 you can install the recommendation there. Otherwise use the provider's installer
@@ -224,24 +224,24 @@ on the environment's machine. An unlisted version is unverified.
 When a provider CLI is behind its latest release, its provider card shows the
 available version. **Update now** runs the installer that owns the CLI
 (Homebrew, mise, or a global npm, pnpm, Yarn, Bun, Volta, or Vite+ install), or
-the CLI's own update command when T3 Code cannot tell. Claude, Codex, and
-OpenCode installs T3 Code cannot identify stay manual: update them through the
-installer you used. T3 Code runs `mise upgrade`
+the CLI's own update command when T0 Code cannot tell. Claude, Codex, and
+OpenCode installs T0 Code cannot identify stay manual: update them through the
+installer you used. T0 Code runs `mise upgrade`
 only for a tool your mise config requests as `latest` when the provider's binary
 path is a mise shim or under the tool's `installs/<tool>/latest` link; update a
 pinned version, or a path into one version's directory, through mise yourself.
 Update a CLI installed with Nix through Nix.
-Cursor and Antigravity update with T3 Code. Homebrew and Chocolatey installs
+Cursor and Antigravity update with T0 Code. Homebrew and Chocolatey installs
 compare against the version their package manager offers, which can trail the
 npm release; update Claude installed with Chocolatey through Chocolatey.
 
 The managed runtimes for Antigravity and for Codex connected through ChatGPT
-first install the release T3 Code tested. When T3 Code finds a newer compatible
+first install the release T0 Code tested. When T0 Code finds a newer compatible
 release, their setup in **Settings → Providers** offers an update.
 
 Add another provider instance for a separate account or configuration. Each
 instance can have its own environment variables, such as API keys or a custom
-base URL. Mark secret values as sensitive; after saving, T3 Code does not display
+base URL. Mark secret values as sensitive; after saving, T0 Code does not display
 their original values.
 
 For provider-specific setup and accounts, see [Codex](./providers-codex.md),
@@ -252,18 +252,18 @@ For provider-specific setup and accounts, see [Codex](./providers-codex.md),
 
 ### Provider check timeouts
 
-If a provider works in its CLI but T3 Code reports a timeout while checking it,
+If a provider works in its CLI but T0 Code reports a timeout while checking it,
 allow more time in the T3 server's environment. For example, give Codex and
 Claude readiness checks 60 seconds:
 
 ```bash
-T3CODE_CODEX_PROBE_TIMEOUT_MS=60000 T3CODE_CLAUDE_PROBE_TIMEOUT_MS=60000 t3 serve
+T0CODE_CODEX_PROBE_TIMEOUT_MS=60000 T0CODE_CLAUDE_PROBE_TIMEOUT_MS=60000 t3 serve
 ```
 
 For a remote environment, set these on the machine running the T3 server.
 Keep them in your launcher or service configuration to retain them across
 updates, then restart the server. For systemd, add
-`Environment=T3CODE_CODEX_PROBE_TIMEOUT_MS=60000` under `[Service]` in a service
+`Environment=T0CODE_CODEX_PROBE_TIMEOUT_MS=60000` under `[Service]` in a service
 override, reload systemd, and restart the service. Provider instances can also
 set their own overrides in Settings → Providers.
 
@@ -274,17 +274,17 @@ greater than 2147483647; unset or invalid values keep the defaults.
 
 | Provider            | Environment variable                   |
 | ------------------- | -------------------------------------- |
-| Codex               | `T3CODE_CODEX_PROBE_TIMEOUT_MS`        |
-| Claude              | `T3CODE_CLAUDE_PROBE_TIMEOUT_MS`       |
-| Cursor              | `T3CODE_CURSOR_PROBE_TIMEOUT_MS`       |
-| Antigravity         | `T3CODE_ANTIGRAVITY_PROBE_TIMEOUT_MS`  |
-| Grok                | `T3CODE_GROK_PROBE_TIMEOUT_MS`         |
-| Kiro                | `T3CODE_KIRO_PROBE_TIMEOUT_MS`         |
-| fx                  | `T3CODE_FX_PROBE_TIMEOUT_MS`           |
-| Pi                  | `T3CODE_PI_PROBE_TIMEOUT_MS`           |
-| Muse Code           | `T3CODE_MUSE_PROBE_TIMEOUT_MS`         |
-| OpenCode            | `T3CODE_OPENCODE_PROBE_TIMEOUT_MS`     |
-| ACP Registry agents | `T3CODE_ACP_REGISTRY_PROBE_TIMEOUT_MS` |
+| Codex               | `T0CODE_CODEX_PROBE_TIMEOUT_MS`        |
+| Claude              | `T0CODE_CLAUDE_PROBE_TIMEOUT_MS`       |
+| Cursor              | `T0CODE_CURSOR_PROBE_TIMEOUT_MS`       |
+| Antigravity         | `T0CODE_ANTIGRAVITY_PROBE_TIMEOUT_MS`  |
+| Grok                | `T0CODE_GROK_PROBE_TIMEOUT_MS`         |
+| Kiro                | `T0CODE_KIRO_PROBE_TIMEOUT_MS`         |
+| fx                  | `T0CODE_FX_PROBE_TIMEOUT_MS`           |
+| Pi                  | `T0CODE_PI_PROBE_TIMEOUT_MS`           |
+| Muse Code           | `T0CODE_MUSE_PROBE_TIMEOUT_MS`         |
+| OpenCode            | `T0CODE_OPENCODE_PROBE_TIMEOUT_MS`     |
+| ACP Registry agents | `T0CODE_ACP_REGISTRY_PROBE_TIMEOUT_MS` |
 
 Longer deadlines also take longer to report a stalled check. These overrides
 cover readiness and discovery, including OpenCode server startup. Usage and
@@ -297,5 +297,5 @@ installation, update checks, and shutdown limits keep their existing behavior.
 - [Permission modes](./permission-modes.md): choose when agents ask before acting.
 - [Remote access](./remote-access.md): connect from another device.
 - [Running in the background](./background-service.md): keep a host available.
-- [Updating T3 Code](./updating.md): update the app and connected servers.
-- [Managed policy](./managed-policy.md): configure T3 Code for everyone on a machine.
+- [Updating T0 Code](./updating.md): update the app and connected servers.
+- [Managed policy](./managed-policy.md): configure T0 Code for everyone on a machine.

@@ -1,6 +1,6 @@
 ---
 name: contribution-triage
-description: Enforce T3 Code's PR contribution policy by closing ineligible submissions and triggering Macroscope review for eligible work within authorized scope. Supports explicit dry runs. Use for contribution moderation, not installation diagnostics or a full code review.
+description: Enforce T0 Code's PR contribution policy by closing ineligible submissions and triggering Macroscope review for eligible work within authorized scope. Supports explicit dry runs. Use for contribution moderation, not installation diagnostics or a full code review.
 ---
 
 # Contribution triage
@@ -38,7 +38,7 @@ This skill does not authorize merging, changing service settings, or creating sc
 
 ## Load trusted policy and submission evidence
 
-For every live run, freshly resolve `refs/heads/main` in the trusted upstream `pingdotgg/t3code`
+For every live run, freshly resolve `refs/heads/main` in the trusted upstream `wintelous/t0code`
 repository to a commit SHA. Use read-only GitHub tools or `gh` to load this skill, `CONTRIBUTING.md`,
 the documentation rules in `AGENTS.md`, [.github/TRIAGE_EXEMPTIONS.td](../../../.github/TRIAGE_EXEMPTIONS.td),
 [.github/VOUCHED.td](../../../.github/VOUCHED.td), and any other policy dependencies from that same SHA;
@@ -125,7 +125,7 @@ comment text but do not write to GitHub. Keep the eligibility finding separate f
 - **Closure warranted.** The assessment is complete and establishes a specific policy violation.
   Prepare a clear explanation under [closure and reconsideration](../../../CONTRIBUTING.md#closure-and-reconsideration),
   post it, then read the repository variable `PR_LIMITS_ENFORCE`
-  (`gh variable get PR_LIMITS_ENFORCE -R pingdotgg/t3code`). When it prints `true`, apply
+  (`gh variable get PR_LIMITS_ENFORCE -R wintelous/t0code`). When it prints `true`, apply
   `triage:closing` as the last thing you do to the PR, verify that the explanation and the label
   are present, and do not close the PR yourself:
   [pr-limits.yml](../../../.github/workflows/pr-limits.yml) closes it 72 hours after the label. Any

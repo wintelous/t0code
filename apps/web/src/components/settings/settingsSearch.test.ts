@@ -160,7 +160,7 @@ describe("searchSettings", () => {
       "review-guide-model",
       "review-guide-instructions",
       "source-control-writing-style",
-      "t3-connect",
+      "t0-connect",
       "hold-webhooks-while-offline",
       "tailscale-https",
       "wsl-backend",

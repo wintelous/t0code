@@ -62,7 +62,7 @@ export function BrowserChrome(props: {
   const duo = isDuoDevice(useDeviceType());
   const hidesStatusBar = !props.inPane && duo;
   const navigation = useNavigation();
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- the status bar is a native screen option
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- the status bar is a native screen option
   useEffect(() => {
     if (!hidesStatusBar) return;
     navigation.setOptions({ statusBarHidden: compact, statusBarAnimation: "fade" });

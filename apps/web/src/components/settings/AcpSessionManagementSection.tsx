@@ -121,7 +121,7 @@ function InstanceSessionManagement(
   const { projectId } = props;
   const projectGeneration = useRef(0);
   const deletionsDuringList = useRef<Set<string> | null>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Late continuations must not act on a replaced project scope.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Late continuations must not act on a replaced project scope.
   useLayoutEffect(() => {
     return () => {
       projectGeneration.current += 1;

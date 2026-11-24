@@ -67,7 +67,7 @@ const withEnvironmentThemes = <A, E>(
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
-    const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-environment-theme-" });
+    const baseDir = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-environment-theme-" });
     const themesDir = path.join(baseDir, "userdata", "themes");
     yield* fs.makeDirectory(themesDir, { recursive: true });
     for (const [filename, contents] of Object.entries(seeds)) {
@@ -214,7 +214,7 @@ describe("environment theme", () => {
           const { environmentThemesDir } = yield* ServerConfig.ServerConfig;
           const fs = yield* FileSystem.FileSystem;
           const path = yield* Path.Path;
-          const outside = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-linked-themes-" });
+          const outside = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-linked-themes-" });
           const targetParent = path.join(outside, "active-parent");
           const target = path.join(targetParent, "active");
           const restored = path.join(outside, "restored");
@@ -305,7 +305,7 @@ describe("environment theme", () => {
           const { environmentThemesDir } = yield* ServerConfig.ServerConfig;
           const fs = yield* FileSystem.FileSystem;
           const path = yield* Path.Path;
-          const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-linked-themes-" });
+          const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-linked-themes-" });
           const active = path.join(fixture, "active");
           const restored = path.join(fixture, "restored");
           const target = path.join(active, "shared", "themes");
@@ -367,7 +367,7 @@ describe("environment theme", () => {
             const { environmentThemesDir } = yield* ServerConfig.ServerConfig;
             const fs = yield* FileSystem.FileSystem;
             const path = yield* Path.Path;
-            const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-linked-themes-" });
+            const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-linked-themes-" });
             const active = path.join(fixture, "active");
             const previous = path.join(fixture, "previous");
             const target = path.join(active, "shared", "themes");
@@ -444,7 +444,7 @@ describe("environment theme", () => {
             const { environmentThemesDir } = yield* ServerConfig.ServerConfig;
             const fs = yield* FileSystem.FileSystem;
             const path = yield* Path.Path;
-            const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t3code-linked-themes-" });
+            const fixture = yield* fs.makeTempDirectoryScoped({ prefix: "t0code-linked-themes-" });
             const active = path.join(fixture, "active");
             const previous = path.join(fixture, "previous");
             const target = path.join(active, "shared", "themes");
@@ -649,7 +649,7 @@ describe("environment theme", () => {
       Effect.gen(function* () {
         const themes = yield* EnvironmentTheme.EnvironmentThemeService;
         yield* themes.apply({ themeId: "agent-look", theme: NIGHTFALL_THEME });
-        yield* themes.apply({ themeId: "t3-code" });
+        yield* themes.apply({ themeId: "t0-code" });
         assert.deepEqual(selected, [{ theme: "agent-look" }, { theme: "" }]);
       }),
       { selected },

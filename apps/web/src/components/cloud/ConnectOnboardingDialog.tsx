@@ -37,9 +37,9 @@ import {
   useEnvironmentScope,
 } from "~/state/session";
 import {
-  type T3ConnectAccountPageUrl,
-  useT3ConnectAccountPage,
-} from "../clerk/T3ConnectAccountPages";
+  type T0ConnectAccountPageUrl,
+  useT0ConnectAccountPage,
+} from "../clerk/T0ConnectAccountPages";
 import { CloudEnvironmentConnectRows } from "./CloudEnvironmentConnectList";
 import { TunnelLimitAlert } from "./TunnelUsage";
 import { Button } from "../ui/button";
@@ -104,7 +104,7 @@ function ConfiguredConnectOnboardingDialog() {
     primaryEnvironmentId === null ? environmentsReady : primarySessionState._tag !== "Initial";
 
   const controller = useCloudLinkController(primaryEnvironmentId);
-  const accountPage = useT3ConnectAccountPage();
+  const accountPage = useT0ConnectAccountPage();
   const showPublishStep = canManageRelay && controller.linkState.target !== null;
   const steps: ReadonlyArray<OnboardingStep> = showPublishStep
     ? ["publish", "devices"]
@@ -225,9 +225,9 @@ function ConfiguredConnectOnboardingDialog() {
     if (!ok) return;
     toastManager.add({
       type: "success",
-      title: gt("T3 Connect enabled"),
+      title: gt("T0 Connect enabled"),
       description: exposeEnvironment
-        ? gt("This environment is available to your other devices through T3 Connect.")
+        ? gt("This environment is available to your other devices through T0 Connect.")
         : gt("This environment publishes agent activity to your mobile clients."),
     });
     setStep("devices");
@@ -236,7 +236,7 @@ function ConfiguredConnectOnboardingDialog() {
   const openAccountPage = accountPage.open;
   // The account page is a Clerk modal, so close this dialog before it opens.
   const leaveForAccountPage = openAccountPage
-    ? (page: T3ConnectAccountPageUrl) => {
+    ? (page: T0ConnectAccountPageUrl) => {
         complete();
         openAccountPage(page);
       }
@@ -251,7 +251,7 @@ function ConfiguredConnectOnboardingDialog() {
     >
       <WizardPopup>
         <WizardHeader
-          title={gt("Set up T3 Connect")}
+          title={gt("Set up T0 Connect")}
           description={
             <T>
               Mesh your devices together. Publish this environment and connect the rest, all in one
@@ -360,7 +360,7 @@ function PublishStep({
   readonly disabled: boolean;
   readonly operationError: string | null;
   readonly tunnelLimit: number | null;
-  readonly onOpenAccountPage: ((page: T3ConnectAccountPageUrl) => void) | null;
+  readonly onOpenAccountPage: ((page: T0ConnectAccountPageUrl) => void) | null;
   readonly onExposeEnvironmentChange: (enabled: boolean) => void;
   readonly onPublishAgentActivityChange: (enabled: boolean) => void;
 }) {
@@ -371,7 +371,7 @@ function PublishStep({
         <OnboardingToggleRow
           title={gt("Publish this environment")}
           description={gt(
-            "Make this environment available to your other devices through T3 Connect.",
+            "Make this environment available to your other devices through T0 Connect.",
           )}
           checked={exposeEnvironment}
           disabled={disabled}
@@ -390,7 +390,7 @@ function PublishStep({
           <OnboardingToggleRow
             title={gt("Require approval for new devices")}
             description={gt(
-              "Devices that sign in to your T3 Connect account wait until someone already connected here approves them.",
+              "Devices that sign in to your T0 Connect account wait until someone already connected here approves them.",
             )}
             checked={requireDeviceApproval}
             disabled={disabled || requireDeviceApprovalLocked}
@@ -409,14 +409,14 @@ function PublishStep({
 function OnboardingTunnelLimitAlert({
   onOpenAccountPage,
 }: {
-  readonly onOpenAccountPage: ((page: T3ConnectAccountPageUrl) => void) | null;
+  readonly onOpenAccountPage: ((page: T0ConnectAccountPageUrl) => void) | null;
 }) {
   const { upgrade } = useManagedTunnelUsage();
   return (
     <TunnelLimitAlert
       upgrade={upgrade}
       onLinkT3Chat={onOpenAccountPage ? () => onOpenAccountPage("t3-chat") : null}
-      onManageTunnels={onOpenAccountPage ? () => onOpenAccountPage("t3-connect") : null}
+      onManageTunnels={onOpenAccountPage ? () => onOpenAccountPage("t0-connect") : null}
     />
   );
 }

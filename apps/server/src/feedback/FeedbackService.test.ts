@@ -78,7 +78,7 @@ const turnItems = [
   item(5, { type: "assistant_message", text: "Done in /srv/checkouts/acme-app-7." }),
   item(6, {
     type: "dynamic_tool",
-    toolName: "mcp__t3-code__t3_thread_read",
+    toolName: "mcp__t0-code__t3_thread_read",
     status: "failed",
     startedAt: at(0),
     completedAt: at(1_500),
@@ -100,12 +100,12 @@ const turnItems = [
       item(turn, { type: "assistant_message", text: "z".repeat(2_000) }),
     ),
   ),
-  item(6, { type: "dynamic_tool", toolName: "t3-code.t3_thread_read", status: "running" }),
-  item(5, { type: "dynamic_tool", toolName: "mcp__t3-code__t3_feedback", status: "running" }),
-  item(6, { type: "dynamic_tool", toolName: "mcp__t3-code__t3_feedback", status: "failed" }),
+  item(6, { type: "dynamic_tool", toolName: "t0-code.t3_thread_read", status: "running" }),
+  item(5, { type: "dynamic_tool", toolName: "mcp__t0-code__t3_feedback", status: "running" }),
+  item(6, { type: "dynamic_tool", toolName: "mcp__t0-code__t3_feedback", status: "failed" }),
   // The call making the card in the active run, as Claude names it and as OpenCode 2 does.
-  item(6, { type: "dynamic_tool", toolName: "mcp__t3-code__t3_feedback", status: "running" }),
-  item(6, { type: "dynamic_tool", toolName: "t3-code-thread_1_t3_feedback", status: "running" }),
+  item(6, { type: "dynamic_tool", toolName: "mcp__t0-code__t3_feedback", status: "running" }),
+  item(6, { type: "dynamic_tool", toolName: "t0-code-thread_1_t3_feedback", status: "running" }),
 ];
 
 it("says so when the report asks for more turns than a trace can hold", () => {
@@ -424,7 +424,7 @@ it.effect("scrubs the caller's private values and sends only the event contract"
         cards,
         {
           kind: "other",
-          subject: "mcp__t3-code__t3_thread_read",
+          subject: "mcp__t0-code__t3_thread_read",
           expected: `Reading /srv/checkouts/acme-app-7 on acme/secret-launch as ${NodeOS.userInfo().username}`,
           actual:
             "git@github.com:acme/payments.git in Acme Payments with sk-proj-abcdefghij1234567890",
@@ -485,11 +485,11 @@ it.effect("scrubs the caller's private values and sends only the event contract"
           source: "cli",
         },
       ]);
-      yield* feedback.submit({ ...input, subject: "mcp__t3_code__t3_thread_read" }, fromThread);
+      yield* feedback.submit({ ...input, subject: "mcp__t0_code__t3_thread_read" }, fromThread);
       // Codex's second server, for T3 tools kept out of Code Mode, in both of its forms.
       for (const subject of [
-        "t3-code-direct.t3_thread_read",
-        "mcp__t3-code-direct__t3_thread_read",
+        "t0-code-direct.t3_thread_read",
+        "mcp__t0-code-direct__t3_thread_read",
       ])
         yield* feedback.submit({ ...input, subject }, { source: "cli" });
       expect(

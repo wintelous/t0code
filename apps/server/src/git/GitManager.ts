@@ -353,7 +353,7 @@ function resolveHeadRepositoryNameWithOwner(pullRequest: PullRequestHeadRemoteIn
 
 // Both names `resolvePullRequestWorktreeLocalBranchName` gives a fork pull request's branch.
 function isPullRequestWorktreeLocalBranchName(branch: string): boolean {
-  return /^t3code[/-]pr-\d+[/-]/u.test(branch);
+  return /^t0code[/-]pr-\d+[/-]/u.test(branch);
 }
 
 function resolvePullRequestWorktreeLocalBranchName(
@@ -366,18 +366,18 @@ function resolvePullRequestWorktreeLocalBranchName(
 
   const sanitizedHeadBranch = sanitizeBranchFragment(pullRequest.headBranch).trim();
   const suffix = sanitizedHeadBranch.length > 0 ? sanitizedHeadBranch : "head";
-  // Git cannot create a ref whose path is a parent or child of an existing one (`t3code` blocks `t3code/...`).
+  // Git cannot create a ref whose path is a parent or child of an existing one (`t0code` blocks `t0code/...`).
   const isCreatable = (name: string) =>
     !name
       .split("/")
       .slice(0, -1)
       .some((_, index, segments) => localBranches.has(segments.slice(0, index + 1).join("/"))) &&
     ![...localBranches].some((branch) => branch.startsWith(`${name}/`));
-  const preferred = `t3code/pr-${pullRequest.number}/${suffix}`;
+  const preferred = `t0code/pr-${pullRequest.number}/${suffix}`;
   if (isCreatable(preferred)) {
     return preferred;
   }
-  const flat = `t3code-pr-${pullRequest.number}-${suffix.replaceAll("/", "-")}`;
+  const flat = `t0code-pr-${pullRequest.number}-${suffix.replaceAll("/", "-")}`;
   for (let attempt = 1; ; attempt++) {
     const candidate = attempt === 1 ? flat : `${flat}-${attempt}`;
     if (isCreatable(candidate)) {
@@ -2815,7 +2815,7 @@ export const make = Effect.gen(function* () {
     });
     const bodyFile = path.join(
       tempDir,
-      `t3code-pr-body-${process.pid}-${yield* randomUUIDv4(cwd)}.md`,
+      `t0code-pr-body-${process.pid}-${yield* randomUUIDv4(cwd)}.md`,
     );
     yield* fileSystem.writeFileString(bodyFile, generated.body).pipe(
       Effect.mapError(
@@ -3023,7 +3023,7 @@ export const make = Effect.gen(function* () {
     }
     const bodyFile = path.join(
       tempDir,
-      `t3code-pr-body-${process.pid}-${yield* randomUUIDv4(cwd)}.md`,
+      `t0code-pr-body-${process.pid}-${yield* randomUUIDv4(cwd)}.md`,
     );
     yield* fileSystem
       .writeFileString(bodyFile, input.body)

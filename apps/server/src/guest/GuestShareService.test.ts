@@ -309,7 +309,7 @@ it.effect("redeems only a short invite whose signature and share id are both cur
   }).pipe(Effect.provide(layerTest)),
 );
 
-it.effect("refuses guest requests once T3 Connect no longer serves the link's host", () =>
+it.effect("refuses guest requests once T0 Connect no longer serves the link's host", () =>
   Effect.gen(function* () {
     const { guestShares, credential } = yield* shareThread;
     const { token: session } = yield* guestShares.redeem({ credential, name: "Sam" });
@@ -324,7 +324,7 @@ it.effect("refuses guest requests once T3 Connect no longer serves the link's ho
   }).pipe(Effect.provide(layerTest)),
 );
 
-it.effect("closes an open guest stream when T3 Connect stops serving the link's host", () =>
+it.effect("closes an open guest stream when T0 Connect stops serving the link's host", () =>
   Effect.gen(function* () {
     const { guestShares, credential } = yield* shareThread;
     const { token: session } = yield* guestShares.redeem({ credential, name: "Sam" });
@@ -610,7 +610,7 @@ it.effect("gives a fork's guest the commands the fork shows from its source thre
     const render = yield* writeItem("item:render", {
       type: "dynamic_tool",
       status: "completed",
-      toolName: "mcp__t3-code__html_render",
+      toolName: "mcp__t0-code__html_render",
       input: {},
       output: [
         {

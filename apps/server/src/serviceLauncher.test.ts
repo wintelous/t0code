@@ -146,7 +146,7 @@ const unitPlan = (root: string, version: string) => ({
   program: [`${root}/runtime/versions/${version}/t3`, "__service-launcher"],
   baseDir: root,
   logPath: `${root}/logs/boot-service.log`,
-  unitPath: `${root}/unit/t3code.service`,
+  unitPath: `${root}/unit/t0code.service`,
 });
 
 const writeFakeRuntime = (
@@ -168,7 +168,7 @@ const writeFakeRuntime = (
   });
 
 const runLauncher = async (root: string) => {
-  vi.stubEnv("T3CODE_HOME", root);
+  vi.stubEnv("T0CODE_HOME", root);
   try {
     await main();
   } finally {
@@ -418,10 +418,10 @@ setInterval(() => {}, 1_000);
         const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-service-env-" });
         const inherited = Object.freeze({
           PATH: "inherited-path",
-          T3CODE_HOME: root,
+          T0CODE_HOME: root,
           T3_BOOT_SERVICE_UNIT: "managed-unit",
           T3_SERVICE_LAUNCHER_CONTEXT: "managed-context",
-          T3CODE_PORT: "ambient",
+          T0CODE_PORT: "ambient",
         });
         assert.deepEqual(
           yield* Effect.promise(() => readServiceEnvironment(root, inherited)),
@@ -431,14 +431,14 @@ setInterval(() => {}, 1_000);
           path.join(root, SERVICE_ENV_FILE),
           [
             "# service configuration",
-            "export T3CODE_PORT=1234 # inline comment",
-            'T3CODE_TOKEN="literal $HOME ${USER} $(whoami) # token"',
+            "export T0CODE_PORT=1234 # inline comment",
+            'T0CODE_TOKEN="literal $HOME ${USER} $(whoami) # token"',
             'MULTILINE="first\nsecond"',
             "EMPTY=",
             "PATH=/bad",
             "Path=/bad",
-            "T3CODE_HOME=/bad",
-            "t3code_home=/bad",
+            "T0CODE_HOME=/bad",
+            "t0code_home=/bad",
             "T3_BOOT_SERVICE_UNIT=bad",
             "t3_boot_service_unit=bad",
             "T3_SERVICE_LAUNCHER_CONTEXT=bad",
@@ -447,8 +447,8 @@ setInterval(() => {}, 1_000);
         );
         assert.deepEqual(yield* Effect.promise(() => readServiceEnvironment(root, inherited)), {
           ...inherited,
-          T3CODE_PORT: "1234",
-          T3CODE_TOKEN: "literal $HOME ${USER} $(whoami) # token",
+          T0CODE_PORT: "1234",
+          T0CODE_TOKEN: "literal $HOME ${USER} $(whoami) # token",
           MULTILINE: "first\nsecond",
           EMPTY: "",
         });
@@ -460,7 +460,7 @@ setInterval(() => {}, 1_000);
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-service-launcher-task-" });
-      const unitPath = path.join(root, "t3code-task.xml");
+      const unitPath = path.join(root, "t0code-task.xml");
       const unit = renderBootServiceTask(unitPlan(root, "1.1.0"), {
         userId: "PC\\theo",
         homeDir: "C:\\Users\\theo",
@@ -474,12 +474,12 @@ setInterval(() => {}, 1_000);
         return { stdout: task };
       };
 
-      yield* Effect.promise(() => registerServiceTask(unitPath, "t3code-PC-theo", schtasks));
+      yield* Effect.promise(() => registerServiceTask(unitPath, "t0code-PC-theo", schtasks));
       assert.equal(task, disabledServiceTask(unit));
-      assert.deepEqual(yield* fs.readDirectory(root), ["t3code-task.xml"]);
+      assert.deepEqual(yield* fs.readDirectory(root), ["t0code-task.xml"]);
 
       task = unit.replace("1.1.0", "1.0.0");
-      yield* Effect.promise(() => registerServiceTask(unitPath, "t3code-PC-theo", schtasks));
+      yield* Effect.promise(() => registerServiceTask(unitPath, "t0code-PC-theo", schtasks));
       assert.equal(task, unit);
     }),
   );
@@ -490,7 +490,7 @@ setInterval(() => {}, 1_000);
       const path = yield* Path.Path;
       const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-service-launcher-unit-" });
       const home = path.join(root, "home");
-      const unitPath = path.join(home, "Library", "LaunchAgents", "t3code.plist");
+      const unitPath = path.join(home, "Library", "LaunchAgents", "t0code.plist");
       const render = (version: string) =>
         renderBootServicePlist(unitPlan(root, version), { homeDir: home, environmentPath: "" });
       yield* fs.makeDirectory(path.dirname(unitPath), { recursive: true });
@@ -516,7 +516,7 @@ setInterval(() => {}, 1_000);
         }),
       );
       vi.stubEnv("HOME", home);
-      vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t3code.plist");
+      vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t0code.plist");
 
       yield* Effect.promise(() =>
         expect(runLauncher(root)).rejects.toThrow("Active child exited unexpectedly (0)."),
@@ -535,7 +535,7 @@ setInterval(() => {}, 1_000);
         const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-service-launcher-xdg-" });
         const home = path.join(root, "home");
         const managerUnitDir = path.join(home, ".config", "systemd", "user");
-        const unitPath = path.join(managerUnitDir, "t3code.service");
+        const unitPath = path.join(managerUnitDir, "t0code.service");
         const render = (version: string) =>
           renderBootServiceUnit({ ...unitPlan(root, version), unitPath });
         yield* fs.makeDirectory(managerUnitDir, { recursive: true });
@@ -579,7 +579,7 @@ setInterval(() => {}, 1_000);
         vi.stubEnv("HOME", home);
         // environment.d changes what services inherit, not where the manager reads units.
         vi.stubEnv("XDG_CONFIG_HOME", path.join(home, "service-config"));
-        vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t3code.service");
+        vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t0code.service");
 
         yield* Effect.promise(() =>
           expect(runLauncher(root)).rejects.toThrow("Active child exited unexpectedly (0)."),
@@ -596,7 +596,7 @@ setInterval(() => {}, 1_000);
       const path = yield* Path.Path;
       const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-service-launcher-log-" });
       const home = path.join(root, "home");
-      const unitPath = path.join(home, "Library", "LaunchAgents", "t3code.plist");
+      const unitPath = path.join(home, "Library", "LaunchAgents", "t0code.plist");
       const plan = unitPlan(root, "1.0.0");
       yield* fs.makeDirectory(path.dirname(unitPath), { recursive: true });
       yield* fs.writeFileString(
@@ -620,7 +620,7 @@ setInterval(() => {}, 1_000);
         }),
       );
       vi.stubEnv("HOME", home);
-      vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t3code.plist");
+      vi.stubEnv("T3_BOOT_SERVICE_UNIT", "t0code.plist");
 
       yield* Effect.promise(() =>
         expect(runLauncher(root)).rejects.toThrow("Active child exited unexpectedly (0)."),
@@ -1365,9 +1365,9 @@ if (context.update?.status === "pending") {
       const databasePath = path.join(root, "userdata", "state.sqlite");
       const observationsPath = path.join(root, "environment-observations.jsonl");
       const envPath = path.join(root, SERVICE_ENV_FILE);
-      yield* fs.writeFileString(envPath, "T3CODE_TEST_SERVICE_TOKEN=initial\n");
-      vi.stubEnv("T3CODE_HOME", root);
-      vi.stubEnv("T3CODE_TEST_SERVICE_TOKEN", "inherited");
+      yield* fs.writeFileString(envPath, "T0CODE_TEST_SERVICE_TOKEN=initial\n");
+      vi.stubEnv("T0CODE_HOME", root);
+      vi.stubEnv("T0CODE_TEST_SERVICE_TOKEN", "inherited");
       yield* Effect.addFinalizer(() => Effect.sync(() => vi.unstubAllEnvs()));
       yield* fs.makeDirectory(path.dirname(databasePath), { recursive: true });
       yield* fs.writeFileString(databasePath, "before trial");
@@ -1376,13 +1376,13 @@ if (context.update?.status === "pending") {
 import { appendFileSync, writeFileSync } from "node:fs";
 const context = JSON.parse(process.env.T3_SERVICE_LAUNCHER_CONTEXT);
 appendFileSync(${JSON.stringify(observationsPath)}, JSON.stringify({
-  token: process.env.T3CODE_TEST_SERVICE_TOKEN,
+  token: process.env.T0CODE_TEST_SERVICE_TOKEN,
   update: context.update?.status ?? "active",
 }) + "\\n");
 if (context.update?.status === "pending") {
   process.send({ type: "prepared", updateId: "wrong-update" });
 } else if (context.update === undefined) {
-  writeFileSync(${JSON.stringify(envPath)}, "T3CODE_TEST_SERVICE_TOKEN=changed\\n");
+  writeFileSync(${JSON.stringify(envPath)}, "T0CODE_TEST_SERVICE_TOKEN=changed\\n");
   process.send({ type: "request-update", targetVersion: "1.1.0", dbPath: ${encodedDatabasePath} });
   setInterval(() => {}, 1_000);
 } else {
@@ -1441,8 +1441,8 @@ if (context.update?.status === "pending") {
         { token: "initial", update: "pending" },
         { token: "initial", update: "rolled-back" },
       ]);
-      assert.equal((yield* HostProcess.Environment).T3CODE_TEST_SERVICE_TOKEN, "inherited");
-      assert.equal(yield* fs.readFileString(envPath), "T3CODE_TEST_SERVICE_TOKEN=changed\n");
+      assert.equal((yield* HostProcess.Environment).T0CODE_TEST_SERVICE_TOKEN, "inherited");
+      assert.equal(yield* fs.readFileString(envPath), "T0CODE_TEST_SERVICE_TOKEN=changed\n");
     }),
   );
 

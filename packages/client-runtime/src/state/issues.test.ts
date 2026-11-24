@@ -342,7 +342,7 @@ describe("createMergedIssueListAtoms", () => {
         return new WeakRef(targets);
       });
       // Let the registry remove all three unmounted queries and the WeakRefs leave their creation job.
-      // oxlint-disable-next-line t3code/no-real-time-wait-in-tests -- a zero-delay macrotask boundary, not a wait for time
+      // oxlint-disable-next-line t0code/no-real-time-wait-in-tests -- a zero-delay macrotask boundary, not a wait for time
       await NodeTimersPromises.setImmediate();
       gc();
 

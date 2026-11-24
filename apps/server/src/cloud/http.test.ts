@@ -310,7 +310,7 @@ describe("link proof over a non-loopback transport", () => {
     Effect.gen(function* () {
       const { post } = yield* linkProofClient;
       const payload = { proof: "x".repeat(ServerHttp.API_MAX_BODY_BYTES) };
-      for (const path of ["/api/t3-connect/health", "/api/t3-connect/mint-credential"]) {
+      for (const path of ["/api/t0-connect/health", "/api/t0-connect/mint-credential"]) {
         expect((yield* post(path, payload)).status, path).toBe(413);
       }
     }),

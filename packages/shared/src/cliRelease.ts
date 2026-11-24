@@ -3,10 +3,10 @@ import * as Schema from "effect/Schema";
 
 import { compareSemverVersions } from "./semver.ts";
 
-const CLI_RELEASE_REPOSITORY = "pingdotgg/t3code";
+const CLI_RELEASE_REPOSITORY = "wintelous/t0code";
 export const CLI_RELEASES_PAGE_URL = `https://github.com/${CLI_RELEASE_REPOSITORY}/releases`;
 export const CLI_RELEASE_CHECKSUMS_FILE = "SHA256SUMS";
-export const CLI_RELEASE_BASE_URL_ENV = "T3CODE_RELEASE_BASE_URL";
+export const CLI_RELEASE_BASE_URL_ENV = "T0CODE_RELEASE_BASE_URL";
 
 // Keep archive keys aligned with the Linux matrix, Windows ARM64 build, and cli_archive rows in release.yml,
 // and with the SSH runner's host check in packages/ssh/src/tunnel.ts.
@@ -154,12 +154,12 @@ export function newestCliReleaseVersion(
 }
 
 const NpmReleaseMigrationManifest = Schema.Struct({
-  t3code: Schema.Struct({ databaseMigration: Schema.Int }),
+  t0code: Schema.Struct({ databaseMigration: Schema.Int }),
 });
 const decodeNpmReleaseMigrationManifest = Schema.decodeUnknownOption(NpmReleaseMigrationManifest);
 
 /** Highest database migration a release's server knows, from its npm `t3` manifest. */
 export function npmReleaseDatabaseMigration(manifest: unknown): number | undefined {
-  return Option.getOrUndefined(decodeNpmReleaseMigrationManifest(manifest))?.t3code
+  return Option.getOrUndefined(decodeNpmReleaseMigrationManifest(manifest))?.t0code
     .databaseMigration;
 }

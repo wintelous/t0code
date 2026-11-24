@@ -10,7 +10,7 @@ function systemUses24HourClock() {
 
 export function useMessageTimeFormatter() {
   const [is24Hour, setIs24Hour] = useState(systemUses24HourClock);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- Refresh the native clock preference when Android returns to the foreground.
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- Refresh the native clock preference when Android returns to the foreground.
   useEffect(() => {
     if (Platform.OS !== "android") return;
     const subscription = AppState.addEventListener("change", (state) => {

@@ -364,7 +364,7 @@ export function GuideCommentDraft({
     const comment = buildDiffReviewComment({
       id: `pull-request-guide:${diffReviewSelectionId(path, draft.range)}`,
       sectionId: `pull-request-guide:${path}`,
-      // oxlint-disable-next-line t3code/no-untranslated-copy -- context title sent to the agent
+      // oxlint-disable-next-line t0code/no-untranslated-copy -- context title sent to the agent
       sectionTitle: "Review guide",
       filePath: path,
       fileDiff: file,

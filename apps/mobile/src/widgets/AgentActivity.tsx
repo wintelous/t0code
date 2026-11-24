@@ -178,7 +178,7 @@ function AgentActivity(
   const deepLinkRow = attentionRow ?? row0;
   const deepLink =
     deepLinkRow && deepLinkRow.deepLink.startsWith("/") && !deepLinkRow.deepLink.startsWith("//")
-      ? `t3code://${deepLinkRow.deepLink.slice(1)}`
+      ? `t0code://${deepLinkRow.deepLink.slice(1)}`
       : null;
   const linkModifiers = deepLink ? [widgetURL(deepLink)] : [];
 
@@ -372,12 +372,12 @@ function AgentActivity(
       >
         {attentionRow
           ? attentionRow.phase === "waiting_for_approval"
-            ? // oxlint-disable-next-line t3code/no-untranslated-copy -- fallback for a Live Activity without translated text
+            ? // oxlint-disable-next-line t0code/no-untranslated-copy -- fallback for a Live Activity without translated text
               (text?.approval ?? "Approval")
-            : // oxlint-disable-next-line t3code/no-untranslated-copy -- fallback for a Live Activity without translated text
+            : // oxlint-disable-next-line t0code/no-untranslated-copy -- fallback for a Live Activity without translated text
               (text?.input ?? "Input")
           : failedRow
-            ? // oxlint-disable-next-line t3code/no-untranslated-copy -- fallback for a Live Activity without translated text
+            ? // oxlint-disable-next-line t0code/no-untranslated-copy -- fallback for a Live Activity without translated text
               (text?.failed ?? "Failed")
             : activeLabel}
       </Text>

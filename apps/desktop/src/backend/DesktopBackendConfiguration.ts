@@ -78,32 +78,32 @@ const emptyBackendObservabilitySettings: BackendObservabilitySettings = {
 };
 
 const DESKTOP_BACKEND_ENV_NAMES = [
-  "T3CODE_PORT",
-  "T3CODE_MODE",
-  "T3CODE_NO_BROWSER",
-  "T3CODE_HOST",
-  "T3CODE_DESKTOP_WS_URL",
-  "T3CODE_DESKTOP_LAN_HOST",
-  "T3CODE_DESKTOP_HTTPS_ENDPOINTS",
-  "T3CODE_TAILSCALE_SERVE",
-  "T3CODE_TAILSCALE_SERVE_PORT",
+  "T0CODE_PORT",
+  "T0CODE_MODE",
+  "T0CODE_NO_BROWSER",
+  "T0CODE_HOST",
+  "T0CODE_DESKTOP_WS_URL",
+  "T0CODE_DESKTOP_LAN_HOST",
+  "T0CODE_DESKTOP_HTTPS_ENDPOINTS",
+  "T0CODE_TAILSCALE_SERVE",
+  "T0CODE_TAILSCALE_SERVE_PORT",
 ] as const;
 
 // Windows forwards these variables into WSL only through WSLENV.
 const WSL_FORWARDED_ENV_NAMES = [
   "OPENAI_API_KEY",
   "ANTHROPIC_API_KEY",
-  "T3CODE_TELEMETRY_ENABLED",
-  "T3CODE_FEATURE_FLAGS",
+  "T0CODE_TELEMETRY_ENABLED",
+  "T0CODE_FEATURE_FLAGS",
   // Otherwise the WSL server keeps exporting to endpoints from the bootstrap.
-  "T3CODE_OTEL_SDK_DISABLED",
+  "T0CODE_OTEL_SDK_DISABLED",
   "OTEL_SDK_DISABLED",
-  "T3CODE_OTLP_HEADERS",
-  "T3CODE_OTLP_PROTOCOL",
+  "T0CODE_OTLP_HEADERS",
+  "T0CODE_OTLP_PROTOCOL",
   // Untranslated T3 URLs must override bootstrap endpoints inside WSL, as they do on Windows.
-  "T3CODE_OTLP_TRACES_URL",
-  "T3CODE_OTLP_METRICS_URL",
-  "T3CODE_OTLP_LOGS_URL",
+  "T0CODE_OTLP_TRACES_URL",
+  "T0CODE_OTLP_METRICS_URL",
+  "T0CODE_OTLP_LOGS_URL",
   "OTEL_EXPORTER_OTLP_ENDPOINT",
   "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
   "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT",
@@ -252,7 +252,7 @@ interface SharedBootstrapInput {
 }
 
 // Matches the server's DESKTOP_HOST_SCOPE_ENV.
-const DESKTOP_HOST_SCOPE_ENV = "T3CODE_DESKTOP_HOST_SCOPE";
+const DESKTOP_HOST_SCOPE_ENV = "T0CODE_DESKTOP_HOST_SCOPE";
 const HOST_SCOPE_FILE_NAME = "desktop-host-scope";
 const HOST_SCOPE_PATTERN = /^[0-9a-f]{32}$/;
 
@@ -428,7 +428,7 @@ const runWslPreflight = Effect.fn("desktop.backendConfiguration.wslPreflight")(f
 
   if (input.runtimeArchive !== null) {
     // Staged runtimes bundle Node and node-pty; provider PATH discovery must not require them.
-    // Probe first: the runtime cache lives under the login shell's T3CODE_HOME.
+    // Probe first: the runtime cache lives under the login shell's T0CODE_HOME.
     const stagedProbe = yield* wslEnv.probeRuntime(runningDistro);
     if (stagedProbe.ok) {
       const runtime = yield* wslEnv.prepareRuntime(
@@ -577,8 +577,8 @@ const resolvePrimaryStartConfig = Effect.fn("desktop.backendConfiguration.resolv
       env: {
         ...backendChildEnvPatch(),
         ELECTRON_RUN_AS_NODE: "1",
-        T3CODE_DESKTOP_SHELL_DISCOVERY_PENDING: "1",
-        T3CODE_CLI_PATH: Option.getOrUndefined(input.cliPath),
+        T0CODE_DESKTOP_SHELL_DISCOVERY_PENDING: "1",
+        T0CODE_CLI_PATH: Option.getOrUndefined(input.cliPath),
         [DESKTOP_HOST_SCOPE_ENV]: input.hostScope,
       },
       extendEnv: true,
@@ -695,7 +695,7 @@ const resolveWslStartConfig = Effect.fn("desktop.backendConfiguration.resolveWsl
 
   const parentEnvWithoutT3Home: Record<string, string | undefined> = {};
   for (const [key, value] of Object.entries(env)) {
-    if (key === "T3CODE_HOME") continue;
+    if (key === "T0CODE_HOME") continue;
     parentEnvWithoutT3Home[key] = value;
   }
   const wslEnv = mergeWslEnv(parentEnvWithoutT3Home.WSLENV, forwardedEnvNames);
@@ -711,7 +711,7 @@ const resolveWslStartConfig = Effect.fn("desktop.backendConfiguration.resolveWsl
       ...forwardedEnv,
       ...(wslEnv !== undefined ? { WSLENV: wslEnv } : {}),
     },
-    // env already excludes T3CODE_HOME; merging the host env would restore it.
+    // env already excludes T0CODE_HOME; merging the host env would restore it.
     extendEnv: false,
     bootstrap,
     bootstrapDelivery: "stdin" as const,
@@ -763,7 +763,7 @@ const resolveWslStartConfig = Effect.fn("desktop.backendConfiguration.resolveWsl
       "--exec",
       "env",
       `PATH=${launchPath}`,
-      ...(preflight.t3Home === null ? [] : [`T3CODE_HOME=${preflight.t3Home}`]),
+      ...(preflight.t3Home === null ? [] : [`T0CODE_HOME=${preflight.t3Home}`]),
       ...command,
       "--bootstrap-fd",
       "0",

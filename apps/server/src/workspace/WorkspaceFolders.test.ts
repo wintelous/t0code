@@ -49,7 +49,7 @@ const layerFor = (project?: {
 const makeTempDir = Effect.gen(function* () {
   const fileSystem = yield* FileSystem.FileSystem;
   return yield* fileSystem.realPath(
-    yield* fileSystem.makeTempDirectoryScoped({ prefix: "t3code-workspace-folders-" }),
+    yield* fileSystem.makeTempDirectoryScoped({ prefix: "t0code-workspace-folders-" }),
   );
 });
 

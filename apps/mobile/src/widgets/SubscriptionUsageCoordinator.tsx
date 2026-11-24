@@ -49,7 +49,7 @@ export function SubscriptionUsageCoordinator() {
   const locale = useLocale();
   const snapshot = useAtomValue(snapshotAtom(locale, resolve));
   const androidAppearance = Platform.OS === "android" ? themeAppearance : null;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- publishes subscription usage and theme to the native home screen widget
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- publishes subscription usage and theme to the native home screen widget
   useEffect(() => {
     if (!catalog.isReady || !appearanceReady) return;
     void Promise.resolve()
@@ -76,7 +76,7 @@ export function SubscriptionUsageCoordinator() {
       console.warn("Could not update agent activity widget", error);
     });
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- republishes the agent activity widget's copy in the new UI language
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- republishes the agent activity widget's copy in the new UI language
   useEffect(
     () => republishActivity(),
     [

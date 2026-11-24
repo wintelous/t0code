@@ -31,7 +31,7 @@ import * as HostProcess from "./HostProcess.ts";
 export const CLOUDFLARED_VERSION = "2026.10.4";
 // Minimum for --output support and the eMudhra fix, which 2026.10.2 macOS builds lack.
 export const CLOUDFLARED_MIN_VERSION = "2026.10.3";
-const CLOUDFLARED_PATH_ENV_NAME = "T3CODE_CLOUDFLARED_PATH";
+const CLOUDFLARED_PATH_ENV_NAME = "T0CODE_CLOUDFLARED_PATH";
 
 const CLOUDFLARED_DOWNLOAD_TIMEOUT = "10 minutes";
 
@@ -607,7 +607,7 @@ export const makeCloudflaredRelayClient = Effect.fn("cloudflared.make")(function
     if (!releaseAsset) {
       return yield* new RelayClientInstallError({
         reason: "unsupported_platform",
-        message: `T3 Code does not provide a managed relay client binary for ${platform}-${arch}.`,
+        message: `T0 Code does not provide a managed relay client binary for ${platform}-${arch}.`,
       });
     }
 

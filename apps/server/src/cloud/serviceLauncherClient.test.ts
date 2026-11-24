@@ -264,7 +264,7 @@ it.layer(NodeServices.layer)("self-update launchers", (it) => {
         yield* ServiceLauncherClient.repointLaunchers({ baseDir, targetVersion: "2.0.0" }).pipe(
           Effect.provideService(HostProcess.Environment, {
             HOME: root,
-            T3CODE_INSTALL_BIN_DIR: path.dirname(installed),
+            T0CODE_INSTALL_BIN_DIR: path.dirname(installed),
             PATH: path.dirname(onPath),
           }),
         );

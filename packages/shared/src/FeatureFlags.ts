@@ -10,12 +10,12 @@ import * as HostProcess from "./HostProcess.ts";
  * One comma-separated list, such as `tanstack_source,github_app_client_id=Iv23…`. A bare name
  * turns a flag on. Read once when the server starts; changing it takes a restart.
  */
-const VARIABLE = "T3CODE_FEATURE_FLAGS";
+const VARIABLE = "T0CODE_FEATURE_FLAGS";
 
 const config = Config.all({
   secretProviders: Config.Boolean("secret_providers").pipe(Config.withDefault(false)),
   tanstackSource: Config.Boolean("tanstack_source").pipe(Config.withDefault(false)),
-  /** The public client ID of the T3 Code for GitHub app; unset turns its sign-in off. */
+  /** The public client ID of the T0 Code for GitHub app; unset turns its sign-in off. */
   githubAppClientId: Config.option(Config.String("github_app_client_id")),
 });
 

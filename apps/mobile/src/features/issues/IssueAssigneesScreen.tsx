@@ -51,7 +51,7 @@ export function IssueAssigneesScreen({ route }: StaticScreenProps<IssueParams>) 
   const candidates = (result.data?.assignees ?? []).filter((candidate) =>
     `${candidate.login} ${candidate.name ?? ""}`.toLowerCase().includes(needle),
   );
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- picks are sent when the sheet leaves the navigation stack, however it is dismissed
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- picks are sent when the sheet leaves the navigation stack, however it is dismissed
   useEffect(
     () =>
       navigation.addListener("beforeRemove", () => {

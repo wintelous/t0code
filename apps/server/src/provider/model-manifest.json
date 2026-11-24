@@ -4,7 +4,7 @@
   "compatibility": [
     {
       "driver": "codex",
-      "t3CodeRange": ">=0.0.44",
+      "t0CodeRange": ">=0.0.44",
       "recommendedRange": ">=0.159.0",
       "ranges": [
         { "range": ">=0.156.0", "status": "supported" },
@@ -14,7 +14,7 @@
     },
     {
       "driver": "codex",
-      "t3CodeRange": ">=0.0.42 <0.0.44",
+      "t0CodeRange": ">=0.0.42 <0.0.44",
       "recommendedRange": ">=0.156.0",
       "ranges": [
         { "range": ">=0.156.0", "status": "supported" },
@@ -24,7 +24,7 @@
     },
     {
       "driver": "claudeAgent",
-      "t3CodeRange": ">=0.0.42",
+      "t0CodeRange": ">=0.0.42",
       "recommendedRange": ">=2.1.301",
       "ranges": [
         { "range": ">=2.1.280", "status": "supported" },
@@ -34,7 +34,7 @@
     },
     {
       "driver": "cursor",
-      "t3CodeRange": ">=0.0.42",
+      "t0CodeRange": ">=0.0.42",
       "versionPattern": "^(\\d{4}\\.\\d{2}\\.\\d{2})-[a-f0-9]+$",
       "recommendedRange": ">=2026.05.09",
       "ranges": [
@@ -44,7 +44,7 @@
     },
     {
       "driver": "grok",
-      "t3CodeRange": ">=0.0.42",
+      "t0CodeRange": ">=0.0.42",
       "recommendedRange": ">=1.0.13",
       "ranges": [
         { "range": ">=1.0.13", "status": "supported" },
@@ -53,7 +53,7 @@
     },
     {
       "driver": "opencode",
-      "t3CodeRange": ">=0.0.42 <0.0.46",
+      "t0CodeRange": ">=0.0.42 <0.0.46",
       "recommendedRange": ">=1.14.19 <2.0.0",
       "recommendedVersion": "1.14.19",
       "ranges": [
@@ -64,7 +64,7 @@
     },
     {
       "driver": "opencode",
-      "t3CodeRange": ">=0.0.46",
+      "t0CodeRange": ">=0.0.46",
       "versionPattern": "^(\\d+\\.\\d+\\.\\d+)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$",
       "recommendedRange": ">=2.0.18",
       "ranges": [
@@ -76,7 +76,7 @@
     },
     {
       "driver": "antigravity",
-      "t3CodeRange": ">=0.0.42 <0.1.10",
+      "t0CodeRange": ">=0.0.42 <0.1.10",
       "versionPattern": "^(?:agy_acp_server_)?(\\d+\\.\\d+\\.\\d+)(?:-[0-9A-Za-z.-]+)?$",
       "recommendedRange": "=1.4.5 || =1.4.1",
       "ranges": [
@@ -88,7 +88,7 @@
     },
     {
       "driver": "antigravity",
-      "t3CodeRange": ">=0.1.10",
+      "t0CodeRange": ">=0.1.10",
       "versionPattern": "^(?:agy_acp_server_)?(\\d+\\.\\d+\\.\\d+)(?:-[0-9A-Za-z.-]+)?$",
       "recommendedRange": ">=1.5.12 <2",
       "ranges": [
@@ -98,13 +98,13 @@
     },
     {
       "driver": "kiro",
-      "t3CodeRange": ">=0.0.46",
+      "t0CodeRange": ">=0.0.46",
       "recommendedRange": ">=2.27.0",
       "ranges": [{ "range": ">=2.27.0", "status": "supported" }]
     },
     {
       "driver": "pi",
-      "t3CodeRange": ">=0.0.46",
+      "t0CodeRange": ">=0.0.46",
       "recommendedRange": ">=1.0.0",
       "ranges": [
         { "range": ">=0.84.3", "status": "supported" },
@@ -113,7 +113,7 @@
     },
     {
       "driver": "muse",
-      "t3CodeRange": ">=0.0.46",
+      "t0CodeRange": ">=0.0.46",
       "versionPattern": "^(\\d+\\.\\d+\\.\\d+)-R\\d+(?:\\.\\d+)?$",
       "recommendedRange": ">=1.4.2",
       "ranges": [
@@ -123,7 +123,7 @@
     },
     {
       "driver": "fx",
-      "t3CodeRange": ">=0.0.46",
+      "t0CodeRange": ">=0.0.46",
       "recommendedRange": ">=0.0.13",
       "ranges": [
         { "range": ">=0.0.13", "status": "supported" },

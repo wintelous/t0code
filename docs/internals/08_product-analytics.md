@@ -22,7 +22,7 @@ an authenticated connection does not count as product use.
   server-global "current client". Keep client and server dimensions separate, and leave missing
   client metadata unknown rather than backfilling from server properties.
 - Active-use reports count `client.turn.requested` (deduplicated by command ID), not connections
-  (T3 Connect sessions renew hourly).
+  (T0 Connect sessions renew hourly).
 
 ## Collection boundary and delivery
 
@@ -39,4 +39,4 @@ an authenticated connection does not count as product use.
   UUID per event, backs off on failure, and drops batches after bounded retries so a stuck batch
   cannot loop forever.
 - Dev-runner servers and CI smoke tests disable telemetry (and relay tracing) by default so they do
-  not inflate install counts; set `T3CODE_TELEMETRY_ENABLED=true` to test locally.
+  not inflate install counts; set `T0CODE_TELEMETRY_ENABLED=true` to test locally.

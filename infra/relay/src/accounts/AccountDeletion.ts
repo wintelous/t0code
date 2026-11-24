@@ -91,7 +91,7 @@ export class AccountDeletion extends Context.Service<
       AccountDeletionQueueFailed
     >;
   }
->()("t3code-relay/accounts/AccountDeletion") {}
+>()("t0code-relay/accounts/AccountDeletion") {}
 
 const make = Effect.gen(function* () {
   const db = yield* RelayDb.RelayDb;

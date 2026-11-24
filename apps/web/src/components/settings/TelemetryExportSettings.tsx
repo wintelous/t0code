@@ -167,7 +167,7 @@ function TelemetryExportForm() {
       if (check?.result === null) void sendCheck(key, signal, check);
     }
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- sends pending endpoint check requests once the environment can run them
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- sends pending endpoint check requests once the environment can run them
   useEffect(() => {
     // oxlint-disable-next-line react/set-state-in-effect -- State changes only after the response arrives.
     if (canCheck) sendPendingChecks();

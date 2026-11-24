@@ -1117,8 +1117,8 @@ describe("CursorAdapterV2", () => {
           lastProviderTurn = providerTurn.providerTurn;
         const sent = sentMessages.at(-1)!;
         return {
-          orchestration: sent.includes("## T3 Code orchestration"),
-          devices: sent.includes("## T3 Code devices"),
+          orchestration: sent.includes("## T0 Code orchestration"),
+          devices: sent.includes("## T0 Code devices"),
           runtime: sent.includes("<runtime_info>"),
         };
       });
@@ -3187,7 +3187,7 @@ describe("CursorAdapterV2", () => {
     };
 
     assert.deepEqual(cursorMcpServers(mcpSession), {
-      "t3-code": {
+      "t0-code": {
         type: "http",
         url: "http://127.0.0.1:43123/mcp",
         headers: {
@@ -3731,7 +3731,7 @@ describe("CursorAdapterV2", () => {
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const workspace = yield* fileSystem.makeTempDirectoryScoped({
-        prefix: "t3code-cursor-dead-worker-",
+        prefix: "t0code-cursor-dead-worker-",
       });
       const instanceId = ProviderInstanceId.make("cursor");
       const threadId = ThreadId.make("cursor-dead-worker-thread");

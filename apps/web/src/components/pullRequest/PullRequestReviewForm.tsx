@@ -108,7 +108,7 @@ export function PullRequestReviewForm({
     disabled: !active || pending,
   });
   const { cancel } = speech;
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- discards a recording when the hidden form can no longer be submitted
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- discards a recording when the hidden form can no longer be submitted
   useEffect(() => {
     if (!active) cancel();
   }, [active, cancel]);

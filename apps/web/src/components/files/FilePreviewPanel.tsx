@@ -176,10 +176,10 @@ const MermaidFilePreview = lazy(() =>
   import("./MermaidFilePreview").then((module) => ({ default: module.MermaidFilePreview })),
 );
 
-const FILE_EXPLORER_STORAGE_KEY = "t3code.fileExplorerOpen";
-const RENDER_MARKDOWN_STORAGE_KEY = "t3code.renderMarkdown";
-const RENDER_BROWSER_FILE_STORAGE_KEY = "t3code.renderBrowserFile";
-const RENDER_TABLE_STORAGE_KEY = "t3code.renderTable";
+const FILE_EXPLORER_STORAGE_KEY = "t0code.fileExplorerOpen";
+const RENDER_MARKDOWN_STORAGE_KEY = "t0code.renderMarkdown";
+const RENDER_BROWSER_FILE_STORAGE_KEY = "t0code.renderBrowserFile";
+const RENDER_TABLE_STORAGE_KEY = "t0code.renderTable";
 type FilePostRender = <LAnnotation>(
   fileContainer: HTMLElement,
   instance: FileInstance<LAnnotation, undefined>,
@@ -315,7 +315,7 @@ export function WorkspaceBrowserPreview(props: {
       void refreshAssetUrl().catch(() => undefined);
     }
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- mints a fresh URL shortly before the loaded page's grant expires
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- mints a fresh URL shortly before the loaded page's grant expires
   useEffect(() => {
     if (frame === null) return;
     const timer = setTimeout(() => renewGrant(frame.url), frame.renewAt - Date.now());
@@ -1036,7 +1036,7 @@ function EditableFileSurface({
   const hasOpenCommentForm = lineAnnotations.some((annotation) =>
     annotation.metadata.entries.some((entry) => entry.kind === "draft"),
   );
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- installs selection dismissal listeners on the editor surface DOM node
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- installs selection dismissal listeners on the editor surface DOM node
   useEffect(() => {
     const root = surfaceRef.current;
     if (!root) return;
@@ -1349,7 +1349,7 @@ export default function FilePreviewPanel({
   const isMarkdown = previewPath ? isMarkdownPreviewFile(previewPath) : false;
   const isMermaid = previewPath !== null && /\.(mmd|mermaid)$/i.test(previewPath);
   const [renderMermaidPreferred, setRenderMermaidPreferred] = useLocalStorage(
-    "t3code.renderMermaid",
+    "t0code.renderMermaid",
     true,
     Schema.Boolean,
   );
@@ -1513,7 +1513,7 @@ export default function FilePreviewPanel({
       : NO_FILE_REVISION_ATOM,
   );
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- scrolls the breadcrumb DOM so the deepest and current crumbs are in view after commit
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- scrolls the breadcrumb DOM so the deepest and current crumbs are in view after commit
   useEffect(() => {
     const crumbs = breadcrumbRef.current?.querySelectorAll<HTMLElement>("[data-file-crumb]");
     // Show the deepest crumb when it fits, but never at the cost of the current one.

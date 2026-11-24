@@ -352,7 +352,7 @@ function ManagedCodexSetup({
   };
   const abortOperation = () => operation.current?.abort();
   // Once the card unmounts, nothing may start a sign-in or open a page on its behalf.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- aborts the in-flight setup or sign-in AbortController on unmount
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- aborts the in-flight setup or sign-in AbortController on unmount
   useEffect(() => () => operation.current?.abort(), []);
   const [autoStartHandled, setAutoStartHandled] = useState(false);
   const installed = installation?.installedVersion != null;
@@ -374,7 +374,7 @@ function ManagedCodexSetup({
   }
   // The server does not refresh the provider snapshot when a sign-in flow
   // succeeds, and the flow can finish elsewhere (callback, pasted redirect URL).
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- asks the server to refresh the provider snapshot once the sign-in flow succeeds
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- asks the server to refresh the provider snapshot once the sign-in flow succeeds
   useEffect(() => {
     if (awaitingProvider && auth?.phase === "succeeded") {
       void refreshProviders({ environmentId, input: { instanceId } });
@@ -448,7 +448,7 @@ function ManagedCodexSetup({
   const transferFinishedProfile = useEffectEvent((profile: ChatGptTransferredProfile) =>
     transferProfile(profile),
   );
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- imports the finished handoff profile to the server once per attempt when the handoff query completes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- imports the finished handoff profile to the server once per attempt when the handoff query completes
   useEffect(() => {
     if (!handoff || handoffQuery.data?.phase !== "finished") return;
     const attemptId = handoff.input.attemptId;
@@ -613,13 +613,13 @@ function ManagedCodexSetup({
     onAutoStartConsumed();
     void setup();
   });
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- dispatches the automatic setup server command after the auto-start flag commits
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- dispatches the automatic setup server command after the auto-start flag commits
   useEffect(() => {
     // oxlint-disable-next-line react/set-state-in-effect -- Starting setup dispatches a server command, which marks itself pending before it awaits.
     if (autoStartHandled) startAutomatically();
   }, [autoStartHandled]);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- cancels the desktop bridge provider auth callback when the URL changes or the card unmounts
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- cancels the desktop bridge provider auth callback when the URL changes or the card unmounts
   useEffect(() => {
     if (!clientCallback || !url || !window.desktopBridge) return;
     return () => {
@@ -648,11 +648,11 @@ function ManagedCodexSetup({
                 ? gt("Using your installed Codex · v{version}.", {
                     version: installation.installedVersion,
                   })
-                : gt("Managed by T3 Code · v{version}.", { version: installation.installedVersion })
+                : gt("Managed by T0 Code · v{version}.", { version: installation.installedVersion })
               : installation?.source === "local"
                 ? gt("Using your installed Codex.")
-                : gt("Managed by T3 Code.")
-            : (installation?.message ?? gt("T3 Code downloads and manages Codex for you."));
+                : gt("Managed by T0 Code.")
+            : (installation?.message ?? gt("T0 Code downloads and manages Codex for you."));
   const accountDescription = finishingSignIn ? (
     gt("Finishing sign-in...")
   ) : installActive ? (
@@ -732,7 +732,7 @@ function ManagedCodexSetup({
     !handoff && auth?.phase === "waiting" && url ? (
       <div className="flex w-full flex-col gap-3 text-xs leading-relaxed text-muted-foreground">
         <p>
-          <T>If sign-in doesn't return to T3 Code, paste the URL from the final localhost page.</T>
+          <T>If sign-in doesn't return to T0 Code, paste the URL from the final localhost page.</T>
         </p>
         <form
           className="flex flex-col gap-2 sm:flex-row sm:items-center"
@@ -1142,7 +1142,7 @@ export function CodexManagedRuntimeFields({
     <>
       <SettingsRow
         title={gt("Binary path")}
-        description={gt("Selected by T3 Code.")}
+        description={gt("Selected by T0 Code.")}
         control={
           <div className="w-full sm:w-80">
             <Input

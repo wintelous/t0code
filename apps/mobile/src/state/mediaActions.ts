@@ -68,7 +68,7 @@ export function useMediaActions(
   );
   const controller = useRef<AbortController | null>(null);
   const [busy, setBusy] = useState<"share" | "save-image" | null>(null);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- cancels page-owned work and stops updating busy state on unmount
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- cancels page-owned work and stops updating busy state on unmount
   useEffect(() => () => controller.current?.abort(), []);
 
   const run = (

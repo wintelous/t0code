@@ -181,7 +181,7 @@ function OpenContentSearchDialog(props: {
             label={gt("Match case")}
             onClick={() => setCaseSensitive((current) => !current)}
           >
-            {/* oxlint-disable-next-line t3code/no-untranslated-copy -- match-case glyph; the label carries the meaning */}
+            {/* oxlint-disable-next-line t0code/no-untranslated-copy -- match-case glyph; the label carries the meaning */}
             {"Aa"}
           </SearchOptionButton>
           <SearchOptionButton

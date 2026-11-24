@@ -294,7 +294,7 @@ export function LinkedThreadView(props: {
   const connectState = connection.state;
   const openThread = useOpenLinkedThread();
   const shown = useRef(true);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- records unmount, so a connect that resolves after the view is gone navigates nowhere
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- records unmount, so a connect that resolves after the view is gone navigates nowhere
   useEffect(() => {
     shown.current = true;
     return () => {

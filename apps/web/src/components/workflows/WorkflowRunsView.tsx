@@ -33,7 +33,7 @@ import {
   workflowRunInvolves,
 } from "@t3tools/client-runtime/workflows";
 
-const WORKFLOWS_GUIDE_URL = "https://github.com/pingdotgg/t3code/blob/main/docs/user/workflows.md";
+const WORKFLOWS_GUIDE_URL = "https://github.com/wintelous/t0code/blob/main/docs/user/workflows.md";
 const EVERY_WORKFLOW = "";
 const TABS: ReadonlyArray<{ readonly value: WorkflowListTab; readonly label: string }> = [
   {

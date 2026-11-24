@@ -354,7 +354,7 @@ function WebhookFilterRows(props: {
             <FormField
               label={filter.op === "in" ? gt("Values, comma-separated") : gt("Value")}
               value={filter.value}
-              // oxlint-disable-next-line t3code/no-untranslated-copy -- webhook action values
+              // oxlint-disable-next-line t0code/no-untranslated-copy -- webhook action values
               placeholder={filter.op === "in" ? "opened, reopened" : "opened"}
               disabled={props.disabled}
               onChange={(value) => update(filter.id, { value })}
@@ -838,7 +838,7 @@ function TaskForm({
         gt("Once is not available here"),
         gt(
           "This environment runs an older {product}. Update it to schedule a one-time task, or pick another schedule.",
-          { product: "T3 Code" },
+          { product: "T0 Code" },
         ),
       );
       return;

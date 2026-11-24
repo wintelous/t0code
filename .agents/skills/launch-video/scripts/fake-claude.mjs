@@ -213,7 +213,7 @@ const serverStatuses = () => [
 // One MCP tools/call over streamable HTTP against the server T3 registered.
 async function callTool(name, args) {
   const [serverName, server] = Object.entries(mcpServers).find(([, s]) => s.url) ?? [];
-  if (!server) return { serverName: "t3-code", text: `No MCP server for ${name}` };
+  if (!server) return { serverName: "t0-code", text: `No MCP server for ${name}` };
   let session;
   const post = async (body) => {
     const response = await fetch(server.url, {
@@ -335,7 +335,7 @@ async function playTurn(prompt) {
       if (step.tool) {
         const id = `toolu_${uuid().replaceAll("-", "").slice(0, 24)}`;
         // `server` names a scripted server whose answer is `output`; otherwise T3's own MCP runs it.
-        const serverName = step.server ?? Object.keys(mcpServers)[0] ?? "t3-code";
+        const serverName = step.server ?? Object.keys(mcpServers)[0] ?? "t0-code";
         toolUse({
           type: "tool_use",
           id,

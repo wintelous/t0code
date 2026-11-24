@@ -221,7 +221,7 @@ export const makeClaudeTextGeneration = Effect.fn("makeClaudeTextGeneration")(fu
     const workingDirectory =
       operation === "generateThreadTitle"
         ? yield* fileSystem
-            .makeTempDirectoryScoped({ prefix: "t3code-claude-title-" })
+            .makeTempDirectoryScoped({ prefix: "t0code-claude-title-" })
             .pipe(
               Effect.mapError((cause) =>
                 normalizeCliError("claude", operation, cause, "Failed to create title directory"),
@@ -299,7 +299,7 @@ export const makeClaudeTextGeneration = Effect.fn("makeClaudeTextGeneration")(fu
     // The user's settings can hold credentials; a file keeps them out of the process list.
     const settingsArgument = investigate
       ? yield* fileSystem
-          .makeTempFileScoped({ prefix: "t3code-claude-settings-", suffix: ".json" })
+          .makeTempFileScoped({ prefix: "t0code-claude-settings-", suffix: ".json" })
           .pipe(
             Effect.tap((filePath) => fileSystem.writeFileString(filePath, settingsJson)),
             Effect.mapError((cause) =>

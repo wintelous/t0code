@@ -1623,7 +1623,7 @@ function ComposerPromptEditorTiptapInner(
   );
 
   const resumeEditingFocusRef = useRef(false);
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- preserves native selection focus across temporarily making the editor read-only for dictation
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- preserves native selection focus across temporarily making the editor read-only for dictation
   useEffect(() => {
     if (!editor) return;
     if (disabled && editor.isEditable) resumeEditingFocusRef.current = editor.view.hasFocus();
@@ -1652,7 +1652,7 @@ function ComposerPromptEditorTiptapInner(
   }, [disabled, editor]);
 
   // Push attributes before layout measurements; Tiptap updates them later in a passive effect.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- pushes DOM attributes into the ProseMirror view before layout measurements read them
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- pushes DOM attributes into the ProseMirror view before layout measurements read them
   useLayoutEffect(() => {
     if (!editor?.isInitialized) return;
     editor.view.setProps({ attributes: editorAttributes });
@@ -1713,7 +1713,7 @@ function ComposerPromptEditorTiptapInner(
 
   // The one place the controlled value reaches the editor. Imperative handlers compare against
   // the committed value, so it is recorded here even before the editor exists.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- writes the controlled value and cursor into the Tiptap document before paint
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- writes the controlled value and cursor into the Tiptap document before paint
   useLayoutEffect(() => {
     latestValueRef.current = value;
     if (!editor) return;
@@ -1804,7 +1804,7 @@ function ComposerPromptEditorTiptapInner(
   ]);
 
   // Reconcile loaded or switched provider skills and models without rebuilding citation node views.
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- replaces skill and model chip nodes in the Tiptap document when the provider skill or model list loads or changes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- replaces skill and model chip nodes in the Tiptap document when the provider skill or model list loads or changes
   useEffect(() => {
     if (!editor || literalText) return;
     const replacements = skillChipReplacements(
@@ -1815,12 +1815,12 @@ function ComposerPromptEditorTiptapInner(
     if (replacements.length > 0) replaceSkillChips(editor, replacements);
   }, [editor, literalText, modelKeys, skills]);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- keeps the mounted editor's visible text anchored while its DOM width changes
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- keeps the mounted editor's visible text anchored while its DOM width changes
   useLayoutEffect(() => {
     if (editor) return preserveReadingPosition(editor.view.dom);
   }, [editor]);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- restores ProseMirror focus and caret scroll when the keyed editor remounts, capturing focus on teardown
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- restores ProseMirror focus and caret scroll when the keyed editor remounts, capturing focus on teardown
   useLayoutEffect(() => {
     if (!editor) return;
     if (restoreFocusRef.current) {

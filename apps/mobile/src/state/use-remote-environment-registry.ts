@@ -28,12 +28,12 @@ import { connectPairingUrl as connectPairingUrlCommand } from "../connection/onb
 const RELAY_REMOVAL_ACCOUNT_NOTE: Record<Discovery.RelayEnvironmentRegistration, string> = {
   registered: msg(
     "It stays on your {connect} account and keeps its host space. Deregister it under {account} → {connect} to free it.",
-    { connect: "T3 Connect", account: "T3 Account" },
+    { connect: "T0 Connect", account: "T3 Account" },
   ),
-  unregistered: msg("It's no longer on your {connect} account.", { connect: "T3 Connect" }),
+  unregistered: msg("It's no longer on your {connect} account.", { connect: "T0 Connect" }),
   unknown: msg(
     "This doesn't change your {connect} account. To deregister it there, use {account} → {connect}.",
-    { connect: "T3 Connect", account: "T3 Account" },
+    { connect: "T0 Connect", account: "T3 Account" },
   ),
 };
 

@@ -165,7 +165,7 @@ export function McpConsent({
   const [errorMessage, setErrorMessage] = useState("");
   const [pending, setPending] = useState<"approve" | "deny" | null>(null);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- fetches the MCP OAuth approval and redirects the window or stores details, ignoring stale answers
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- fetches the MCP OAuth approval and redirects the window or stores details, ignoring stale answers
   useEffect(() => {
     let cancelled = false;
     void transport.load(authorization).then((answer) => {
@@ -187,7 +187,7 @@ export function McpConsent({
     };
   }, [authorization, transport]);
 
-  // oxlint-disable-next-line t3code/no-unreasoned-state-sync -- keeps Approve off briefly after the page shows or regains focus, so a click aimed at another window cannot land on it
+  // oxlint-disable-next-line t0code/no-unreasoned-state-sync -- keeps Approve off briefly after the page shows or regains focus, so a click aimed at another window cannot land on it
   useEffect(() => {
     if (loaded.status !== "ready") return;
     let timer = window.setTimeout(() => setArmed(true), ARM_DELAY_MS);
@@ -260,7 +260,7 @@ export function McpConsent({
     pending === null &&
     access !== null &&
     resolveApprovalDecision({ code: pairingCode, access, details }) !== null;
-  // A code from "Use T3 Code in another app" names its level, so the page does not ask again.
+  // A code from "Use T0 Code in another app" names its level, so the page does not ask again.
   const codeAccess = parseMcpApprovalCode(pairingCode)?.access;
   const approveLevel = codeAccess ?? access;
 
@@ -351,7 +351,7 @@ export function McpConsent({
             />
             <p className="text-xs text-muted-foreground">
               <T>
-                Get one from Use T3 Code in another app (MCP), Settings → Sharing & access, or{" "}
+                Get one from Use T0 Code in another app (MCP), Settings → Sharing & access, or{" "}
                 <code>t3 auth pairing create</code> on this machine.
               </T>
             </p>

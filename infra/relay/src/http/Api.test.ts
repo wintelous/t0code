@@ -84,7 +84,7 @@ const relaySettings: RelayConfiguration.RelayConfiguration["Service"] = {
   },
   clerkSecretKey: Redacted.make("clerk-secret-key"),
   clerkPublishableKey: "pk_test_test",
-  clerkJwtAudience: "t3-code-relay",
+  clerkJwtAudience: "t0-code-relay",
   apnsDeliveryJobSigningSecret: Redacted.make("apns-delivery-secret"),
   cloudMintPrivateKey: Redacted.make("cloud-mint-private-key"),
   cloudMintPublicKey: "cloud-mint-public-key",
@@ -1410,7 +1410,7 @@ describe("relay request tracing", () => {
       const request = HttpServerRequest.fromWeb(
         new Request("https://relay.test/v1/mobile/devices", {
           method: "POST",
-          headers: { "user-agent": "T3Code/2.3.0 iPhone" },
+          headers: { "user-agent": "T0Code/2.3.0 iPhone" },
         }),
       ).modify({ remoteAddress: Option.some("203.0.113.9") });
 
@@ -1420,7 +1420,7 @@ describe("relay request tracing", () => {
 
       expect(spans[0]?.attributes.get("client.address")).toBeUndefined();
       expect(spans[0]?.attributes.get("user_agent.original")).toBeUndefined();
-      expect(seen).toEqual([{ remoteAddress: "203.0.113.9", userAgent: "T3Code/2.3.0 iPhone" }]);
+      expect(seen).toEqual([{ remoteAddress: "203.0.113.9", userAgent: "T0Code/2.3.0 iPhone" }]);
     }),
   );
 });

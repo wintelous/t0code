@@ -231,7 +231,7 @@ describe("checkCursorProviderStatus", () => {
     Effect.gen(function* () {
       const fiber = yield* checkCursorProviderStatus(baseCursorSettings, {
         CURSOR_API_KEY: "test-key",
-        T3CODE_CURSOR_PROBE_TIMEOUT_MS: "30000",
+        T0CODE_CURSOR_PROBE_TIMEOUT_MS: "30000",
       }).pipe(
         Effect.provide(
           CursorSdkCatalog.layerTest(() =>
@@ -283,12 +283,12 @@ describe("checkCursorProviderStatus", () => {
     {
       authenticationType: "browser" as const,
       message:
-        "Cursor needs a paid plan to run in T3 Code. Upgrade this account or sign in with a different one.",
+        "Cursor needs a paid plan to run in T0 Code. Upgrade this account or sign in with a different one.",
     },
     {
       authenticationType: "api-key" as const,
       message:
-        "Cursor needs a paid plan to run in T3 Code. Upgrade the account that owns CURSOR_API_KEY or use a key from a paid account.",
+        "Cursor needs a paid plan to run in T0 Code. Upgrade the account that owns CURSOR_API_KEY or use a key from a paid account.",
     },
   ])(
     "explains a rejected plan for $authenticationType authentication",
@@ -355,7 +355,7 @@ describe("checkCursorProviderStatus", () => {
         status: "error",
         auth: { status: "unknown" },
         message:
-          "Cursor needs a paid plan to run in T3 Code. Upgrade the account that owns CURSOR_API_KEY or use a key from a paid account.",
+          "Cursor needs a paid plan to run in T0 Code. Upgrade the account that owns CURSOR_API_KEY or use a key from a paid account.",
       },
     },
     {
