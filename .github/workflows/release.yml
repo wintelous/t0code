@@ -53,7 +53,7 @@ jobs:
   # without it and checks the variable itself.
   resolve_commit:
     name: Resolve release commit
-    if: github.repository == 'wintelous/t0code' && (github.event_name != 'schedule' || vars.PAUSE_NIGHTLY != 'true')
+    if: github.repository == 'pingdotgg/t3code' && (github.event_name != 'schedule' || vars.PAUSE_NIGHTLY != 'true')
     runs-on: blacksmith-8vcpu-ubuntu-2404
     timeout-minutes: 5
     outputs:
@@ -598,7 +598,7 @@ jobs:
       # other repositories report "dev" telemetry.
       - name: Build JS bundle
         env:
-          T0CODE_TELEMETRY_CHANNEL: ${{ github.repository == 'wintelous/t0code' && needs.preflight.outputs.release_channel || 'dev' }}
+          T0CODE_TELEMETRY_CHANNEL: ${{ github.repository == 'pingdotgg/t3code' && needs.preflight.outputs.release_channel || 'dev' }}
         run: vp run ${{ steps.bundle_build.outputs.script }}
 
       # Two paths under apps/ so the artifact root is apps/; consumers download
@@ -1031,7 +1031,7 @@ jobs:
   update_feed:
     name: Check the update feed
     needs: [preflight, release]
-    if: ${{ !cancelled() && github.repository == 'wintelous/t0code' && ((github.event_name == 'schedule' && vars.PAUSE_NIGHTLY != 'true') || needs.preflight.outputs.release_channel == 'nightly') }}
+    if: ${{ !cancelled() && github.repository == 'pingdotgg/t3code' && ((github.event_name == 'schedule' && vars.PAUSE_NIGHTLY != 'true') || needs.preflight.outputs.release_channel == 'nightly') }}
     runs-on: blacksmith-2vcpu-ubuntu-2404
     timeout-minutes: 5
     permissions:
