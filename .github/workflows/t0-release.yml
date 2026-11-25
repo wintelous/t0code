@@ -116,8 +116,9 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
-  # macOS x64 is cross-built on Apple silicon under Rosetta, as upstream does. It has no CLI
-  # archive: Node single executables are unsupported on x64 macOS.
+  # macOS runners must have Xcode 26: the Apple Speech helper needs the macOS 26 SDK. x64 builds
+  # natively on an Intel runner. It has no CLI archive: Node single executables are unsupported on
+  # x64 macOS.
   desktop_mac_arm64:
     name: Desktop macOS arm64
     needs: [preflight, build_bundle]
@@ -133,7 +134,7 @@ jobs:
       clerk_cli_oauth_client_id: ""
       relay_url: ""
       label: macOS arm64
-      runner: macos-15
+      runner: macos-26
       platform: mac
       target: dmg
       arch: arm64
@@ -141,8 +142,6 @@ jobs:
       resource_key: darwin-arm64
       cli_archive: true
       launch_check: true
-      # desktop_mac_x64 saves the shared pnpm store.
-      save_pnpm_store: false
 
   desktop_mac_x64:
     name: Desktop macOS x64
@@ -159,7 +158,7 @@ jobs:
       clerk_cli_oauth_client_id: ""
       relay_url: ""
       label: macOS x64
-      runner: macos-15
+      runner: macos-26-intel
       platform: mac
       target: dmg
       arch: x64
