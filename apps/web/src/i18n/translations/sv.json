@@ -3215,10 +3215,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "på datorn som öppnade den här sidan"
-      ]
+      "c": [" ", "på datorn som öppnade den här sidan"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3230,10 +3227,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· den som kör den får den här åtkomsten"
-      ]
+      "c": [" ", "· den som kör den får den här åtkomsten"]
     }
   ],
   "c54cc9c75db9dc58": "Godkänn bara en inloggning som du själv precis har startat.",
@@ -7536,7 +7530,7 @@
   "52814dd6f7d0a15c": "Lägg till hubb",
   "27b770d3402abfa2": "Avancerat",
   "584595dfcadab699": "Grafik",
-  "8d60d0d2e2b38a42": "Natthimmelsgrafik",
+  "cefa3ecaa3a91628": "Solnedgångsgrafik",
   "2f265d02c8753150": "Dev-grafik",
   "20160954f38eeb66": "Versionsetikett",
   "d5dc7576fd468be7": "Bekväm",

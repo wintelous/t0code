@@ -3215,10 +3215,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "on the computer that opened this page"
-      ]
+      "c": [" ", "on the computer that opened this page"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3230,10 +3227,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· whoever runs it gets this access"
-      ]
+      "c": [" ", "· whoever runs it gets this access"]
     }
   ],
   "c54cc9c75db9dc58": "Only approve a sign-in you just started.",
@@ -5103,7 +5097,7 @@
   "27fe075378642cfb": "Could not load T0 Connect environments",
   "6e9c36110fff2893": "Loading environments…",
   "3bc611fcba3fd54c": "No T0 Connect environments",
-  "a781423e2493c002": "Link an environment from its local Settings to make it available through T0 Connect.",
+  "a781423e2493c002": "Link an environment from its local Settings to make it available through T3 Connect.",
   "ac120f1e20d48364": "Link a paid T3 Chat account for more T0 Connect tunnels: up to {pro} with Pro, {premier} with Premier.",
   "fa83ec856513632c": "Not linked",
   "24bab46ab33849d8": "You confirm the link on t3.chat.",
@@ -7537,7 +7531,7 @@
   "52814dd6f7d0a15c": "Add hub",
   "27b770d3402abfa2": "Advanced",
   "584595dfcadab699": "Artwork",
-  "8d60d0d2e2b38a42": "Night sky artwork",
+  "cefa3ecaa3a91628": "Sunset artwork",
   "2f265d02c8753150": "Dev artwork",
   "20160954f38eeb66": "Version pill",
   "d5dc7576fd468be7": "Comfortable",

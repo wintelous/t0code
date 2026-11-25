@@ -20,7 +20,7 @@ export function resolveSidebarStageBackdropVariant(
   if (mode !== "artwork") return null;
   const normalized = stageLabel.trim().toLowerCase();
   if (normalized === "dev") return "dev";
-  // t0: the night-sky art is t0code's default look on every channel, not a Nightly marker.
+  // t0: this art (sunset colors, see index.css) is t0code's default look on every channel.
   return "nightly";
 }
 

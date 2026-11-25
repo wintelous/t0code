@@ -41,7 +41,7 @@ import { ThreadDetailsItemsRow } from "./ThreadDetailsItemsRow";
 
 const ENVIRONMENT_IDENTIFICATION_LABELS: Record<EnvironmentIdentificationMode, string> = {
   artwork: msg("Artwork"),
-  "nightly-artwork": msg("Night sky artwork"),
+  "nightly-artwork": msg("Sunset artwork"),
   "dev-artwork": msg("Dev artwork"),
   pill: msg("Version pill"),
   none: msg("None"),
@@ -55,14 +55,14 @@ function environmentIdentificationOptions(
   if (stageVariant === "dev") {
     return [
       ["artwork", msg("Dev artwork")],
-      ["nightly-artwork", msg("Night sky artwork")],
+      ["nightly-artwork", msg("Sunset artwork")],
       ["pill", msg("Version pill")],
       ["none", msg("None")],
     ];
   }
   if (stageVariant === "nightly") {
     return [
-      ["artwork", msg("Night sky artwork")],
+      ["artwork", msg("Sunset artwork")],
       ["dev-artwork", msg("Dev artwork")],
       ["pill", msg("Version pill")],
       ["none", msg("None")],
@@ -70,7 +70,7 @@ function environmentIdentificationOptions(
   }
   return [
     ["artwork", msg("None")],
-    ["nightly-artwork", msg("Night sky artwork")],
+    ["nightly-artwork", msg("Sunset artwork")],
     ["dev-artwork", msg("Dev artwork")],
   ];
 }

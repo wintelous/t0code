@@ -57,10 +57,12 @@ export function renderLoopbackAuthorizationCompleteHtml(
         padding: 22px 24px;
         color: white;
       }
-      .stage-latest {
+      /* t0: purple-sunset stage, matching the app icon and sidebar art. */
+      .stage-latest,
+      .stage-nightly {
         background:
-          radial-gradient(circle at 76% 18%, rgba(136, 204, 255, 0.52), transparent 38%),
-          linear-gradient(135deg, #2468df, #172f82);
+          radial-gradient(22rem 8rem at 78% 100%, rgba(255, 127, 168, 0.5), transparent 60%),
+          linear-gradient(170deg, #2a1466 0%, #5b1f95 48%, #9a2a8f 82%, #e0447f 100%);
       }
       .stage-dev {
         background: linear-gradient(145deg, #5ab8fa 0%, #347ff8 46%, #1939bd 100%);
@@ -77,20 +79,15 @@ export function renderLoopbackAuthorizationCompleteHtml(
           linear-gradient(90deg, rgba(234, 246, 255, 0.12) 1px, transparent 1px);
         background-size: 32px 32px, 32px 32px, 8px 8px, 8px 8px;
       }
-      .stage-nightly {
-        background:
-          radial-gradient(22rem 8rem at 78% 18%, rgba(81, 101, 216, 0.42), transparent 58%),
-          linear-gradient(145deg, #07152f 0%, #151443 52%, #32155b 100%);
-      }
       .stage-nightly::before {
         content: "";
         position: absolute;
         inset: 0;
         opacity: 0.78;
         background-image:
-          radial-gradient(circle at 12px 12px, rgba(228, 234, 255, 0.9) 0 1px, transparent 1.5px),
-          radial-gradient(circle at 38px 28px, rgba(228, 234, 255, 0.58) 0 0.8px, transparent 1.3px),
-          radial-gradient(circle at 58px 9px, rgba(200, 215, 255, 0.72) 0 0.9px, transparent 1.4px);
+          radial-gradient(circle at 12px 12px, rgba(251, 227, 255, 0.9) 0 1px, transparent 1.5px),
+          radial-gradient(circle at 38px 28px, rgba(251, 227, 255, 0.58) 0 0.8px, transparent 1.3px),
+          radial-gradient(circle at 58px 9px, rgba(255, 214, 236, 0.72) 0 0.9px, transparent 1.4px);
         background-size: 72px 48px, 96px 64px, 128px 56px;
       }
       .stage::after {

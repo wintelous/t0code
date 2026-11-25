@@ -68,7 +68,14 @@
         "graphql.config.ts",
       ],
       // The generated operations export every selection's class.
-      "ignoreIssues": { "**/*.graphql.ts": ["exports", "types", "namespaceMembers"] },
+      // t0: the telemetry removal left exports in these files without users (TELEMETRY-REGISTER
+      // T0-TEL-01, -01b, -02, -06); the files stay as upstream wrote them to keep merges clean.
+      "ignoreIssues": {
+        "**/*.graphql.ts": ["exports", "types", "namespaceMembers"],
+        "src/cloud/npmRelease.ts": ["exports"],
+        "src/feedback/FeedbackList.ts": ["exports"],
+        "src/telemetry/Identify.ts": ["exports"],
+      },
       // Keep the transitive Effect runtime pinned for standalone npm installs.
       // The Vite+ web build prerequisite.
       // Native and disk-loaded provider packages stay external to the bundle; the

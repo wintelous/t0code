@@ -2952,12 +2952,14 @@ export const createBuildConfig = Effect.fn("createBuildConfig")(function* (
     const repoRoot = yield* RepoRoot;
     buildConfig.afterPack = path.join(repoRoot, "scripts/linux-after-pack.ts");
     buildConfig.linux = {
-      target: target === "AppImage" ? [target, "deb"] : [target],
+      // t0: the fork also ships rpm and pacman packages next to the AppImage and deb.
+      target: target === "AppImage" ? [target, "deb", "rpm", "pacman"] : [target],
       executableName: "t0code",
       icon: "icons",
       category: "Development",
       synopsis: "Desktop GUI for coding agents",
-      maintainer: "T3 Tools <hello@t3.codes>",
+      // t0: packages name the fork, not T3 Tools, as their maintainer.
+      maintainer: "T0 Code fork <73244589+wintelous@users.noreply.github.com>",
       protocols: [
         {
           name: "T0 Code",

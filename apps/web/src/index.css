@@ -717,19 +717,20 @@ html[data-mobile-composer-route-transition="true"]::view-transition-old(t3-mobil
     --stage-art-celeste-secondary: oklch(0.827395 0.126071 211.26);
     --stage-art-violet-highlight: oklch(0.895381 0.053248 286.447);
     --stage-art-grid-line: oklch(0.966822 0.01757 239.99);
-    --stage-night-base-top: oklch(0.283792 0.117327 297.201);
-    --stage-night-base-mid: oklch(0.227147 0.086086 277.99);
-    --stage-night-base-bottom: oklch(0.200528 0.055699 261.216);
+    /* t0: purple-sunset palette for the former Nightly sky art (t0code's default look). */
+    --stage-night-base-top: oklch(0.496293 0.184807 332.301);
+    --stage-night-base-mid: oklch(0.399703 0.178074 301.628);
+    --stage-night-base-bottom: oklch(0.284163 0.132357 286.855);
     --stage-night-top: var(--stage-night-base-top);
     --stage-night-mid: var(--stage-night-base-mid);
     --stage-night-bottom: var(--stage-night-base-bottom);
-    --stage-night-highlight: oklch(0.707246 0.157418 252.091);
-    --stage-night-secondary: oklch(0.600473 0.182225 277.296);
-    --stage-night-tertiary: oklch(0.62583 0.210886 305.994);
-    --stage-night-line: oklch(0.938794 0.029114 273.103);
-    --stage-night-glow-highlight: oklch(0.553749 0.176543 271.958);
-    --stage-night-glow-secondary: oklch(0.345571 0.117466 273.568);
-    --stage-night-sparkle: oklch(0.880867 0.057747 269.011);
+    --stage-night-highlight: oklch(0.810945 0.118599 49.907);
+    --stage-night-secondary: oklch(0.709709 0.201574 359.232);
+    --stage-night-tertiary: oklch(0.62252 0.210142 304.865);
+    --stage-night-line: oklch(0.943474 0.045093 321.407);
+    --stage-night-glow-highlight: oklch(0.753017 0.160418 1.406);
+    --stage-night-glow-secondary: oklch(0.551392 0.192762 342.939);
+    --stage-night-sparkle: oklch(0.917026 0.053651 344.684);
 
     @variant dark {
       --stage-art-top: oklch(0.581473 0.149124 256.9);

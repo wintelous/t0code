@@ -3215,10 +3215,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "sur l’ordinateur qui a ouvert cette page"
-      ]
+      "c": [" ", "sur l’ordinateur qui a ouvert cette page"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3230,10 +3227,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· quiconque l’exécute obtient cet accès"
-      ]
+      "c": [" ", "· quiconque l’exécute obtient cet accès"]
     }
   ],
   "c54cc9c75db9dc58": "N’approuvez qu’une connexion que vous venez de lancer.",
@@ -7531,7 +7525,7 @@
   "52814dd6f7d0a15c": "Ajouter le hub",
   "27b770d3402abfa2": "Avancé",
   "584595dfcadab699": "Illustration",
-  "8d60d0d2e2b38a42": "Illustration ciel nocturne",
+  "cefa3ecaa3a91628": "Illustration coucher de soleil",
   "2f265d02c8753150": "Illustration Dev",
   "20160954f38eeb66": "Pastille de version",
   "d5dc7576fd468be7": "Confortable",

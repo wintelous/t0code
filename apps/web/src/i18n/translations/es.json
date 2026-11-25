@@ -3215,10 +3215,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "en el ordenador que abrió esta página"
-      ]
+      "c": [" ", "en el ordenador que abrió esta página"]
     }
   ],
   "b2d53b4d1d48fbef": [
@@ -3230,10 +3227,7 @@
     {
       "t": "span",
       "i": 2,
-      "c": [
-        " ",
-        "· quien lo ejecute obtiene este acceso"
-      ]
+      "c": [" ", "· quien lo ejecute obtiene este acceso"]
     }
   ],
   "c54cc9c75db9dc58": "Aprueba solo un inicio de sesión que acabes de iniciar.",
@@ -7530,7 +7524,7 @@
   "52814dd6f7d0a15c": "Añadir hub",
   "27b770d3402abfa2": "Avanzado",
   "584595dfcadab699": "Ilustración",
-  "8d60d0d2e2b38a42": "Ilustración de cielo nocturno",
+  "cefa3ecaa3a91628": "Ilustración de atardecer",
   "2f265d02c8753150": "Ilustración de Dev",
   "20160954f38eeb66": "Etiqueta de versión",
   "d5dc7576fd468be7": "Cómodo",

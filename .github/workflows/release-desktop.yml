@@ -133,7 +133,8 @@ jobs:
     runs-on: ${{ inputs.runner }}
     # Windows waits for the Linux CLI archive inside its own budget (see
     # "Wait for Linux CLI archive"), so it gets that wait on top of the usual 30.
-    timeout-minutes: ${{ inputs.platform == 'win' && 70 || 30 }}
+    # t0: doubled for GitHub-hosted runners, which have far fewer cores.
+    timeout-minutes: ${{ inputs.platform == 'win' && 120 || 60 }}
     env:
       T0CODE_CLERK_PUBLISHABLE_KEY: ${{ inputs.clerk_publishable_key }}
       T0CODE_CLERK_JWT_TEMPLATE: ${{ inputs.clerk_jwt_template }}
@@ -507,6 +508,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libsecret-1-dev pkg-config libgtk-3-0t64 libnss3 libasound2t64 libgbm1
+          # t0: rpmbuild, bsdtar and zstd for the fork's rpm and pacman packages.
+          sudo apt-get install -y rpm libarchive-tools zstd
           if ! command -v magick >/dev/null 2>&1 && ! command -v convert >/dev/null 2>&1; then
               sudo apt-get install -y imagemagick
           fi
@@ -526,7 +529,8 @@ jobs:
       - name: Wait for Linux CLI archive
         if: inputs.platform == 'win'
         shell: pwsh
-        timeout-minutes: 40
+        # t0: GitHub-hosted Linux runners take longer to reach the archive upload.
+        timeout-minutes: 80
         env:
           GITHUB_TOKEN: ${{ github.token }}
           ARTIFACT: cli-linux-${{ inputs.arch }}
@@ -794,6 +798,8 @@ jobs:
             "release/*.zip"
             "release/*.AppImage"
             "release/*.deb"
+            "release/*.rpm"
+            "release/*.pacman"
             "release/*.exe"
           )
           # Preview builds have no publish config, so electron-builder writes
