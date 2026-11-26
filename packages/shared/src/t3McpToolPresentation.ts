@@ -106,7 +106,7 @@ function tool(
   return { displayName, labels, icon, summaryAction };
 }
 
-// Codex registers "t0-code-direct" for T3 tools kept out of Code Mode.
+// Codex registers "t0-code-direct" for T0 Code tools kept out of Code Mode.
 const T3_MCP_SERVER_ALIASES = new Set([
   "t0-code",
   "t0_code",
@@ -226,29 +226,29 @@ const T3_MCP_TOOLS: Readonly<Record<string, T3McpToolDefinition>> = {
     "schedule-delete",
   ),
   request_secret: tool(["Ask for", "Asking for", "Asked for", "a secret"], "secret-request"),
-  create_threads: tool(["Create", "Creating", "Created", "T3 threads"], "thread-create"),
-  t3_thread_start: tool(["Start", "Starting", "Started", "a T3 thread"], "thread-create"),
-  t3_thread_list: tool(["List", "Listing", "Listed", "T3 threads"], "thread-list"),
-  t3_thread_read: tool(["Read", "Reading", "Read", "a T3 thread"], "thread-read"),
-  t3_thread_send: tool(["Send", "Sending", "Sent", "to a T3 thread"], "thread-send"),
-  t3_thread_wait: tool(["Wait", "Waiting", "Waited", "for a T3 thread"], "thread-wait"),
-  t3_workflow_stop: tool(
+  create_threads: tool(["Create", "Creating", "Created", "T0 Code threads"], "thread-create"),
+  t0c_thread_start: tool(["Start", "Starting", "Started", "a T0 Code thread"], "thread-create"),
+  t0c_thread_list: tool(["List", "Listing", "Listed", "T0 Code threads"], "thread-list"),
+  t0c_thread_read: tool(["Read", "Reading", "Read", "a T0 Code thread"], "thread-read"),
+  t0c_thread_send: tool(["Send", "Sending", "Sent", "to a T0 Code thread"], "thread-send"),
+  t0c_thread_wait: tool(["Wait", "Waiting", "Waited", "for a T0 Code thread"], "thread-wait"),
+  t0c_workflow_stop: tool(
     ["Stop", "Stopping", "Requested a stop for", "a workflow"],
     "workflow-stop",
   ),
-  t3_background_wait: tool(
+  t0c_background_wait: tool(
     ["Update", "Updating", "Updated", "background waits"],
     "background-wait",
   ),
-  t3_thread_interrupt: tool(
-    ["Interrupt", "Interrupting", "Requested an interrupt of", "a T3 thread"],
+  t0c_thread_interrupt: tool(
+    ["Interrupt", "Interrupting", "Requested an interrupt of", "a T0 Code thread"],
     "thread-interrupt",
   ),
-  t3_worktree_handoff: tool(
+  t0c_worktree_handoff: tool(
     ["Hand off", "Handing off", "Handed off", "thread to a git worktree"],
     "worktree-handoff",
   ),
-  t3_worktree_status: tool(["Get", "Getting", "Got", "thread worktree status"], "worktree-status"),
+  t0c_worktree_status: tool(["Get", "Getting", "Got", "thread worktree status"], "worktree-status"),
   preview_status: tool(["Get", "Getting", "Got", "preview browser status"], "browser", "browser"),
   preview_open: tool(
     ["Open", "Opening", "Opened", "a page in the preview browser"],
@@ -354,90 +354,96 @@ const T3_MCP_TOOLS: Readonly<Record<string, T3McpToolDefinition>> = {
     ["Run", "Running", "Requested a run of", "a scheduled task"],
     "schedule-run",
   ),
-  t3_queue: tool(["Manage", "Managing", "Managed", "queued messages"], "queue-edit"),
-  t3_pending_request: tool(
+  t0c_queue: tool(["Manage", "Managing", "Managed", "queued messages"], "queue-edit"),
+  t0c_pending_request: tool(
     ["Handle", "Handling", "Handled", "pending questions"],
     "question-respond",
   ),
-  t3_workflow: tool(["Use", "Using", "Used", "workflow runs"], "thread-send"),
-  t3_submit_output: tool(["Submit", "Submitting", "Submitted", "the result"], "thread-send"),
-  t3_queue_list: tool(["List", "Listing", "Listed", "queued messages"], "queue-list"),
-  t3_queue_read: tool(["Read", "Reading", "Read", "a queued message"], "queue-read"),
-  t3_queue_edit: tool(["Edit", "Editing", "Edited", "a queued message"], "queue-edit"),
-  t3_queue_cancel: tool(
+  t0c_workflow: tool(["Use", "Using", "Used", "workflow runs"], "thread-send"),
+  t0c_submit_output: tool(["Submit", "Submitting", "Submitted", "the result"], "thread-send"),
+  t0c_queue_list: tool(["List", "Listing", "Listed", "queued messages"], "queue-list"),
+  t0c_queue_read: tool(["Read", "Reading", "Read", "a queued message"], "queue-read"),
+  t0c_queue_edit: tool(["Edit", "Editing", "Edited", "a queued message"], "queue-edit"),
+  t0c_queue_cancel: tool(
     ["Cancel", "Canceling", "Requested cancellation of", "a queued run"],
     "queue-cancel",
   ),
-  t3_queue_reorder: tool(["Reorder", "Reordering", "Reordered", "a queued run"], "queue-reorder"),
-  t3_queue_promote_to_steer: tool(
+  t0c_queue_reorder: tool(["Reorder", "Reordering", "Reordered", "a queued run"], "queue-reorder"),
+  t0c_queue_promote_to_steer: tool(
     ["Steer with", "Steering with", "Requested steering with", "a queued message"],
     "queue-steer",
   ),
-  t3_pending_request_list: tool(
+  t0c_pending_request_list: tool(
     ["List", "Listing", "Listed", "pending questions"],
     "question-list",
   ),
-  t3_pending_request_read: tool(["Read", "Reading", "Read", "pending questions"], "question-read"),
-  t3_pending_request_respond: tool(
+  t0c_pending_request_read: tool(["Read", "Reading", "Read", "pending questions"], "question-read"),
+  t0c_pending_request_respond: tool(
     ["Answer", "Answering", "Answered", "pending questions"],
     "question-respond",
   ),
-  t3_thread_configuration: tool(
+  t0c_thread_configuration: tool(
     ["Read", "Reading", "Read", "thread configuration"],
     "thread-configuration",
   ),
-  t3_thread_configure: tool(["Use", "Using", "Used", "thread model settings"], "thread-configure"),
-  t3_thread_transfer: tool(["Use", "Using", "Used", "thread transfers"], "thread-fork"),
-  t3_thread_fork: tool(["Fork", "Forking", "Requested a fork of", "this thread"], "thread-fork"),
-  t3_thread_merge_back: tool(
+  t0c_thread_configure: tool(["Use", "Using", "Used", "thread model settings"], "thread-configure"),
+  t0c_thread_transfer: tool(["Use", "Using", "Used", "thread transfers"], "thread-fork"),
+  t0c_thread_fork: tool(["Fork", "Forking", "Requested a fork of", "this thread"], "thread-fork"),
+  t0c_thread_merge_back: tool(
     ["Merge", "Merging", "Requested a merge of", "thread context"],
     "thread-merge",
   ),
-  t3_thread_search: tool(["Search", "Searching", "Searched", "thread content"], "thread-search"),
-  t3_thread_transfers: tool(["Read", "Reading", "Read", "thread transfers"], "thread-transfers"),
-  t3_thread_organize: tool(["Organize", "Organizing", "Organized", "a thread"], "thread-organize"),
-  t3_thread_update: tool(["Update", "Updating", "Updated", "T3 thread metadata"], "thread-update"),
-  t3_worktree_list: tool(["List", "Listing", "Listed", "workspace branches"], "worktree-list"),
-  t3_preview_list: tool(["List", "Listing", "Listed", "preview tabs"], "browser", "browser"),
-  t3_preview_close: tool(["Close", "Closing", "Closed", "a preview tab"], "browser", "browser"),
-  t3_environment_read: tool(
+  t0c_thread_search: tool(["Search", "Searching", "Searched", "thread content"], "thread-search"),
+  t0c_thread_transfers: tool(["Read", "Reading", "Read", "thread transfers"], "thread-transfers"),
+  t0c_thread_organize: tool(["Organize", "Organizing", "Organized", "a thread"], "thread-organize"),
+  t0c_thread_update: tool(
+    ["Update", "Updating", "Updated", "T0 Code thread metadata"],
+    "thread-update",
+  ),
+  t0c_worktree_list: tool(["List", "Listing", "Listed", "workspace branches"], "worktree-list"),
+  t0c_preview_list: tool(["List", "Listing", "Listed", "preview tabs"], "browser", "browser"),
+  t0c_preview_close: tool(["Close", "Closing", "Closed", "a preview tab"], "browser", "browser"),
+  t0c_environment_read: tool(
     ["Read", "Reading", "Read", "environment preferences"],
     "environment-read",
   ),
-  t3_environment_links: tool(
+  t0c_environment_links: tool(
     ["List", "Listing", "Listed", "linked environments"],
     "environment-links",
   ),
-  t3_environment_link: tool(
+  t0c_environment_link: tool(
     ["Ask to link", "Asking to link", "Asked to link", "an environment"],
     "environment-link",
   ),
-  t3_environment_unlink: tool(
+  t0c_environment_unlink: tool(
     ["Forget", "Forgetting", "Forgot", "a linked environment"],
     "environment-unlink",
   ),
-  t3_environment_preferences_update: tool(
+  t0c_environment_preferences_update: tool(
     ["Update", "Updating", "Updated", "environment preferences"],
     "environment-update",
   ),
-  t3_theme_read: tool(["Read", "Reading", "Read", "themes"], "theme-read"),
-  t3_theme_set: tool(["Set", "Setting", "Set", "the theme"], "theme-set"),
-  t3_thread_launch: tool(["Launch", "Launching", "Launched", "a project thread"], "thread-create"),
-  t3_project_list: tool(["List", "Listing", "Listed", "projects"], "project-list"),
-  t3_project_read: tool(["Read", "Reading", "Read", "a project"], "project-read"),
-  t3_project_create: tool(["Register", "Registering", "Registered", "a project"], "project-create"),
-  t3_project_update: tool(["Update", "Updating", "Updated", "a project"], "project-update"),
-  t3_project_delete: tool(["Delete", "Deleting", "Deleted", "a project"], "project-delete"),
-  t3_project_clone: tool(["Clone", "Cloning", "Cloned", "a repository"], "project-clone"),
-  t3_attachment_prepare_upload: tool(
+  t0c_theme_read: tool(["Read", "Reading", "Read", "themes"], "theme-read"),
+  t0c_theme_set: tool(["Set", "Setting", "Set", "the theme"], "theme-set"),
+  t0c_thread_launch: tool(["Launch", "Launching", "Launched", "a project thread"], "thread-create"),
+  t0c_project_list: tool(["List", "Listing", "Listed", "projects"], "project-list"),
+  t0c_project_read: tool(["Read", "Reading", "Read", "a project"], "project-read"),
+  t0c_project_create: tool(
+    ["Register", "Registering", "Registered", "a project"],
+    "project-create",
+  ),
+  t0c_project_update: tool(["Update", "Updating", "Updated", "a project"], "project-update"),
+  t0c_project_delete: tool(["Delete", "Deleting", "Deleted", "a project"], "project-delete"),
+  t0c_project_clone: tool(["Clone", "Cloning", "Cloned", "a repository"], "project-clone"),
+  t0c_attachment_prepare_upload: tool(
     ["Prepare", "Preparing", "Prepared", "an attachment upload"],
     "attachment-prepare",
   ),
-  t3_attachment_discard: tool(
+  t0c_attachment_discard: tool(
     ["Discard", "Discarding", "Discarded", "a pending attachment"],
     "attachment-discard",
   ),
-  t3_thread_send_attachments: tool(["Send", "Sending", "Sent", "attachments"], "attachment-send"),
+  t0c_thread_send_attachments: tool(["Send", "Sending", "Sent", "attachments"], "attachment-send"),
   html_preview: tool(["Preview", "Previewing", "Previewed", "an HTML page"], "html-preview"),
   html_render: tool(["Render", "Rendering", "Rendered", "an HTML page"], "html-render"),
   send_to_user: tool(["Send", "Sending", "Sent", "a message"], "send-to-user"),
@@ -511,12 +517,14 @@ const asSummaryInput = (input: unknown): SummaryInput | undefined =>
 /** Action tools present each call as the single-purpose tool its action replaced. */
 const ACTION_TOOLS: Readonly<Record<string, (action: string) => string | undefined>> = {
   preview_act: (action) => `preview_${action}`,
-  t3_queue: (action) => `t3_queue_${action}`,
-  t3_pending_request: (action) => `t3_pending_request_${action}`,
-  t3_thread_transfer: (action) =>
-    ({ fork: "t3_thread_fork", merge_back: "t3_thread_merge_back", status: "t3_thread_transfers" })[
-      action
-    ],
+  t0c_queue: (action) => `t0c_queue_${action}`,
+  t0c_pending_request: (action) => `t0c_pending_request_${action}`,
+  t0c_thread_transfer: (action) =>
+    ({
+      fork: "t0c_thread_fork",
+      merge_back: "t0c_thread_merge_back",
+      status: "t0c_thread_transfers",
+    })[action],
 };
 
 /** Pass the call's input so an action tool resolves to the labels and summary of its action. */
@@ -537,7 +545,7 @@ export function resolveT3McpToolDefinition(
 const ACTION_SUMMARIES: Readonly<
   Record<string, (input: SummaryInput) => T3McpToolSummaryAction | undefined>
 > = {
-  t3_thread_configure: ({ modelSelection }) =>
+  t0c_thread_configure: ({ modelSelection }) =>
     modelSelection === undefined ? "thread-configuration" : "thread-configure",
   schedule_task: ({ scheduledTaskId }) =>
     scheduledTaskId === undefined ? "schedule-create" : "schedule-update",

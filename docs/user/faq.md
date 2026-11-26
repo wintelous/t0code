@@ -13,7 +13,7 @@ Bring your own: Claude Code, Codex, Cursor, Grok Build, OpenCode, Google Antigra
 We were inspired by the Codex desktop app, Conductor, Claude Desktop, and Cursor Glass, but none met our bar. What you get:
 
 - Bring your own sub. Claude, Codex, and whatever else you already have installed.
-- Best in class remote. Run `t3 up` on any box and drive it from anywhere.
+- Best in class remote. Run `t0c up` on any box and drive it from anywhere.
 - Best in class mobile app.
 - Truly 100% open source code (MIT). If we go the wrong direction, fork it under your own branding.
 
@@ -41,7 +41,7 @@ It shouldn't anymore. T0 Code drives Claude through Anthropic's Agent SDK, and A
 
 ## How do I use T0 Code remotely?
 
-Your agents run wherever T0 Code runs: your desktop, a server, a VPS. You connect to it from anywhere. I do this constantly. Less than 5% of my prompts run on my laptop. Run `t3 up` on that machine and you get really good remote support. T0 Connect is the easy path. LAN pairing and Tailscale work too, and [app.t3.codes](https://app.t3.codes) is the web client. [Remote access](./remote-access.md)
+Your agents run wherever T0 Code runs: your desktop, a server, a VPS. You connect to it from anywhere. I do this constantly. Less than 5% of my prompts run on my laptop. Run `t0c up` on that machine and you get really good remote support. T0 Connect is the easy path. LAN pairing and Tailscale work too, and [app.t3.codes](https://app.t3.codes) is the web client. [Remote access](./remote-access.md)
 
 ## How do I use T0 Code on my phone?
 
@@ -71,7 +71,7 @@ Yes. Add another provider instance in Settings and give it its own keys and endp
 
 No. T0 Code is a serious developer tool. Locally runnable models are not capable of meaningful engineering work.
 
-## Does my code go to T3 servers?
+## Does my code go to T0 Code servers?
 
 No. Your code and prompts go from your machine to your provider (Anthropic, OpenAI, etc.), not to us. With T0 Connect, traffic rides a Cloudflare tunnel (`cloudflared` on your machine). Our relay sets up the link. It does not proxy your HTTP or WebSocket sessions. T0 Code does send basic product usage events (provider, model, token totals, that kind of thing). No prompts, no file contents. That is the same on Tailscale, LAN, or T0 Connect. Set `T0CODE_TELEMETRY_ENABLED=false` if you want it off. [Product usage data](./telemetry.md)
 
@@ -85,7 +85,7 @@ Yes. On iPhone and Android, dictation uses on-device speech by default, with the
 
 ## Does it work on Windows, Mac, and Linux?
 
-Yes, all three. Desktop app, CLI, the works. One catch: there is no `t3` binary for Intel Macs, so use the desktop app there. Windows folks can also run agents inside WSL. [Install](./install.md)
+Yes, all three. Desktop app, CLI, the works. One catch: there is no `t0c` binary for Intel Macs, so use the desktop app there. Windows folks can also run agents inside WSL. [Install](./install.md)
 
 ## Why is my provider not showing up?
 

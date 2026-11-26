@@ -88,7 +88,7 @@ export const make = Effect.fn("NpmRelease.make")(function* () {
           runner.run({
             command: npmPath,
             // Named fields keep the output small; the full package document grows with every release.
-            args: ["view", "--global", "--json", `t3@${spec}`, "version", "t0code"],
+            args: ["view", "--global", "--json", `t0c@${spec}`, "version", "t0code"],
             timeout: Duration.seconds(15),
             maxOutputBytes: 256 * 1024,
           }),
@@ -123,7 +123,7 @@ export const make = Effect.fn("NpmRelease.make")(function* () {
           () => new ServerNpmReleaseError({ reason: "Invalid release version or track." }),
         ),
       );
-      // t0: the `t3` npm package is upstream's build, not this fork's, so it is never looked up or
+      // t0: the `t0c` npm package is upstream's build, not this fork's, so it is never looked up or
       // offered as an update (TELEMETRY-REGISTER.md T0-TEL-06).
       return T0_NPM_RELEASES_ENABLED ? yield* Cache.get(cache, spec) : null;
     }),

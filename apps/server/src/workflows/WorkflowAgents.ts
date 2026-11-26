@@ -28,7 +28,7 @@ export interface AgentModel {
   readonly options?: ModelSelection["options"];
 }
 
-/** How a new thread starts, as `t3_thread_launch` takes it. Unset fields follow the project. */
+/** How a new thread starts, as `t0c_thread_launch` takes it. Unset fields follow the project. */
 export interface AgentLaunch {
   /** Where its files are: the project's checkout by default, or a worktree of its own. */
   readonly workspace?: OrchestrationV2ThreadLaunchWorkspaceStrategy | undefined;

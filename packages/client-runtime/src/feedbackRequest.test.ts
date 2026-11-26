@@ -39,7 +39,7 @@ describe("feedback preview", () => {
         {
           turn: 1,
           type: "tool" as const,
-          tool: "t3_thread_read",
+          tool: "t0c_thread_read",
           outcome: "error" as const,
           durationMs: 1_500,
         },
@@ -48,7 +48,7 @@ describe("feedback preview", () => {
     expect(
       feedbackPreviewFields({
         kind: "bug",
-        subject: "t3_thread_read",
+        subject: "t0c_thread_read",
         expected: "Items.",
         actual: "None.",
         workaround: "",
@@ -57,7 +57,7 @@ describe("feedback preview", () => {
     ).toEqual(["Kind", "About", "Expected", "Happened"]);
     expect(feedbackTraceLines(trace)).toEqual([
       { key: "0", line: "Turn 1 · You · 5 characters", text: "Hello" },
-      { key: "1", line: "Turn 1 · t3_thread_read · error · 1.5 s" },
+      { key: "1", line: "Turn 1 · t0c_thread_read · error · 1.5 s" },
     ]);
     // Text only in turn 4 of 5: the wording reaches back to it, not "the last turn".
     const older = {

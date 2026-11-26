@@ -4964,7 +4964,7 @@ describe("OrchestratorMcpService provider resolution", () => {
 
   it.effect("accepts the inherited options it reports back as a delegate target", () =>
     Effect.gen(function* () {
-      // t3_thread_launch keeps a model selection as given, so a thread can hold an option its model lacks.
+      // t0c_thread_launch keeps a model selection as given, so a thread can hold an option its model lacks.
       const inherited = {
         instanceId: codexInstanceId,
         model: "gpt-5.4",
@@ -5745,7 +5745,7 @@ describe("OrchestratorMcpService thread stop", () => {
       queued: true,
       stop: { reason: "Make room", message: "Stopped by an agent: Make room" },
     },
-  ])("t3_thread_interrupt stop reports the run it interrupted on $name", ({ queued, stop }) =>
+  ])("t0c_thread_interrupt stop reports the run it interrupted on $name", ({ queued, stop }) =>
     Effect.gen(function* () {
       const cwd = yield* checkpointWorkspace("mcp-thread-stop");
       const layerAdapters = ProviderAdapterRegistry.layerSingle(liveAdapter(cwd));

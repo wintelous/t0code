@@ -21,7 +21,7 @@ function acpFrame(entry: ProviderReplayTranscript["entries"][number]) {
       });
 }
 
-/** fx 0.0.15 answers Stop by failing the running command itself; T3 still shows it interrupted. */
+/** fx 0.0.15 answers Stop by failing the running command itself; T0 Code still shows it interrupted. */
 export function assertTurnInterruptMidToolFxOutput(
   result: OrchestratorV2ScenarioResult,
   transcript: ProviderReplayTranscript,

@@ -106,7 +106,7 @@ export class DesktopWslEnvironment extends Context.Service<
     readonly getUserHome: (distro: string | null) => Effect.Effect<Option.Option<string>>;
     // Use the distro IP to avoid unreliable wslhost localhost forwarding.
     readonly getDistroIp: (distro: string | null) => Effect.Effect<Option.Option<string>>;
-    // A null t3Home means the distro's login shell has no absolute T0CODE_HOME, so ~/.t3 applies.
+    // A null t3Home means the distro's login shell has no absolute T0CODE_HOME, so ~/.t0c applies.
     readonly prepareRuntime: (
       distro: string | null,
       archive: WslRuntimeArchive,
@@ -273,7 +273,7 @@ const sanitizeWslRuntimeId = (value: string): string => value.replace(/[^A-Za-z0
 
 const runtimeParentAssignment = (t3Home: string | null): string =>
   t3Home === null
-    ? 'runtime_parent="$HOME/.t3/wsl-runtime"'
+    ? 'runtime_parent="$HOME/.t0c/wsl-runtime"'
     : `runtime_parent=${shellQuote(`${t3Home}/wsl-runtime`)}`;
 
 // A null archive path asks for a staging directory to copy the archive into, unless the cache is ready.
@@ -290,11 +290,11 @@ export const buildWslRuntimeInstallScript = (
     `runtime_root="$runtime_parent/${safeRuntimeId}"`,
     `ready_marker="$runtime_root/${WSL_RUNTIME_READY_MARKER}"`,
     "runtime_entry_runs() {",
-    '  [ -x "$1/t3" ] && "$1/t3" --version >/dev/null',
+    '  [ -x "$1/t0c" ] && "$1/t0c" --version >/dev/null',
     "}",
     // Hash the entry to detect a swapped or partially written executable, even if it still runs.
     "runtime_server_entry_digest() {",
-    `  sha256sum "$1/t3" 2>/dev/null | cut -d ' ' -f 1`,
+    `  sha256sum "$1/t0c" 2>/dev/null | cut -d ' ' -f 1`,
     "}",
     "runtime_is_ready() {",
     '  [ -f "$ready_marker" ] &&',
@@ -357,7 +357,7 @@ export const buildWslRuntimeInstallScript = (
     "trap cleanup_runtime_install EXIT",
     `tar -xzf ${shellQuote(linuxArchivePath)} -C "$runtime_tmp" --strip-components=1`,
     'if ! runtime_entry_runs "$runtime_tmp"; then',
-    "  printf 'WSL runtime archive does not contain a working t3 executable\\n' >&2",
+    "  printf 'WSL runtime archive does not contain a working t0c executable\\n' >&2",
     "  exit 1",
     "fi",
     'installed_entry_digest=$(runtime_server_entry_digest "$runtime_tmp")',

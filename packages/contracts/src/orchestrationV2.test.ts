@@ -707,14 +707,18 @@ describe("withMessageSenderNote", () => {
     senderThreadId: ThreadId.make("t"),
   } as const;
   it.each([
-    [thread, "Hi", '[T0 Code: the agent in T3 thread "t" sent this message, not the user.]\n\nHi'],
-    [thread, "", '[T0 Code: the agent in T3 thread "t" sent this message, not the user.]'],
+    [
+      thread,
+      "Hi",
+      '[T0 Code: the agent in T0 Code thread "t" sent this message, not the user.]\n\nHi',
+    ],
+    [thread, "", '[T0 Code: the agent in T0 Code thread "t" sent this message, not the user.]'],
     [thread, " /git/review staged", " /git/review staged"],
     [thread, "$deploy ship it", "$deploy ship it"],
     [
       thread,
       "$25 left",
-      '[T0 Code: the agent in T3 thread "t" sent this message, not the user.]\n\n$25 left',
+      '[T0 Code: the agent in T0 Code thread "t" sent this message, not the user.]\n\n$25 left',
     ],
     [
       {
@@ -727,7 +731,7 @@ describe("withMessageSenderNote", () => {
         },
       },
       "Hi",
-      '[T0 Code: the agent in T3 thread "r" on linked environment "e" sent this message, not the user.]\n\nHi',
+      '[T0 Code: the agent in T0 Code thread "r" on linked environment "e" sent this message, not the user.]\n\nHi',
     ],
     [
       { createdBy: "user", creationSource: "web", scheduledTaskId: ScheduledTaskId.make("s") },

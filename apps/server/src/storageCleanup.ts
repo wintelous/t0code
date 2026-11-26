@@ -1969,7 +1969,7 @@ const make = Effect.gen(function* () {
     removed: { files: number; bytes: number },
   ) {
     if (days === null || !(yield* fs.exists(root))) return removed;
-    // A symlinked parent (a linked T3 home) is fine; a symlinked folder is not.
+    // A symlinked parent (a linked T0 Code home) is fine; a symlinked folder is not.
     const realRoot = yield* fs.realPath(root);
     const realParent = yield* fs.realPath(path.dirname(root));
     if (realRoot !== path.join(realParent, path.basename(root))) return removed;
@@ -2037,7 +2037,7 @@ const make = Effect.gen(function* () {
     const targets = new Map<string, Set<string>>();
     for (const row of rows) {
       // Derive ownership from tombstones, never from absence in this database:
-      // another T3 home can own refs in the same Git repository.
+      // another T0 Code home can own refs in the same Git repository.
       const prefixes = [`refs/t3/checkpoints/${Base64Url.encode(row.threadId)}/turn/`];
       if (row.scopeId !== null) {
         prefixes.push(

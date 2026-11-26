@@ -824,7 +824,7 @@ describe("ClaudeAdapterV2 MCP query overrides", () => {
       .sort();
 
     // regression: #32022 Claude Plan mode asks before every non-read-only MCP call
-    assert.include(readOnlyToolNames, "mcp__t0-code__t3_background_wait");
+    assert.include(readOnlyToolNames, "mcp__t0-code__t0c_background_wait");
     assert.deepEqual(
       [...ClaudeAdapterV2.CLAUDE_READ_ONLY_T3_MCP_ALLOWED_TOOLS].sort(),
       readOnlyToolNames,
@@ -918,7 +918,7 @@ describe("ClaudeAdapterV2 native protocol logging", () => {
     assert.equal(systemPrompt.type, "preset");
     assert.equal(systemPrompt.preset, "claude_code");
     assert.include(systemPrompt.append ?? "", "Use `delegate_task`");
-    assert.include(systemPrompt.append ?? "", "call `t3_background_wait`");
+    assert.include(systemPrompt.append ?? "", "call `t0c_background_wait`");
     assert.notInclude(systemPrompt.append ?? "", "## T0 Code devices");
     const logged = ClaudeAdapterV2.loggedClaudeQueryOptions(options);
     assert.equal(logged.hasMcpServers, true);
@@ -939,7 +939,7 @@ describe("ClaudeAdapterV2 native protocol logging", () => {
   });
 });
 
-describe("ClaudeAdapterV2 T3 tool instructions", () => {
+describe("ClaudeAdapterV2 T0 Code tool instructions", () => {
   const options = (input: {
     readonly mcp: boolean;
     readonly deviceToolsAvailable: boolean;
@@ -969,14 +969,14 @@ describe("ClaudeAdapterV2 T3 tool instructions", () => {
     assert.include(text, "Use `delegate_task`");
   });
 
-  it("leaves the device block out without device access or without T3 tools", () => {
+  it("leaves the device block out without device access or without T0 Code tools", () => {
     assert.notInclude(append({ mcp: true, deviceToolsAvailable: false }), "## T0 Code devices");
     assert.notInclude(append({ mcp: false, deviceToolsAvailable: true }), "## T0 Code devices");
   });
 
-  it("gives the agent feedback line only to a session with T3 tools", () => {
+  it("gives the agent feedback line only to a session with T0 Code tools", () => {
     const feedback = (mcp: boolean, agentFeedback: "off" | "auto") =>
-      append({ mcp, deviceToolsAvailable: false, agentFeedback }).includes("t3_feedback");
+      append({ mcp, deviceToolsAvailable: false, agentFeedback }).includes("t0c_feedback");
     assert.include(
       append({ mcp: true, deviceToolsAvailable: false, agentFeedback: "auto" }),
       AGENT_FEEDBACK_INSTRUCTIONS.auto,
@@ -1016,7 +1016,7 @@ describe("ClaudeAdapterV2 T3 tool instructions", () => {
     ]);
     assert.deepEqual(await subagentContext({ mcp: true, deviceToolsAvailable: false }), []);
     assert.deepEqual(await subagentContext({ mcp: false, deviceToolsAvailable: true }), []);
-    // A custom subagent can lack T3 tools even when this session has them.
+    // A custom subagent can lack T0 Code tools even when this session has them.
     assert.notInclude(
       JSON.stringify(
         await subagentContext({
@@ -1025,7 +1025,7 @@ describe("ClaudeAdapterV2 T3 tool instructions", () => {
           agentFeedback: "auto",
         }),
       ),
-      "t3_feedback",
+      "t0c_feedback",
     );
   });
 });
@@ -1597,7 +1597,7 @@ describe("ClaudeAdapterV2 append-system-prompt-file launch argument", () => {
     ),
   );
 
-  it.effect("sends append launch arguments to Claude after the T3 instructions", () =>
+  it.effect("sends append launch arguments to Claude after the T0 Code instructions", () =>
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const cwd = yield* fileSystem.makeTempDirectoryScoped({ prefix: "t3-claude-append-cwd-" });
@@ -1628,11 +1628,11 @@ describe("ClaudeAdapterV2 append-system-prompt-file launch argument", () => {
     ),
   );
 
-  // regression: #15073 the SDK replaced the --settings launch argument with T3's settings
+  // regression: #15073 the SDK replaced the --settings launch argument with T0 Code's settings
   it.effect.each([
     `--settings '{"skillOverrides":{"lint":"off"},"showThinkingSummaries":false}'`,
     "--settings user-settings.json",
-  ])("merges %s beneath T3's settings", (launchArgs) =>
+  ])("merges %s beneath T0 Code's settings", (launchArgs) =>
     Effect.gen(function* () {
       const fileSystem = yield* FileSystem.FileSystem;
       const cwd = yield* fileSystem.makeTempDirectoryScoped({ prefix: "t3-claude-settings-" });
@@ -3395,7 +3395,7 @@ describe("ClaudeAdapterV2 MCP credential channel", () => {
           ...ClaudeAdapterV2.makeClaudeQueryOptions({
             modelSelection: CLAUDE_TEST_MODEL_SELECTION,
             nativeThreadId: "native-thread-claude-mcp-channel",
-            title: "Existing T3 title",
+            title: "Existing T0 Code title",
             resume: false,
             cwd: null,
             environment: { PATH: "/usr/bin" },
@@ -3452,7 +3452,7 @@ describe("ClaudeAdapterV2 MCP credential channel", () => {
       });
       assert.deepInclude(
         cli.controlRequests.find((request) => Reflect.get(request, "subtype") === "initialize"),
-        { title: "Existing T3 title" },
+        { title: "Existing T0 Code title" },
       );
       const spawned = JSON.stringify(cli.spawns);
       assert.notInclude(spawned, "--title");
@@ -3627,7 +3627,7 @@ describe("ClaudeAdapterV2 native session identity", () => {
     }),
   );
 
-  it.effect("resumes an imported native session on its first T3 turn", () =>
+  it.effect("resumes an imported native session on its first T0 Code turn", () =>
     Effect.gen(function* () {
       const openedQueries = yield* openTurnWithOrdinal(1, false, "imported-native-session");
       assert.equal(openedQueries.length, 1);
@@ -7016,7 +7016,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
         server: "probe.server",
       });
       assert.deepInclude(tool, { name: "show_weather", inputSchema: { type: "object" } });
-      // T3 skips the app-call confirmation only for `readOnlyHint` tools.
+      // T0 Code skips the app-call confirmation only for `readOnlyHint` tools.
       assert.deepInclude(appOnlyTool, {
         annotations: { readOnlyHint: true, destructiveHint: false },
       });
@@ -7155,7 +7155,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
       readOnly: false,
     },
     {
-      case: "a deny rule for this tool on a server alias T3 can't list",
+      case: "a deny rule for this tool on a server alias T0 Code can't list",
       rules: [{ behavior: "deny", rule: "mcp__probe_alias__refresh_weather" }],
       called: false,
       readOnly: false,
@@ -11630,7 +11630,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
       entry("user", terminalPrompt, secondReply, "Typed in the terminal") +
       entry("assistant", terminalReply, terminalPrompt, [{ type: "text", text: "Answered." }]);
 
-    // Streams one T3 turn of two reply blocks, writes the transcript, then starts the next turn.
+    // Streams one T0 Code turn of two reply blocks, writes the transcript, then starts the next turn.
     const nextTurnAfter = Effect.fnUntraced(function* (input: {
       readonly transcript: ((promptUuid: string) => string) | null;
       readonly backgroundShell?: boolean;
@@ -11732,7 +11732,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
         transcript: (promptUuid: string) => t3Turn(promptUuid) + terminalExchange,
       },
       {
-        // The terminal's rows alone are longer than the tail T3 reads first.
+        // The terminal's rows alone are longer than the tail T0 Code reads first.
         name: "a long terminal exchange followed its last message",
         transcript: (promptUuid: string) =>
           t3Turn(promptUuid) +
@@ -11758,7 +11758,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
           entry("assistant", firstReply, promptUuid, [{ type: "text", text: "Working." }]),
       },
       {
-        name: "only bookkeeping follows T3's reply",
+        name: "only bookkeeping follows T0 Code's reply",
         transcript: (promptUuid: string) =>
           t3Turn(promptUuid) +
           line({
@@ -11800,7 +11800,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
         wakeFiresDuringRead: true,
       },
       {
-        // Longer than the tail T3 reads, and the process's own messages are not written yet.
+        // Longer than the tail T0 Code reads, and the process's own messages are not written yet.
         name: "a long transcript's tail holds none of its messages",
         transcript: () =>
           entry("user", "old-1", null, "x".repeat(1_200_000)) +
@@ -17354,7 +17354,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
 
   // regression: #17531 a mod that holds a tool behind a focused pane must fail the turn, not hang it
   it.effect.each([
-    { case: "fails a turn whose mod requests focus for a pane T3 cannot show", focus: true },
+    { case: "fails a turn whose mod requests focus for a pane T0 Code cannot show", focus: true },
     { case: "keeps a turn running beside a passive mod pane", focus: false },
   ] as const)("$case", ({ focus }) =>
     Effect.gen(function* () {
@@ -18667,7 +18667,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
         );
         assert.lengthOf(harness.continuationRequests, 1);
 
-        // An empty session-task lifecycle result arriving before T3 opens the
+        // An empty session-task lifecycle result arriving before T0 Code opens the
         // wake run must not replace the root's terminal usage-limit result.
         yield* harness.offerAndWait(wakeTurnInit);
         yield* harness.offerAndWait(
@@ -21600,7 +21600,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
 
       const routing = subagentRouting(harness.events, ["toolu-early-bash"]);
       assert.isDefined(routing.childThreadId);
-      // Agents quote this id back to t3_thread_send/t3_thread_read.
+      // Agents quote this id back to t0c_thread_send/t0c_thread_read.
       const childThreadId = routing.childThreadId ?? "";
       assert.notInclude(childThreadId, "%");
       assert.isAtMost(childThreadId.length, 64);
@@ -26322,77 +26322,79 @@ describe("ClaudeAdapterV2 background wake turns", () => {
       ),
     );
 
-    it.effect("ends a goal check without re-prompting while T3 work will wake the thread", () =>
-      Effect.gen(function* () {
-        const harness = yield* makeWakeHarness;
-        const mcpSessions = yield* McpProviderSessions.McpProviderSessions;
-        yield* mcpSessions.set({
-          environmentId: EnvironmentId.make("environment-goal-wake"),
-          threadId: harness.threadId,
-          providerSessionId: "mcp-session-goal-wake",
-          providerInstanceId: ProviderInstanceId.make("claudeAgent"),
-          endpoint: "http://127.0.0.1:43123/mcp",
-          authorizationHeader: "Bearer secret-claude-token",
-          browserToolsAvailable: true,
-          hasPendingWake: Effect.succeed(true),
-        });
-        const stop = Effect.promise(() =>
-          Promise.all(
-            (harness.getOpenedOptions()?.hooks?.Stop ?? []).flatMap((matcher) =>
-              matcher.hooks.map((hook) =>
-                hook(
-                  {
-                    hook_event_name: "Stop",
-                    stop_hook_active: true,
-                    session_id: WAKE_NATIVE_SESSION,
-                    transcript_path: "/transcript.jsonl",
-                    cwd: "/workspace",
-                  },
-                  undefined,
-                  { signal: new AbortController().signal },
+    it.effect(
+      "ends a goal check without re-prompting while T0 Code work will wake the thread",
+      () =>
+        Effect.gen(function* () {
+          const harness = yield* makeWakeHarness;
+          const mcpSessions = yield* McpProviderSessions.McpProviderSessions;
+          yield* mcpSessions.set({
+            environmentId: EnvironmentId.make("environment-goal-wake"),
+            threadId: harness.threadId,
+            providerSessionId: "mcp-session-goal-wake",
+            providerInstanceId: ProviderInstanceId.make("claudeAgent"),
+            endpoint: "http://127.0.0.1:43123/mcp",
+            authorizationHeader: "Bearer secret-claude-token",
+            browserToolsAvailable: true,
+            hasPendingWake: Effect.succeed(true),
+          });
+          const stop = Effect.promise(() =>
+            Promise.all(
+              (harness.getOpenedOptions()?.hooks?.Stop ?? []).flatMap((matcher) =>
+                matcher.hooks.map((hook) =>
+                  hook(
+                    {
+                      hook_event_name: "Stop",
+                      stop_hook_active: true,
+                      session_id: WAKE_NATIVE_SESSION,
+                      transcript_path: "/transcript.jsonl",
+                      cwd: "/workspace",
+                    },
+                    undefined,
+                    { signal: new AbortController().signal },
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-        const condition = "the delegated review is addressed";
-        yield* harness.runtime.startTurn(
-          makeClaudeTestTurnInput({
-            threadId: harness.threadId,
-            providerThread: harness.providerThread,
-            now: yield* DateTime.now,
-            attemptId: RunAttemptId.make("goal-wake-attempt"),
-            text: `/goal ${condition}`,
-            attachments: [],
-          }),
-        );
-        // Without a goal, Stop keeps Claude Code's own behavior.
-        assert.deepEqual(yield* stop, [{}]);
-        yield* harness.offerAndWait(syntheticFrame("goal-wake-set", `Goal set: ${condition}`));
-        assert.deepEqual(yield* stop, [{ continue: false }]);
-        // The turn ends without an error and the goal waits for the wake.
-        yield* Queue.offer(
-          harness.sdkMessages,
-          makeResultFrame({
-            uuid: "goal-wake-result",
-            result: "Waiting for the review.",
-            terminalReason: "stop_hook_prevented",
-          }),
-        );
-        const terminal = yield* Queue.take(harness.terminalReceipts);
-        assert.equal(terminal.status, "completed");
-        assert.equal(goalStatuses(harness.events).at(-1)?.status, "active");
-      }).pipe(
-        Effect.scoped,
-        Effect.provide(
-          Layer.mergeAll(
-            IdAllocator.layer,
-            McpProviderSessions.layer,
-            NodeServices.layer,
-            NodeCrypto.layer,
+          );
+          const condition = "the delegated review is addressed";
+          yield* harness.runtime.startTurn(
+            makeClaudeTestTurnInput({
+              threadId: harness.threadId,
+              providerThread: harness.providerThread,
+              now: yield* DateTime.now,
+              attemptId: RunAttemptId.make("goal-wake-attempt"),
+              text: `/goal ${condition}`,
+              attachments: [],
+            }),
+          );
+          // Without a goal, Stop keeps Claude Code's own behavior.
+          assert.deepEqual(yield* stop, [{}]);
+          yield* harness.offerAndWait(syntheticFrame("goal-wake-set", `Goal set: ${condition}`));
+          assert.deepEqual(yield* stop, [{ continue: false }]);
+          // The turn ends without an error and the goal waits for the wake.
+          yield* Queue.offer(
+            harness.sdkMessages,
+            makeResultFrame({
+              uuid: "goal-wake-result",
+              result: "Waiting for the review.",
+              terminalReason: "stop_hook_prevented",
+            }),
+          );
+          const terminal = yield* Queue.take(harness.terminalReceipts);
+          assert.equal(terminal.status, "completed");
+          assert.equal(goalStatuses(harness.events).at(-1)?.status, "active");
+        }).pipe(
+          Effect.scoped,
+          Effect.provide(
+            Layer.mergeAll(
+              IdAllocator.layer,
+              McpProviderSessions.layer,
+              NodeServices.layer,
+              NodeCrypto.layer,
+            ),
           ),
         ),
-      ),
     );
 
     it.effect(

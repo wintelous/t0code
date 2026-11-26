@@ -173,7 +173,7 @@ export function SavedBackendListRow({
       toastManager.add({
         type: "success",
         title: gt("MCP URL copied"),
-        description: gt("Add it to an agent, e.g. claude mcp add --transport http t3 {url}", {
+        description: gt("Add it to an agent, e.g. claude mcp add --transport http t0c {url}", {
           url,
         }),
       });
@@ -389,7 +389,7 @@ export function SavedBackendListRow({
           environmentId={environmentId}
           serverLabel={gt("{label} server", {
             label: environment.label,
-            $context: "names a T3 server inside sentences such as {serverLabel} updated",
+            $context: "names a T0 Code server inside sentences such as {serverLabel} updated",
           })}
           fromVersion={lastDescriptor?.serverVersion}
           targetVersion={APP_VERSION}
@@ -401,7 +401,7 @@ export function SavedBackendListRow({
           environmentId={environmentId}
           serverLabel={gt("{label} server", {
             label: environment.label,
-            $context: "names a T3 server inside sentences such as {serverLabel} updated",
+            $context: "names a T0 Code server inside sentences such as {serverLabel} updated",
           })}
           selfUpdate={resolveServerSelfUpdateCapability(environment.serverConfig)}
           installation={environment.serverConfig?.environment.capabilities.serverInstallation}
@@ -773,13 +773,13 @@ function ConfiguredCloudLinkRow({
         <SettingsRow
           title={setting("t0-connect").title}
           description={gt(
-            "This environment was removed from T0 Connect. Run `t3 connect link` on the host to link it again.",
+            "This environment was removed from T0 Connect. Run `t0c connect link` on the host to link it again.",
           )}
         />
       ) : (
         <SettingsRow
           title={setting("t0-connect").title}
-          description={gt("Run `t3 connect link` on the host, then restart T0 Code there.")}
+          description={gt("Run `t0c connect link` on the host, then restart T0 Code there.")}
         />
       )}
       {signedOut && showSwitch ? null : (

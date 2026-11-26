@@ -96,7 +96,7 @@ export function cliArchivePlatformKey(platform: BuildPlatform, arch: BuildArch):
 }
 
 export function cliArchiveStem(version: string, platform: BuildPlatform, arch: BuildArch): string {
-  return `t3-${version}-${cliArchivePlatformKey(platform, arch)}`;
+  return `t0c-${version}-${cliArchivePlatformKey(platform, arch)}`;
 }
 
 export function cliArchiveFileName(version: string, platform: BuildPlatform, arch: BuildArch) {
@@ -261,7 +261,7 @@ const stageWebClient = Effect.fn("stageWebClient")(function* (source: string, ta
   }
 });
 
-/** Node links libatomic.so.1, which Ubuntu server and container images lack, so t3 carries its own. */
+/** Node links libatomic.so.1, which Ubuntu server and container images lack, so t0c carries its own. */
 const bundleLinuxLibatomic = Effect.fn("bundleLinuxLibatomic")(function* (input: {
   readonly repoRoot: string;
   readonly contentDir: string;
@@ -432,7 +432,7 @@ export const signMacArchiveContents = Effect.fn("signMacArchiveContents")(functi
         entry.endsWith(".node") ||
         entry.endsWith(".dylib") ||
         entry.endsWith("spawn-helper") ||
-        entry.endsWith("t3-resource-monitor"),
+        entry.endsWith("t0c-resource-monitor"),
     )
     .map((entry) => path.join(input.contentDir, entry));
 
@@ -476,7 +476,7 @@ export const signMacArchiveContents = Effect.fn("signMacArchiveContents")(functi
   // The ticket lives with Apple, not in the archive, so the archive bytes are final before approval.
   yield* fs.writeFileString(deferred, submission.id);
   yield* Effect.log(
-    `[cli-archive] Submitted t3 for notarization (${submission.id}). Run await-notarization before publishing.`,
+    `[cli-archive] Submitted t0c for notarization (${submission.id}). Run await-notarization before publishing.`,
   );
 });
 
@@ -562,7 +562,7 @@ const signWindowsExecutable = Effect.fn("signWindowsExecutable")(function* (
   yield* stripStaleAuthenticodeEntry(executablePath);
   if ((yield* HostProcess.Platform) !== "win32") {
     yield* signWithJsign(executablePath);
-    yield* Effect.log("[cli-archive] Signed t3.exe (Azure Trusted Signing via jsign).");
+    yield* Effect.log("[cli-archive] Signed t0c.exe (Azure Trusted Signing via jsign).");
     return;
   }
   const quote = (value: string) => `'${value.replaceAll("'", "''")}'`;
@@ -579,9 +579,9 @@ const signWindowsExecutable = Effect.fn("signWindowsExecutable")(function* (
   ].join(" ");
   yield* runCommand(
     ChildProcess.make("pwsh", ["-NoProfile", "-NonInteractive", "-Command", script]),
-    "Invoke-TrustedSigning t3.exe",
+    "Invoke-TrustedSigning t0c.exe",
   );
-  yield* Effect.log("[cli-archive] Signed t3.exe (Azure Trusted Signing).");
+  yield* Effect.log("[cli-archive] Signed t0c.exe (Azure Trusted Signing).");
 });
 
 const buildCliArchive = Effect.fn("buildCliArchive")(function* (input: {
@@ -596,13 +596,13 @@ const buildCliArchive = Effect.fn("buildCliArchive")(function* (input: {
   const path = yield* Path.Path;
   const repoRoot = yield* RepoRoot;
   const serverDir = path.join(repoRoot, "apps/server");
-  const executableName = input.platform === "win" ? "t3.exe" : "t3";
+  const executableName = input.platform === "win" ? "t0c.exe" : "t0c";
   // tsdown suffixes cross-built executables; prefer the exact target over the plain host build.
   const targetKey = `${input.platform === "mac" ? "darwin" : input.platform}-${input.arch}`;
   const targetExecutable = path.join(
     serverDir,
     "dist-exe",
-    `t3-${targetKey}${input.platform === "win" ? ".exe" : ""}`,
+    `t0c-${targetKey}${input.platform === "win" ? ".exe" : ""}`,
   );
   // The unsuffixed executable is valid only for the host platform and architecture.
   const hostPlatform = yield* HostProcess.Platform;
@@ -621,7 +621,7 @@ const buildCliArchive = Effect.fn("buildCliArchive")(function* (input: {
     builtExecutable,
     `Run \`node apps/server/scripts/cli.ts build-exe${targetKey === hostKey ? "" : ` --target ${targetKey}`}\` first.`,
   );
-  yield* requireInput(path.join(webClient, "index.html"), "Run `vp run --filter t3 build` first.");
+  yield* requireInput(path.join(webClient, "index.html"), "Run `vp run --filter t0c build` first.");
   yield* requireInput(
     resourceMonitorDir,
     "Build the resource monitor or pass --resource-monitor-dir.",
@@ -734,7 +734,7 @@ const command = Command.make(
   },
   (input) => buildCliArchive(input).pipe(Effect.scoped),
 ).pipe(
-  Command.withDescription("Package the t3 single-executable into a per-platform archive."),
+  Command.withDescription("Package the t0c single-executable into a per-platform archive."),
   Command.withSubcommands([
     Command.make(
       "await-notarization",

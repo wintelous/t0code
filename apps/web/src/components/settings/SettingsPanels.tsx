@@ -2586,7 +2586,9 @@ export function AboutSettingsPanel() {
           {...setting("privacy-policy")}
           description={
             telemetryOff === undefined
-              ? gt("T0 Code sends no usage data. This is upstream's policy for its hosted services.")
+              ? gt(
+                  "T0 Code sends no usage data. This is upstream's policy for its hosted services.",
+                )
               : gt("How we handle your data. {telemetryOff}", { telemetryOff })
           }
           control={

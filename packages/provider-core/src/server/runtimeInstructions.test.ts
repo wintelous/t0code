@@ -59,10 +59,10 @@ describe("buildRuntimeInstructions", () => {
   });
 
   it("carries the feedback line of the agent feedback mode, and none while it is off", () => {
-    assert.notInclude(buildRuntimeInstructions({ harness: "Codex" }), "t3_feedback");
+    assert.notInclude(buildRuntimeInstructions({ harness: "Codex" }), "t0c_feedback");
     assert.notInclude(
       buildRuntimeInstructions({ harness: "Codex", agentFeedback: "off" }),
-      "t3_feedback",
+      "t0c_feedback",
     );
     for (const agentFeedback of ["on-request", "auto"] as const) {
       for (const pullRequestLinking of [true, false]) {

@@ -138,7 +138,7 @@ export function WelcomePage({
     environments.find((environment) => environment.environmentId === environmentId)?.label ??
     gt("this computer");
   const agentReady = useWelcomeAgents(environmentId).readyCount > 0;
-  // The phone and `t3` on PATH belong to the primary computer, so only it offers them.
+  // The phone and `t0c` on PATH belong to the primary computer, so only it offers them.
   const isPrimary = usePrimaryEnvironmentId() === environmentId;
   // The same access Settings → Sharing & access checks.
   const canReadRelay = useEnvironmentScope(environmentId, AuthRelayReadScope);
@@ -1957,7 +1957,7 @@ function ImportRowMeta({
   );
 }
 
-/** The desktop app links `t3` on a fresh install; this puts its folder on PATH when it is not. */
+/** The desktop app links `t0c` on a fresh install; this puts its folder on PATH when it is not. */
 function CliPathSetup() {
   const { state, busy, run } = useDesktopCliCommand();
   const setup = state?.pathSetup;

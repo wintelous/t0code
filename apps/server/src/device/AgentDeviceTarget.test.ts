@@ -24,7 +24,7 @@ import {
 
 const exec = NodeUtil.promisify(NodeChildProcess.execFile);
 
-/** A loopback port that accepts connections until the scope closes, like T3's device connection. */
+/** A loopback port that accepts connections until the scope closes, like T0 Code's device connection. */
 const listeningPort = Effect.acquireRelease(
   Effect.promise(
     () =>
@@ -275,7 +275,7 @@ exec '${process.execPath.replaceAll("'", "'\"'\"'")}' "$@"
     expect(agentDeviceCloseOutcome(result(null, "", true))).toBe("timed-out");
   });
 
-  it.live("stops before agent-device when T3's device connection is down", () =>
+  it.live("stops before agent-device when T0 Code's device connection is down", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
@@ -333,7 +333,7 @@ exec '${process.execPath.replaceAll("'", "'\"'\"'")}' "$@"
           "t3-a",
         ]);
       }
-      // cdp talks to Metro, not to T3's connection, so it still runs.
+      // cdp talks to Metro, not to T0 Code's connection, so it still runs.
       expect(
         JSON.parse((yield* Effect.promise(() => launch(["cdp", "target", "list"]))).stdout),
       ).toEqual(["cdp", "target", "list"]);
@@ -476,7 +476,7 @@ if (process.env.AGENT_DEVICE_DAEMON_BASE_URL) process.exit(2);`,
     }).pipe(
       Effect.scoped,
       Effect.provideService(HostProcess.IsExecutable, true),
-      Effect.provideService(HostProcess.ExecutablePath, "/packaged/t3"),
+      Effect.provideService(HostProcess.ExecutablePath, "/packaged/t0c"),
       Effect.provide(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer)),
     ),
   );

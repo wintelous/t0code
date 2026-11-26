@@ -191,7 +191,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
       }),
     );
 
-    it.effect("drops an inherited T0CODE_HOST and T0CODE_LAN from a parent T3 server", () =>
+    it.effect("drops an inherited T0CODE_HOST and T0CODE_LAN from a parent T0 Code server", () =>
       Effect.gen(function* () {
         const env = yield* createDevRunnerEnv({
           mode: "dev",
@@ -215,7 +215,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
   });
 
   describe("cli", () => {
-    it("ignores the parent T3 server's T0CODE_PORT and T0CODE_HOST", () => {
+    it("ignores the parent T0 Code server's T0CODE_PORT and T0CODE_HOST", () => {
       const result = NodeChildProcess.spawnSync(
         process.execPath,
         ["scripts/dev-runner.ts", "dev:server", "--dry-run"],
@@ -479,7 +479,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
             Effect.provideService(FileSystem.FileSystem, {
               ...fs,
               exists: (file) =>
-                NodePath.basename(file) === "t3-resource-monitor"
+                NodePath.basename(file) === "t0c-resource-monitor"
                   ? Effect.succeed(
                       built !== undefined && NodePath.basename(NodePath.dirname(file)) === built,
                     )
@@ -505,7 +505,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
       Effect.gen(function* () {
         const env = yield* createDevRunnerEnv({
           mode: "dev",
-          baseEnv: { T0CODE_HOME: "/home/user/.t3" },
+          baseEnv: { T0CODE_HOME: "/home/user/.t0c" },
           serverOffset: 0,
           webOffset: 0,
           t3Home: undefined,
@@ -521,7 +521,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
       }),
     );
 
-    it.effect("expands a home-relative T3 home the way the server does", () =>
+    it.effect("expands a home-relative T0 Code home the way the server does", () =>
       Effect.gen(function* () {
         const path = yield* Path.Path;
         const homeFor = (t3Home: string) =>
@@ -549,9 +549,9 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
         assert.equal(yield* homeFor("~someone/t3-dev"), path.resolve("~someone/t3-dev"));
         assert.equal(yield* homeFor("relative/t3-dev"), path.resolve("relative/t3-dev"));
         assert.equal(yield* homeFor("/tmp/t3-dev"), path.resolve("/tmp/t3-dev"));
-        // An explicit ~/.t3 would put state in the live userdata; leaving it implicit selects ~/.t3/dev.
-        assert.equal(yield* homeFor("~/.t3"), undefined);
-        assert.equal(yield* homeFor("/home/dev/.t3/"), undefined);
+        // An explicit ~/.t0c would put state in the live userdata; leaving it implicit selects ~/.t0c/dev.
+        assert.equal(yield* homeFor("~/.t0c"), undefined);
+        assert.equal(yield* homeFor("/home/dev/.t0c/"), undefined);
       }),
     );
 
@@ -761,7 +761,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
       });
     });
 
-    describe("t3 home precedence", () => {
+    describe("t0c home precedence", () => {
       const makeWorktree = Effect.acquireRelease(
         Effect.sync(() => {
           const root = NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3-devrunner-"));
@@ -797,7 +797,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
             Effect.provide(Layer.mergeAll(emptyConfigLayer, netServiceLayer, spawnerLayer)),
             Effect.provideService(HostProcess.Platform, "linux"),
             Effect.provideService(HostProcess.WorkingDirectory, input.cwd),
-            // No ~/.t3 here, so these runs never seed from this machine's install.
+            // No ~/.t0c here, so these runs never seed from this machine's install.
             Effect.provideService(HostProcess.HomeDirectory, NodePath.join(input.cwd, "home")),
             Effect.provideService(
               HostProcess.Environment,
@@ -815,7 +815,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
           const home = yield* spawnedHome({
             t3Home: "/tmp/explicit-home",
             cwd: root,
-            ambientHome: "/home/user/.t3",
+            ambientHome: "/home/user/.t0c",
           });
           assert.equal(home, path.resolve("/tmp/explicit-home"));
         }).pipe(Effect.scoped),
@@ -828,32 +828,32 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
           const home = yield* spawnedHome({
             t3Home: "   ",
             cwd: root,
-            ambientHome: "/home/user/.t3",
+            ambientHome: "/home/user/.t0c",
           });
-          assert.equal(home, path.join(path.resolve(root), ".t3"));
+          assert.equal(home, path.join(path.resolve(root), ".t0c"));
         }).pipe(Effect.scoped),
       );
 
-      it.effect("prefers the worktree .t3 over an ambient T0CODE_HOME", () =>
+      it.effect("prefers the worktree .t0c over an ambient T0CODE_HOME", () =>
         Effect.gen(function* () {
           const path = yield* Path.Path;
           const root = yield* makeWorktree;
           const home = yield* spawnedHome({
             t3Home: undefined,
             cwd: root,
-            ambientHome: "/home/user/.t3",
+            ambientHome: "/home/user/.t0c",
           });
-          assert.equal(home, path.join(path.resolve(root), ".t3"));
+          assert.equal(home, path.join(path.resolve(root), ".t0c"));
         }).pipe(Effect.scoped),
       );
 
-      it.effect("seeds a worktree database from ~/.t3 only when it has none", () =>
+      it.effect("seeds a worktree database from ~/.t0c only when it has none", () =>
         Effect.gen(function* () {
           const path = yield* Path.Path;
           const root = yield* makeWorktree;
           const home = path.join(root, "home");
-          NodeFS.mkdirSync(path.join(home, ".t3", "userdata"), { recursive: true });
-          NodeFS.writeFileSync(path.join(home, ".t3", "userdata", "statev2.sqlite"), "");
+          NodeFS.mkdirSync(path.join(home, ".t0c", "userdata"), { recursive: true });
+          NodeFS.writeFileSync(path.join(home, ".t0c", "userdata", "statev2.sqlite"), "");
 
           const spawnedArgs = (seed: boolean | undefined) =>
             Effect.gen(function* () {
@@ -881,11 +881,11 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
 
           assert.deepStrictEqual(yield* spawnedArgs(false), []);
           const [seedArgs] = yield* spawnedArgs(undefined);
-          assert.includeMembers([...(seedArgs ?? [])], ["--base-dir", path.join(root, ".t3")]);
+          assert.includeMembers([...(seedArgs ?? [])], ["--base-dir", path.join(root, ".t0c")]);
 
           // Either database means the worktree already has data.
           for (const name of ["state.sqlite", "statev2.sqlite"]) {
-            const file = path.join(root, ".t3", "userdata", name);
+            const file = path.join(root, ".t0c", "userdata", name);
             NodeFS.mkdirSync(path.dirname(file), { recursive: true });
             NodeFS.writeFileSync(file, "");
             assert.deepStrictEqual(yield* spawnedArgs(undefined), []);
@@ -906,7 +906,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
             const path = yield* Path.Path;
             const root = yield* makeWorktree;
             const home = path.join(root, "home");
-            const source = path.join(home, ".t3", "userdata", "statev2.sqlite");
+            const source = path.join(home, ".t0c", "userdata", "statev2.sqlite");
             NodeFS.mkdirSync(path.dirname(source), { recursive: true });
             NodeFS.writeFileSync(source, "");
             const spawned: Array<ReadonlyArray<string>> = [];
@@ -953,7 +953,7 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
             );
             assert.deepStrictEqual(spawned.at(-1), [
               "run",
-              "--filter=t3",
+              "--filter=t0c",
               "dev",
               ...devServerInput.runArgs,
             ]);
@@ -974,9 +974,9 @@ it.layer(NodeServices.layer)("dev-runner", (it) => {
           const home = yield* spawnedHome({
             t3Home: undefined,
             cwd: NodeOS.tmpdir(),
-            ambientHome: "/home/user/.t3",
+            ambientHome: "/home/user/.t0c",
           });
-          assert.equal(home, path.resolve("/home/user/.t3"));
+          assert.equal(home, path.resolve("/home/user/.t0c"));
         }),
       );
     });

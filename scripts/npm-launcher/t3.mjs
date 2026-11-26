@@ -16,7 +16,7 @@ const TERMINATE_GRACE_MS = 5_000;
 
 function t3Home() {
   const raw = (process.env.T0CODE_HOME || "").trim();
-  if (raw === "") return path.join(os.homedir(), ".t3");
+  if (raw === "") return path.join(os.homedir(), ".t0c");
   if (raw === "~") return os.homedir();
   if (raw.startsWith("~/") || raw.startsWith("~\\")) return path.join(os.homedir(), raw.slice(2));
   return path.resolve(raw);
@@ -76,7 +76,7 @@ async function download(url, file) {
 }
 
 async function install(dir, key) {
-  const archive = `t3-${version}-${key}.${process.platform === "win32" ? "zip" : "tar.gz"}`;
+  const archive = `t0c-${version}-${key}.${process.platform === "win32" ? "zip" : "tar.gz"}`;
   const base = (
     process.env.T0CODE_RELEASE_BASE_URL || "https://github.com/wintelous/t0code/releases/download"
   ).replace(/\/+$/, "");
@@ -105,7 +105,7 @@ async function install(dir, key) {
     if (extract.status !== 0) throw new Error(`could not extract ${archive}`);
     fs.rmSync(file);
     const validate = spawnSync(
-      path.join(staging, process.platform === "win32" ? "t3.exe" : "t3"),
+      path.join(staging, process.platform === "win32" ? "t0c.exe" : "t0c"),
       ["--version"],
       {
         stdio: ["ignore", "ignore", "pipe"],
@@ -152,7 +152,7 @@ function publish(staging, dir) {
   } catch (error) {
     if (error.code !== "EEXIST") throw error;
     throw new Error(
-      `another t3 is installing ${version}. If none is running, delete ${lock} and try again.`,
+      `another t0c is installing ${version}. If none is running, delete ${lock} and try again.`,
       { cause: error },
     );
   }
@@ -188,11 +188,11 @@ async function main() {
   // Service IPC and signals must reach the child; terminal Ctrl-C already does, so do not forward SIGINT twice.
   const ipc = process.send !== undefined;
   const child = spawn(
-    path.join(dir, process.platform === "win32" ? "t3.exe" : "t3"),
+    path.join(dir, process.platform === "win32" ? "t0c.exe" : "t0c"),
     process.argv.slice(2),
     {
       stdio: ipc ? ["inherit", "inherit", "inherit", "ipc"] : "inherit",
-      // The executable lives in the T3 home, so this is how it knows npm launched it.
+      // The executable lives in the T0 Code home, so this is how it knows npm launched it.
       env: { ...process.env, T0CODE_NPM_LAUNCHER_PATH: import.meta.filename },
     },
   );

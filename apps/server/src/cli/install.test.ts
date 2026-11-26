@@ -14,20 +14,20 @@ import { installCli, isForegroundProcStat, isForegroundPs, offerCliInstall } fro
 
 const VERSION = packageJson.version;
 
-/** A standalone runtime in a temp T3 home, started by the npm launcher from an npx cache. */
+/** A standalone runtime in a temp T0 Code home, started by the npm launcher from an npx cache. */
 const setup = Effect.gen(function* () {
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
   const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-install-" });
-  const runtimeDir = path.join(root, ".t3/runtime");
-  const executable = path.join(runtimeDir, "versions", VERSION, "t3");
+  const runtimeDir = path.join(root, ".t0c/runtime");
+  const executable = path.join(runtimeDir, "versions", VERSION, "t0c");
   yield* fs.makeDirectory(path.dirname(executable), { recursive: true });
   yield* fs.writeFileString(executable, "");
-  const npmPackage = path.join(root, ".npm/_npx/abc/node_modules/t3");
+  const npmPackage = path.join(root, ".npm/_npx/abc/node_modules/t0c");
   yield* fs.makeDirectory(path.join(npmPackage, "bin"), { recursive: true });
   yield* fs.writeFileString(
     path.join(npmPackage, "package.json"),
-    JSON.stringify({ name: "t3", version: VERSION }),
+    JSON.stringify({ name: "t0c", version: VERSION }),
   );
   const binDir = path.join(root, "bin");
   const provide = <A, E, R>(effect: Effect.Effect<A, E, R>, env: NodeJS.ProcessEnv = {}) =>
@@ -40,21 +40,21 @@ const setup = Effect.gen(function* () {
         PATH: "/usr/bin",
         SHELL: "/bin/zsh",
         T0CODE_INSTALL_BIN_DIR: binDir,
-        T0CODE_NPM_LAUNCHER_PATH: path.join(npmPackage, "bin/t3.mjs"),
+        T0CODE_NPM_LAUNCHER_PATH: path.join(npmPackage, "bin/t0c.mjs"),
         ...env,
       }),
     );
-  return { root, npmPackage, runtimeDir, executable, link: path.join(binDir, "t3"), provide };
+  return { root, npmPackage, runtimeDir, executable, link: path.join(binDir, "t0c"), provide };
 });
 
-it.layer(NodeServices.layer)("t3 install", (it) => {
+it.layer(NodeServices.layer)("t0c install", (it) => {
   it.effect("installs the running runtime, records it, and never replaces another t3", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const { root, runtimeDir, executable, link, provide } = yield* setup;
 
-      const older = path.join(runtimeDir, "versions/0.0.1/t3");
+      const older = path.join(runtimeDir, "versions/0.0.1/t0c");
       yield* fs.makeDirectory(path.dirname(link), { recursive: true });
       yield* fs.symlink(older, link);
       const installed = yield* provide(installCli());
@@ -62,25 +62,25 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
       assert.isFalse(installed.onPath);
       assert.include(installed.pathCommand, "$HOME/bin");
 
-      // A link written through a symlinked T3 home is still ours.
+      // A link written through a symlinked T0 Code home is still ours.
       const alias = path.join(root, "alias");
-      yield* fs.symlink(path.join(root, ".t3"), alias);
+      yield* fs.symlink(path.join(root, ".t0c"), alias);
       yield* fs.remove(link);
-      yield* fs.symlink(path.join(alias, "runtime/versions", VERSION, "t3"), link);
+      yield* fs.symlink(path.join(alias, "runtime/versions", VERSION, "t0c"), link);
       const onPath = yield* provide(installCli(), { PATH: `/usr/bin:${path.join(root, "bin")}/` });
       assert.isTrue(onPath.onPath);
-      // Another t3 earlier on PATH still runs first, so `t3` would not run this one.
+      // Another t0c earlier on PATH still runs first, so `t0c` would not run this one.
       const binDir = path.join(root, "bin");
       const otherBin = path.join(root, "other-bin");
       yield* fs.makeDirectory(otherBin);
-      yield* fs.writeFileString(path.join(otherBin, "t3"), "", { mode: 0o755 });
+      yield* fs.writeFileString(path.join(otherBin, "t0c"), "", { mode: 0o755 });
       const installIn = (cwd: string, PATH: string) =>
         provide(installCli().pipe(Effect.provideService(HostProcess.WorkingDirectory, cwd)), {
           PATH,
         });
       const assertShadowed = (result: Effect.Success<ReturnType<typeof installCli>>) => {
         assert.isFalse(result.onPath);
-        assert.equal(result.shadowedBy, path.join(otherBin, "t3"));
+        assert.equal(result.shadowedBy, path.join(otherBin, "t0c"));
         assert.isUndefined(result.pathCommand);
       };
       assertShadowed(yield* provide(installCli(), { PATH: `${otherBin}:${binDir}` }));
@@ -100,30 +100,30 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
         assert.isUndefined(installedOnPath.shadowedBy);
       }
       yield* fs.remove(alias);
-      yield* fs.remove(path.join(otherBin, "t3"));
-      yield* fs.makeDirectory(path.join(otherBin, "t3"));
+      yield* fs.remove(path.join(otherBin, "t0c"));
+      yield* fs.makeDirectory(path.join(otherBin, "t0c"));
       const directory = yield* provide(installCli(), {
         PATH: `${otherBin}:${path.join(root, "bin")}`,
       });
       assert.isTrue(directory.onPath);
       assert.isUndefined(directory.shadowedBy);
       const recorded = yield* fs.readFileString(path.join(runtimeDir, "launchers"));
-      assert.equal(recorded, `\n${yield* fs.realPath(path.join(root, "bin"))}/t3\n`);
+      assert.equal(recorded, `\n${yield* fs.realPath(path.join(root, "bin"))}/t0c\n`);
 
       yield* fs.remove(link);
       yield* fs.writeFileString(link, "#!/bin/sh\n");
       const error = yield* provide(installCli()).pipe(Effect.flip);
-      assert.include(error.message, "Another t3 is already at");
+      assert.include(error.message, "Another t0c is already at");
       assert.equal(yield* fs.readFileString(link), "#!/bin/sh\n");
 
-      // Only `<version>/t3` is ours, not another program inside a version.
+      // Only `<version>/t0c` is ours, not another program inside a version.
       yield* fs.remove(link);
       yield* fs.symlink(path.join(runtimeDir, "versions/0.0.1/node"), link);
       const sibling = yield* provide(installCli()).pipe(Effect.flip);
-      assert.include(sibling.message, "Another t3 is already at");
+      assert.include(sibling.message, "Another t0c is already at");
       // This home's desktop launcher is replaced, as install.sh does.
       yield* fs.remove(link);
-      yield* fs.symlink(path.join(root, ".t3/bin/t3"), link);
+      yield* fs.symlink(path.join(root, ".t0c/bin/t0c"), link);
       yield* provide(installCli());
       assert.equal(yield* fs.readFileString(link), posixLauncherScript(executable));
 
@@ -147,18 +147,18 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
       assert.equal(yield* fs.readFileString(link), "#!/bin/sh\necho raced\n");
       yield* fs.remove(link);
 
-      // Windows writes a t3.cmd: only over its own, and only for paths cmd can run.
-      const shim = path.join(root, "bin", "t3.cmd");
+      // Windows writes a t0c.cmd: only over its own, and only for paths cmd can run.
+      const shim = path.join(root, "bin", "t0c.cmd");
       const windows = <A, E, R>(effect: Effect.Effect<A, E, R>) =>
         provide(effect.pipe(Effect.provideService(HostProcess.Platform, "win32")));
       const desktopShim =
         '@echo off\r\nrem Written by T0 Code\r\n"C:\\T0 Code\\T0 Code.exe" "x" %*\r\n';
       yield* fs.writeFileString(shim, desktopShim);
       const foreignShim = yield* windows(installCli()).pipe(Effect.flip);
-      assert.include(foreignShim.message, "Another t3 is already at");
+      assert.include(foreignShim.message, "Another t0c is already at");
       assert.equal(yield* fs.readFileString(shim), desktopShim);
-      // A user's wrapper that also runs a managed t3.exe is still theirs.
-      const wrapper = `@echo off\r\nset FOO=1\r\n"${path.join(runtimeDir, "versions/0.0.1/t3.exe")}" %*`;
+      // A user's wrapper that also runs a managed t0c.exe is still theirs.
+      const wrapper = `@echo off\r\nset FOO=1\r\n"${path.join(runtimeDir, "versions/0.0.1/t0c.exe")}" %*`;
       yield* fs.writeFileString(shim, wrapper);
       yield* windows(installCli()).pipe(Effect.flip);
       assert.equal(yield* fs.readFileString(shim), wrapper);
@@ -171,7 +171,7 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
       yield* fs.remove(shim);
       yield* fs.writeFileString(
         shim,
-        `@echo off\r\n"${path.join(runtimeDir, "versions/0.0.1/t3.exe")}" %*`,
+        `@echo off\r\n"${path.join(runtimeDir, "versions/0.0.1/t0c.exe")}" %*`,
       );
       const windowsInstalled = yield* windows(installCli());
       assert.equal(yield* fs.readFileString(shim), `@echo off\r\n"${executable}" %*`);
@@ -181,7 +181,7 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
         installCli().pipe(
           Effect.provideService(
             HostProcess.ExecutablePath,
-            path.join(runtimeDir, "versions/100%/t3"),
+            path.join(runtimeDir, "versions/100%/t0c"),
           ),
         ),
       ).pipe(Effect.flip);
@@ -189,7 +189,7 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
     }),
   );
 
-  it.effect("asks npx users without a t3 command once per minor release and installs on yes", () =>
+  it.effect("asks npx users without a t0c command once per minor release and installs on yes", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
@@ -232,39 +232,39 @@ it.layer(NodeServices.layer)("t3 install", (it) => {
       yield* offer(false, { args: ["status", "--json=true"] });
       const globalBin = path.join(root, "global-bin");
       yield* fs.makeDirectory(globalBin);
-      yield* fs.writeFileString(path.join(globalBin, "t3"), "");
-      yield* fs.chmod(path.join(globalBin, "t3"), 0o755);
+      yield* fs.writeFileString(path.join(globalBin, "t0c"), "");
+      yield* fs.chmod(path.join(globalBin, "t0c"), 0o755);
       yield* offer(false, { env: { PATH: globalBin } });
       assert.equal(asked, 0);
       assert.isFalse(yield* fs.exists(link));
 
-      // A directory or non-executable file named `t3` on PATH is not an installed t3.
+      // A directory or non-executable file named `t0c` on PATH is not an installed t0c.
       const dirBin = path.join(root, "dir-bin");
-      yield* fs.makeDirectory(path.join(dirBin, "t3"), { recursive: true });
+      yield* fs.makeDirectory(path.join(dirBin, "t0c"), { recursive: true });
       const nonExecBin = path.join(root, "non-exec-bin");
       yield* fs.makeDirectory(nonExecBin);
-      yield* fs.writeFileString(path.join(nonExecBin, "t3"), "");
+      yield* fs.writeFileString(path.join(nonExecBin, "t0c"), "");
       assert.isFalse(yield* offer(undefined, { env: { PATH: dirBin } }));
       assert.equal(asked, 1);
       assert.isFalse(yield* offer(undefined, { env: { PATH: nonExecBin } }));
       assert.equal(asked, 2);
       asked = 0;
 
-      // A runner's own .bin on PATH, even found through a bare launcher record, is not an installed t3.
+      // A runner's own .bin on PATH, even found through a bare launcher record, is not an installed t0c.
       const npxBin = path.join(npmPackage, "../.bin");
       const pnpmBin = path.join(root, ".cache/pnpm/dlx/abc/node_modules/.bin");
       for (const bin of [npxBin, pnpmBin]) {
         yield* fs.makeDirectory(bin, { recursive: true });
-        yield* fs.writeFileString(path.join(bin, "t3"), "");
-        yield* fs.chmod(path.join(bin, "t3"), 0o755);
+        yield* fs.writeFileString(path.join(bin, "t0c"), "");
+        yield* fs.chmod(path.join(bin, "t0c"), 0o755);
       }
-      yield* fs.writeFileString(path.join(runtimeDir, "launchers"), "t3\n");
+      yield* fs.writeFileString(path.join(runtimeDir, "launchers"), "t0c\n");
       assert.isFalse(yield* offer(undefined, { env: { PATH: `${npxBin}:${pnpmBin}` } }));
       assert.equal(asked, 1);
       assert.isFalse(yield* fs.exists(path.join(runtimeDir, "install-prompt-declined")));
       asked = 0;
 
-      // `service install` is not `t3 install`; it still leaves the command unlinked.
+      // `service install` is not `t0c install`; it still leaves the command unlinked.
       yield* offer(false, { args: ["service", "install"] });
       assert.equal(asked, 1);
       yield* offer(false);

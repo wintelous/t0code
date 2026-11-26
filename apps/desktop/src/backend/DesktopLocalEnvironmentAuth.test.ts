@@ -30,7 +30,7 @@ const config = {
     mode: "desktop",
     noBrowser: true,
     port: 3773,
-    t3Home: "/tmp/t3",
+    t3Home: "/tmp/t0c",
     host: "127.0.0.1",
     desktopBootstrapToken: "desktop-bootstrap-token",
     tailscaleServeEnabled: false,

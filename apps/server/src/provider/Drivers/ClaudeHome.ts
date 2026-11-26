@@ -45,7 +45,7 @@ export const makeClaudeEnvironment = Effect.fn("makeClaudeEnvironment")(function
   };
 });
 
-// A Claude Code session that launched T3 exports these. A claude spawned with them acts as part of
+// A Claude Code session that launched T0 Code exports these. A claude spawned with them acts as part of
 // that session: its session id, messaging socket and token, and effort.
 const CLAUDE_HOST_SESSION_VARIABLES = [
   "CLAUDECODE",

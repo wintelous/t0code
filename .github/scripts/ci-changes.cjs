@@ -21,27 +21,27 @@ const RUNS_EVERYTHING = [
 // Includes cross-package reads absent from package.json dependencies.
 const EXTRA_OWNERS = [
   // Vite configs and tsconfigs of these apps import scripts/lib directly.
-  [/^scripts\/lib\//, ["@t3tools/desktop", "@t3tools/mobile", "@t3tools/web", "t3"]],
+  [/^scripts\/lib\//, ["@t3tools/desktop", "@t3tools/mobile", "@t3tools/web", "t0c"]],
   // scripts/build-desktop-artifact.ts reads the GNOME extension manifest.
   [/^apps\/desktop\/gnome-extension\//, ["@t3tools/scripts"]],
   [/^native\/browser-secret\//, ["@t3tools/desktop"]],
   [/^native\/kde-snap-shot\//, ["@t3tools/desktop"]],
   [/^native\/libghostty-vt\//, ["@t3tools/web"]],
   // apps/server/src/cloud/ConnectReachability.test.ts checks the guide's headings.
-  [/^docs\/user\/t0-connect-troubleshooting\.md$/, ["t3"]],
+  [/^docs\/user\/t0-connect-troubleshooting\.md$/, ["t0c"]],
 ];
 const RUST = /^native\/(resource-monitor|kde-snap-shot|hyprland-snap-shot)\//;
 
 // These tests read other packages without declaring dependencies.
 const TEST_ONLY_DEPS = {
   // Evals import the server's source to test its real model-facing text.
-  "@t3tools/evals": ["t3"],
+  "@t3tools/evals": ["t0c"],
   "@t3tools/provider-pi": ["@t3tools/client-runtime"],
   "@t3tools/scripts": [
     "@t3tools/desktop",
     "@t3tools/mobile",
     "@t3tools/web",
-    "t3",
+    "t0c",
     "@t3tools/provider-cursor",
   ],
 };
@@ -66,7 +66,7 @@ const DESKTOP_LAUNCH = [
   /^scripts\/(smoke-desktop-app\.ts|fixtures\/desktop-launch\/)/,
 ];
 
-const OWN_TEST_JOB = new Set(["t3", "@t3tools/web", "@t3tools/monorepo"]);
+const OWN_TEST_JOB = new Set(["t0c", "@t3tools/web", "@t3tools/monorepo"]);
 
 function readWorkspace() {
   const patterns = [];
@@ -176,13 +176,13 @@ function decide(files, packages, full) {
     affected: [...affected].sort(),
     outputs: {
       typecheck: affected.size > 0,
-      build: has("@t3tools/desktop") || has("t3") || has("@t3tools/web") || desktopLaunch,
+      build: has("@t3tools/desktop") || has("t0c") || has("@t3tools/web") || desktopLaunch,
       desktop_launch: desktopLaunch,
       test: tested.length > 0,
       // Empty means every package the Test job covers.
       test_packages: everything ? "" : tested.map((pkg) => pkg.name).join(" "),
       test_web: has("@t3tools/web"),
-      test_server: has("t3"),
+      test_server: has("t0c"),
       rust: everything || rust,
       release_smoke: scriptsChanged,
       mobile_native: files === null || files.some((file) => MOBILE_NATIVE.test(file)),

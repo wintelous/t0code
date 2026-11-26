@@ -237,7 +237,7 @@ const PRINTENV_CAPTURE_SYNTAX = new Map(
   [...DEBUG_TRAP_SHELLS, "dash", "ash"].map((shell) => [shell, POSIX_CAPTURE_SYNTAX] as const),
 ).set("fish", { assignment: "set -l __T0CODE_PRINTENV (", orElse: "; or " });
 // Network PATH entries must be probed inside the shell's deadline, away from the desktop thread.
-const PRINTENV_LOOKUP_COMMAND = `/bin/sh -c 'command -v printenv || { [ -n "$1" ] && PATH="$1" command -v printenv; } || printf %s /usr/bin/printenv' t3`;
+const PRINTENV_LOOKUP_COMMAND = `/bin/sh -c 'command -v printenv || { [ -n "$1" ] && PATH="$1" command -v printenv; } || printf %s /usr/bin/printenv' t0c`;
 
 export function buildEnvironmentCaptureCommand(
   shell: string,
@@ -1322,7 +1322,7 @@ interface PathSetupInput {
 
 /**
  * The startup file (`~/...`, or absolute under `configHome`) and line that put `directory` last on
- * PATH for new zsh, bash, or fish terminals, so it never shadows another `t3`. Undefined on Windows (writing PATH there would flatten the registry's
+ * PATH for new zsh, bash, or fish terminals, so it never shadows another `t0c`. Undefined on Windows (writing PATH there would flatten the registry's
  * `%VAR%` entries), for other shells, macOS bash, or unsafe paths.
  */
 export function pathSetup(

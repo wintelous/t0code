@@ -392,7 +392,7 @@ interface ThreadState {
   >;
   readonly stoppedChildren: Set<string>;
   readonly strandedSteers: Set<string>;
-  /** Prompts other clients queued while no T3 turn ran, shown once delivered; `leads` the next wake if no report preceded it. */
+  /** Prompts other clients queued while no T0 Code turn ran, shown once delivered; `leads` the next wake if no report preceded it. */
   readonly externalPrompts: Map<string, { readonly text: string; leads: boolean }>;
   mcp:
     | { readonly name: string; readonly directory: string; readonly credential: string }
@@ -443,7 +443,7 @@ export const t3McpServerName = Effect.fn("t3McpServerName")(function* (threadId:
   return `t0-code-${Hex.encode(digest).slice(0, 16)}`;
 });
 
-// Last match wins: deny all threads' T3 servers, then allow only this thread's.
+// Last match wins: deny all threads' T0 Code servers, then allow only this thread's.
 const mcpRules = (mcpServerName: string | null): ReadonlyArray<Rule> =>
   mcpServerName === null
     ? []
@@ -726,7 +726,7 @@ const deliver = <E>(answer: Effect.Effect<void, E>) =>
 
 type ModelRef = ReturnType<typeof Model.Ref.make>;
 
-// msg_ IDs cannot cross sessions; include session identity because T3 IDs repeat across environments.
+// msg_ IDs cannot cross sessions; include session identity because T0 Code IDs repeat across environments.
 // Pre-acknowledgement IDs also establish fork/rollback boundaries.
 const turnPromptId = (sessionId: string, attemptId: string) =>
   SessionMessage.ID.make(`msg_t3_turn_${sessionId}:${attemptId}`);
@@ -1039,7 +1039,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       }
     >();
 
-    // A held wake routes its shell launches only when T3 starts its run, so marks wait on the wake.
+    // A held wake routes its shell launches only when T0 Code starts its run, so marks wait on the wake.
     const heldLaunch = (state: ThreadState, taskId: string) =>
       sessionsOf(state)
         .flatMap((session) => session.wakes)
@@ -1315,7 +1315,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       });
     });
 
-    // T3's own prompts are sent while their turn is active, so only other clients reach here.
+    // T0 Code's own prompts are sent while their turn is active, so only other clients reach here.
     const emitExternalPrompt = Effect.fnUntraced(function* (
       state: ThreadState,
       turn: ActiveTurn,
@@ -2623,7 +2623,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
               Effect.ignore({ log: true }),
             );
 
-    // T3 expired pre-load requests and no longer shows them; stop them so OpenCode cannot wait forever.
+    // T0 Code expired pre-load requests and no longer shows them; stop them so OpenCode cannot wait forever.
     const stopLeftoverRequests = Effect.fnUntraced(function* (state: ThreadState) {
       const sessionID = Session.ID.make(state.sessionId);
       const listed = yield* Effect.all([
@@ -3604,7 +3604,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
         }
         return;
       }
-      // No T3 turn existed while a wake held these, so its user items came from another client.
+      // No T0 Code turn existed while a wake held these, so its user items came from another client.
       if (
         event.type === "session.inbox.enqueued" &&
         event.data.item.type === "user" &&
@@ -3612,7 +3612,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       ) {
         const text = event.data.item.payload.text;
         if (state.subagent !== undefined) state.subagent.prompt ??= text;
-        // T3's own prompts can be admitted after a failed submit ended their turn.
+        // T0 Code's own prompts can be admitted after a failed submit ended their turn.
         else if (!isOwnPrompt(event.data.inboxID)) {
           state.externalPrompts.set(event.data.inboxID, {
             text,
@@ -3951,7 +3951,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       };
       currentScope = scope;
       yield* Scope.close(previous, Exit.void);
-      // A restarted server forgot T3's MCP servers; the next turn adds them again.
+      // A restarted server forgot T0 Code's MCP servers; the next turn adds them again.
       // The gap may have started a pending prompt unseen, so none may set a later wake's boundary.
       for (const state of threads.values()) {
         state.mcp = undefined;
@@ -4287,7 +4287,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       }
     });
 
-    // OpenCode 2.0.18 executes even unstaged revert clears; wait so that end cannot settle a T3 turn.
+    // OpenCode 2.0.18 executes even unstaged revert clears; wait so that end cannot settle a T0 Code turn.
     const clearRevert = Effect.fnUntraced(function* (sessionId: string) {
       const settled = yield* Deferred.make<void>();
       clearing.set(sessionId, settled);
@@ -4302,7 +4302,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
     });
 
     // Failed/interrupted rollbacks must clear staged reverts before the next prompt commits them.
-    // Leave files to T3 checkpoints; history-only rewinds must preserve them.
+    // Leave files to T0 Code checkpoints; history-only rewinds must preserve them.
     const rollBackTo = Effect.fnUntraced(function* (
       sessionId: string,
       boundary: SessionMessage.ID,
@@ -4414,7 +4414,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
 
     const promptFiles = Effect.fnUntraced(function* (attachments: ReadonlyArray<ChatAttachment>) {
       const files: Array<{ uri: string; name: string }> = [];
-      // An external server may not share T3's attachment directory.
+      // An external server may not share T0 Code's attachment directory.
       if (connection.external) return files;
       for (const attachment of attachments) {
         if (!isProviderNativeImageAttachment(attachment)) continue;
@@ -4448,7 +4448,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
       const mcpSession = yield* mcpSessions.read(turnInput.threadId);
       const directory = turnInput.runtimePolicy.cwd ?? host.paths.cwd;
       const name = yield* mcpServerNameFor(turnInput.threadId);
-      // An external server may not reach T3's MCP endpoint, as with 1.x.
+      // An external server may not reach T0 Code's MCP endpoint, as with 1.x.
       const wanted =
         mcpSession === undefined || connection.external
           ? undefined
@@ -4462,7 +4462,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
         yield* removeMcp(state.mcp);
         state.mcp = undefined;
       }
-      // Idle Location eviction drops runtime MCP servers without clearing T3's cache.
+      // Idle Location eviction drops runtime MCP servers without clearing T0 Code's cache.
       // Re-adding an unchanged config keeps its existing connection.
       let mcpAvailable = false;
       if (wanted !== undefined) {
@@ -4502,7 +4502,7 @@ export const make = Effect.fn("OpenCode2Adapter.make")(function* (instanceId: Pr
         }),
         t3OrchestrationSystemPrompt(mcpAvailable, mcpSession?.capabilities?.has("device") === true),
         mcpAvailable
-          ? "To wait for a background shell you started (tests, a build), call `t3_background_wait` with its shell ID before you end your turn. Do not mark work you leave running, or PRs."
+          ? "To wait for a background shell you started (tests, a build), call `t0c_background_wait` with its shell ID before you end your turn. Do not mark work you leave running, or PRs."
           : undefined,
       ]
         .filter((part) => part !== undefined && part.length > 0)

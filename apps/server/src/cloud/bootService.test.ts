@@ -61,17 +61,17 @@ const windowsTaskOptions = {
   conhostPath: "C:\\Windows\\System32\\conhost.exe",
 };
 
-it("reads the served T3 home and log back out of a rendered unit, plist, or task", () => {
+it("reads the served T0 Code home and log back out of a rendered unit, plist, or task", () => {
   const plan = (baseDir: string) => ({
-    program: [`${baseDir}/runtime/versions/1.2.3/t3`, "__service-launcher"],
+    program: [`${baseDir}/runtime/versions/1.2.3/t0c`, "__service-launcher"],
     baseDir,
     logPath: `${baseDir}/userdata/logs/boot-service.log`,
     unitPath: "/home/theo/.config/systemd/user/t0code.service",
   });
 
   expect(
-    BootService.bootServiceBaseDirOf(BootService.renderBootServiceUnit(plan("/home/theo/.t3"))),
-  ).toBe("/home/theo/.t3");
+    BootService.bootServiceBaseDirOf(BootService.renderBootServiceUnit(plan("/home/theo/.t0c"))),
+  ).toBe("/home/theo/.t0c");
   expect(
     BootService.bootServiceBaseDirOf(
       BootService.renderBootServiceUnit(plan("/home/theo/T3 Data/100%")),
@@ -98,17 +98,17 @@ it("reads the served T3 home and log back out of a rendered unit, plist, or task
   ).toBe("/Users/theo/a&b");
   expect(
     BootService.bootServiceBaseDirOf(
-      BootService.renderBootServiceTask(plan("C:\\Users\\theo\\T3 a&b\\"), windowsTaskOptions),
+      BootService.renderBootServiceTask(plan("C:\\Users\\theo\\T0 Code a&b\\"), windowsTaskOptions),
     ),
-  ).toBe("C:\\Users\\theo\\T3 a&b\\");
+  ).toBe("C:\\Users\\theo\\T0 Code a&b\\");
   expect(BootService.bootServiceBaseDirOf("[Service]\nExecStart=/x\n")).toBeUndefined();
 });
 
 it("protects the server unit from agents under CPU and memory pressure", () => {
   const unit = BootService.renderBootServiceUnit({
-    program: ["/home/theo/.t3/runtime/versions/1.2.3/t3", "__service-launcher"],
-    baseDir: "/home/theo/.t3",
-    logPath: "/home/theo/.t3/userdata/logs/boot-service.log",
+    program: ["/home/theo/.t0c/runtime/versions/1.2.3/t0c", "__service-launcher"],
+    baseDir: "/home/theo/.t0c",
+    logPath: "/home/theo/.t0c/userdata/logs/boot-service.log",
     unitPath: "/home/theo/.config/systemd/user/t0code.service",
   });
   const service = unit.slice(unit.indexOf("[Service]"), unit.indexOf("[Install]"));
@@ -133,12 +133,12 @@ it.each([
   ],
   [
     "a task",
-    "C:\\Users\\theo\\T3 a&b <c>",
+    "C:\\Users\\theo\\T0 Code a&b <c>",
     (plan: BootService.BootServicePlan) =>
       BootService.renderBootServiceTask(plan, windowsTaskOptions),
   ],
 ] as const)("reads the launcher back out of %s", (_, baseDir, render) => {
-  const program = `${baseDir}/runtime/versions/1.2.3/t3`;
+  const program = `${baseDir}/runtime/versions/1.2.3/t0c`;
   expect(
     BootService.bootServiceProgramOf(
       render({ program: [program, "__service-launcher"], baseDir, logPath: "/log", unitPath: "" }),
@@ -152,11 +152,11 @@ it.each([
   ["a single quote", "/home/theo/Theo's T3"],
   ["a backslash", "/home/theo/T3\\Data"],
   ["a newline", "/home/theo/T3\nData"],
-])("renders a loadable unit, or refuses, for a T3 home with %s", (_, baseDir) => {
+])("renders a loadable unit, or refuses, for a T0 Code home with %s", (_, baseDir) => {
   let unit: string;
   try {
     unit = BootService.renderBootServiceUnit({
-      program: [`${baseDir}/runtime/versions/1.2.3/t3`, "__service-launcher"],
+      program: [`${baseDir}/runtime/versions/1.2.3/t0c`, "__service-launcher"],
       baseDir,
       logPath: `${baseDir}/userdata/logs/boot-service.log`,
       unitPath: "/home/theo/.config/systemd/user/t0code.service",
@@ -201,7 +201,7 @@ const makeHarness = Effect.fn("test.make_boot_service_harness")(function* (
     "systemd",
     "user",
   );
-  const baseDir = path.join(home, ".t3");
+  const baseDir = path.join(home, ".t0c");
   const statePath = path.join(baseDir, "runtime", "service-state.json");
   const runtime = pinnedRuntimePaths(path, baseDir, "1.2.3", platform);
   yield* fs.makeDirectory(path.dirname(runtime.entryPath), { recursive: true });
@@ -319,7 +319,7 @@ const makeHarness = Effect.fn("test.make_boot_service_harness")(function* (
                 ],
               })
             : input.args[0] === "--version"
-              ? `t3 v${/versions[\\/]([^\\/]+)[\\/]/.exec(input.command)?.[1] ?? "1.2.3"}\n`
+              ? `t0c v${/versions[\\/]([^\\/]+)[\\/]/.exec(input.command)?.[1] ?? "1.2.3"}\n`
               : input.command === SCHTASKS && input.args.includes("/XML")
                 ? control.task?.enabled === false
                   ? disabledServiceTask(control.task.xml)
@@ -362,7 +362,7 @@ const makeHarness = Effect.fn("test.make_boot_service_harness")(function* (
     cliVersion = "1.2.3",
     serviceBaseDir = baseDir,
     insideService = false,
-    hostExecPath = "/usr/bin/t3",
+    hostExecPath = "/usr/bin/t0c",
     underSudo = false,
     serviceInstallBinDir: string | null | undefined = installBinDir,
   ) =>
@@ -993,7 +993,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
           protocol: SERVICE_LAUNCHER_PROTOCOL,
           activeVersion: "1.2.4",
         });
-        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.4/t3");
+        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.4/t0c");
         expect(
           commands.filter(
             (command) =>
@@ -1015,7 +1015,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
           protocol: SERVICE_LAUNCHER_PROTOCOL,
           activeVersion: "1.2.5",
         });
-        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.5/t3");
+        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.5/t0c");
         expect((yield* latest.status).current).toBe(true);
         expect(
           yield* fs.exists(path.join(path.dirname(statePath), SERVICE_RESTART_PENDING_FILE)),
@@ -1033,7 +1033,7 @@ it.layer(NodeServices.layer)("boot service install", (it) => {
         const unit = yield* fs.readFileString(plan.unitPath);
         yield* fs.writeFileString(
           plan.unitPath,
-          unit.replace("versions/1.2.3/t3", "versions/1.2.2/t3"),
+          unit.replace("versions/1.2.3/t0c", "versions/1.2.2/t0c"),
         );
         yield* fs.writeFileString(
           statePath,
@@ -1161,7 +1161,7 @@ process.disconnect();
           protocol: SERVICE_LAUNCHER_PROTOCOL,
           activeVersion: "1.2.4",
         });
-        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.4/t3");
+        expect(yield* fs.readFileString(plan.unitPath)).toContain("versions/1.2.4/t0c");
         expect(
           yield* fs.readFileString(
             path.join(path.dirname(statePath), SERVICE_RESTART_PENDING_FILE),
@@ -1282,7 +1282,7 @@ process.disconnect();
     }),
   );
 
-  it.effect("restart and install leave a service that serves another T3 home alone", () =>
+  it.effect("restart and install leave a service that serves another T0 Code home alone", () =>
     Effect.gen(function* () {
       const { service, fs, baseDir, commands, makeService } = yield* makeHarness();
       const plan = yield* service.install();
@@ -1290,7 +1290,7 @@ process.disconnect();
       const path = yield* Path.Path;
       const otherHome = yield* fs.makeTempDirectoryScoped({ prefix: "t3-other-home-" });
 
-      const other = yield* makeService(undefined, "1.2.3", path.join(otherHome, ".t3"));
+      const other = yield* makeService(undefined, "1.2.3", path.join(otherHome, ".t0c"));
       commands.length = 0;
       expect(yield* other.restart).toBe("skipped");
       const refused = yield* other.install().pipe(Effect.flip);
@@ -1311,7 +1311,7 @@ process.disconnect();
     }),
   );
 
-  it.effect("treats a symlinked T3 home path as the same home", () =>
+  it.effect("treats a symlinked T0 Code home path as the same home", () =>
     Effect.gen(function* () {
       const { service, fs, baseDir, commands, makeService } = yield* makeHarness();
       yield* service.install();
@@ -1338,7 +1338,7 @@ process.disconnect();
       const { fs, commands, invocations, control, makeService } = yield* makeHarness();
       const path = yield* Path.Path;
       const home = yield* fs.makeTempDirectoryScoped({ prefix: "t3-handoff-" });
-      const baseDir = path.join(home, "T3 Data 100%", "${UNSET}", "$literal");
+      const baseDir = path.join(home, "T0 Code Data 100%", "${UNSET}", "$literal");
       const outside = yield* makeService(undefined, "1.2.3", baseDir);
       const plan = yield* outside.install();
       const statePath = path.join(baseDir, "runtime", "service-state.json");
@@ -1367,7 +1367,7 @@ process.disconnect();
         "service",
         "install",
         "--base-dir",
-        path.join(home, "T3 Data 100%", "$${UNSET}", "$$literal"),
+        path.join(home, "T0 Code Data 100%", "$${UNSET}", "$$literal"),
         "--allow-downgrade",
       ]);
 

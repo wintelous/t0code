@@ -556,7 +556,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     title: msg("Guest links"),
     to: "/settings/labs",
     scope: "environment",
-    searchTerms: [msg("beta share guest invite link teammate watch t3 connect tunnel")],
+    searchTerms: [msg("beta share guest invite link teammate watch t0c connect tunnel")],
   },
   {
     id: "linked-environments-beta",
@@ -975,7 +975,7 @@ export const SETTINGS_SEARCH_ITEMS = [
   },
   {
     id: "cli-command",
-    title: msg("t3 command"),
+    title: msg("t0c command"),
     to: "/settings/about",
     searchTerms: [msg("cli terminal shell path install command line")],
     desktopOnly: true,
@@ -1420,7 +1420,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     to: "/settings/access",
     targetId: "connections-environment",
     searchTerms: [
-      msg("t3 connect devices approve deny trust revoke pairing code security account"),
+      msg("t0c connect devices approve deny trust revoke pairing code security account"),
     ],
     cloudOnly: true,
     managedTunnelOnly: true,
@@ -1431,7 +1431,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     title: msg("Hold webhooks while offline"),
     to: "/settings/access",
     targetId: "connections-environment",
-    searchTerms: [msg("webhook automations offline queue mailbox t3 connect")],
+    searchTerms: [msg("webhook automations offline queue mailbox t0c connect")],
     cloudOnly: true,
     managedTunnelOnly: true,
   },
@@ -1475,7 +1475,7 @@ export const SETTINGS_SEARCH_ITEMS = [
     id: "remote-environments",
     title: msg("Environments"),
     to: "/settings/connections",
-    searchTerms: [msg("add pair backend host code ssh config agent tunnel saved t3 connect")],
+    searchTerms: [msg("add pair backend host code ssh config agent tunnel saved t0c connect")],
   },
   {
     id: "load-balancing",

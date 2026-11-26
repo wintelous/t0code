@@ -155,7 +155,7 @@ export function resolveResourceMonitorRustTargets(
 }
 
 export function resourceMonitorExecutableName(platform: typeof BuildPlatform.Type): string {
-  return platform === "win" ? "t3-resource-monitor.exe" : "t3-resource-monitor";
+  return platform === "win" ? "t0c-resource-monitor.exe" : "t0c-resource-monitor";
 }
 
 const PLATFORM_CONFIG: Record<typeof BuildPlatform.Type, PlatformConfig> = {
@@ -2467,7 +2467,7 @@ export const stageBrowserSecret = Effect.fn("stageBrowserSecret")(function* (inp
         "--arch",
         input.arch === "arm64" ? "arm64" : "x64",
         "--output",
-        path.join(input.stageResourcesDir, "browser-secret", "t3-browser-secret"),
+        path.join(input.stageResourcesDir, "browser-secret", "t0c-browser-secret"),
       ],
       { cwd: input.repoRoot },
     ),
@@ -2492,7 +2492,7 @@ export const stageAppleSpeech = Effect.fn("stageAppleSpeech")(function* (input: 
         "--arch",
         input.arch,
         "--output",
-        path.join(input.stageResourcesDir, "apple-speech", "t3-apple-speech"),
+        path.join(input.stageResourcesDir, "apple-speech", "t0c-apple-speech"),
       ],
       { cwd: input.repoRoot },
     ),
@@ -3084,7 +3084,7 @@ export const stageWslRuntimeArchive = Effect.fn("stageWslRuntimeArchive")(functi
 
 // Match cliArchiveStem without its circular import. WSL uses the Windows host's architecture.
 export const wslRuntimeArchiveStem = (version: string, arch: typeof BuildArch.Type): string =>
-  `t3-${version}-linux-${arch}`;
+  `t0c-${version}-linux-${arch}`;
 
 export const parseWslRuntimeArchiveMembers = (listing: string): ReadonlyArray<string> =>
   listing
@@ -3468,7 +3468,7 @@ export const validateWindowsPackagedPayload = Effect.fn(
     return yield* new WindowsPackagedPayloadValidationError({
       reason: "resource-monitor-missing",
       packagedAppDir,
-      missingFiles: ["resource-monitor/t3-resource-monitor.exe"],
+      missingFiles: ["resource-monitor/t0c-resource-monitor.exe"],
     });
   }
 
@@ -3535,7 +3535,7 @@ export const validateWindowsPackagedPayload = Effect.fn(
       );
     }
     const members = parseWslRuntimeArchiveMembers(listing.stdout);
-    // The WSL installer finds t3 under the archive's single stem-named directory.
+    // The WSL installer finds t0c under the archive's single stem-named directory.
     const stem = wslRuntimeArchiveStem(input.appVersion, input.targetArch);
     const topLevel = new Set(members.map((member) => member.split("/")[0]));
     if (topLevel.size !== 1 || !topLevel.has(stem)) {
@@ -3545,7 +3545,7 @@ export const validateWindowsPackagedPayload = Effect.fn(
         ),
       );
     }
-    const requiredMembers = [`${stem}/t3`, `${stem}/client`, `${stem}/node_modules`];
+    const requiredMembers = [`${stem}/t0c`, `${stem}/client`, `${stem}/node_modules`];
     const missingMembers = requiredMembers.filter((member) => !members.includes(member));
     const ptyCandidates = [
       `${stem}/node_modules/node-pty/build/Release/pty.node`,
@@ -4292,7 +4292,7 @@ const buildDesktopArtifactCli = Command.make("build-desktop-artifact", {
   ),
   wslRuntime: Flag.String("wsl-runtime").pipe(
     Flag.withDescription(
-      "Path to the Linux CLI release archive (t3-<version>-linux-x64.tar.gz) to embed as the WSL runtime of a Windows build (env: T0CODE_DESKTOP_WSL_RUNTIME).",
+      "Path to the Linux CLI release archive (t0c-<version>-linux-x64.tar.gz) to embed as the WSL runtime of a Windows build (env: T0CODE_DESKTOP_WSL_RUNTIME).",
     ),
     Flag.optional,
   ),

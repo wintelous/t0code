@@ -166,7 +166,7 @@ export interface McpInvocationScope {
    * see the URL they were configured with, so links they must fetch carry it. Unset in-process.
    */
   readonly origin?: string | undefined;
-  /** False when the calling thread's project is on no forge T3 reads; `/mcp` reads it per request. */
+  /** False when the calling thread's project is on no forge T0 Code reads; `/mcp` reads it per request. */
   readonly forge?: boolean;
 }
 
@@ -194,7 +194,7 @@ export class McpInvocationContext extends Context.Service<
 
 /**
  * `McpSchema.EnabledWhen` for tools a delegated child must not see or call.
- * EnabledWhen only receives the MCP client profile, so read the T3 caller from the request fiber.
+ * EnabledWhen only receives the MCP client profile, so read the T0 Code caller from the request fiber.
  */
 export const hiddenFromSubagents = (): boolean => {
   const fiber = Fiber.getCurrent();
@@ -236,7 +236,7 @@ export const hiddenWhileLinksOff = (): boolean => {
   return scope?.linkedEnvironments !== false;
 };
 
-/** `McpSchema.EnabledWhen` for agent feedback tools, for every client including `t3 feedback`. */
+/** `McpSchema.EnabledWhen` for agent feedback tools, for every client including `t0c feedback`. */
 export const hiddenWhileFeedbackOff = (): boolean => {
   const fiber = Fiber.getCurrent();
   const scope = fiber && Context.getOrUndefined(fiber.context, McpInvocationContext);
@@ -306,7 +306,7 @@ export const requireThreadMcpCapability = <const C extends "preview" | "device">
 const threadCallerRequired = (operation: string) =>
   new OrchestratorMcpFailure({
     code: "thread_credential_required",
-    message: `${operation} acts as the calling T3 thread, so it needs an agent running inside T0 Code. This MCP client signed in from outside a thread.`,
+    message: `${operation} acts as the calling T0 Code thread, so it needs an agent running inside T0 Code. This MCP client signed in from outside a thread.`,
   });
 
 export type McpThreadInvocationScope = McpInvocationScope & { readonly thread: McpThreadCaller };

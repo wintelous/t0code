@@ -1,6 +1,6 @@
 ---
 name: t3-workflows
-description: Author, edit, run, and debug durable T0 Code workflows (`~/.t3/workflows/*.ts`). Use when asked to build or change a multi-step T0 Code automation tying together agent threads, code steps, schedules, webhooks, issue/PR trackers, or human approvals, or to inspect, resume, signal, or cancel workflow runs.
+description: Author, edit, run, and debug durable T0 Code workflows (`~/.t0c/workflows/*.ts`). Use when asked to build or change a multi-step T0 Code automation tying together agent threads, code steps, schedules, webhooks, issue/PR trackers, or human approvals, or to inspect, resume, signal, or cancel workflow runs.
 ---
 
 # T0 Code workflows
@@ -11,11 +11,11 @@ Use a workflow for multi-stage work that must not be lost or repeated (triage �
 
 ## Quick start
 
-Workflows are a Labs feature, off by default. If `t3 workflow` says workflows are off, ask the user to turn them on in Settings → Labs → Workflows; do not edit their settings yourself.
+Workflows are a Labs feature, off by default. If `t0c workflow` says workflows are off, ask the user to turn them on in Settings → Labs → Workflows; do not edit their settings yourself.
 
-Put a `.ts` file in `~/.t3/workflows/` (the `workflows` folder of T3 home, or the path in `T0CODE_WORKFLOWS`). Once workflows are on, the server watches the folder and reloads files automatically—nothing to restart. A file name with a space or other unusual character (`fix issue.ts`) is skipped with a warning in the server log: use letters, digits, `-`, `_` and `.`. Files run with Node's type stripping, so only erasable TypeScript works: no `enum`, `namespace` or parameter properties.
+Put a `.ts` file in `~/.t0c/workflows/` (the `workflows` folder of T0 Code home, or the path in `T0CODE_WORKFLOWS`). Once workflows are on, the server watches the folder and reloads files automatically—nothing to restart. A file name with a space or other unusual character (`fix issue.ts`) is skipped with a warning in the server log: use letters, digits, `-`, `_` and `.`. Files run with Node's type stripping, so only erasable TypeScript works: no `enum`, `namespace` or parameter properties.
 
-Workflow files import nothing from T3 or Effect. `T3`, `Effect`, `Schema`, `Option`, `Duration`, and `Schedule` are injected as globals. Never `import` from `effect` (that loads a second runtime copy the engine cannot run). Node built-ins (`node:fs`, `node:crypto`) can be imported normally.
+Workflow files import nothing from T0 Code or Effect. `T3`, `Effect`, `Schema`, `Option`, `Duration`, and `Schedule` are injected as globals. Never `import` from `effect` (that loads a second runtime copy the engine cannot run). Node built-ins (`node:fs`, `node:crypto`) can be imported normally.
 
 ```ts
 const { workflow, agent, ask, stop, title, every, Tick } = T3;
@@ -153,7 +153,7 @@ Call these directly in the workflow body with `yield*`. Every named primitive st
 | Option            | Applies to | Meaning                                                                                                                                             |
 | ----------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `brief`           | All        | Full task instructions. The agent sees only this brief and its project.                                                                             |
-| `project`         | New thread | Project id (from `t3_project_list`) or absolute folder path.                                                                                        |
+| `project`         | New thread | Project id (from `t0c_project_list`) or absolute folder path.                                                                                       |
 | `thread`          | Continue   | `thread` returned by an earlier `agent` step. Continues it as it started, so the New thread options are refused alongside it.                       |
 | `returns`         | All        | Optional `Schema`. Completes only when the agent submits valid data (up to 2 correction prompts).                                                   |
 | `model`           | New thread | `{ instanceId, model, options? }`; `options` is `[{ id, value }]` (e.g. `[{ id: "reasoningEffort", value: "high" }]`). Defaults to project default. |
@@ -161,14 +161,14 @@ Call these directly in the workflow body with `yield*`. Every named primitive st
 | `runtimeMode`     | New thread | `"full-access" \| "auto" \| "auto-accept-edits" \| "approval-required"` (waits on thread approvals). Project default if omitted.                    |
 | `interactionMode` | New thread | `"default" \| "plan"`.                                                                                                                              |
 | `title`           | New thread | Thread title. Defaults to `<workflow>: <step>`.                                                                                                     |
-| `environment`     | New thread | Linked environment id (`t3 environment list`). Folder paths not yet registered there are registered automatically.                                  |
+| `environment`     | New thread | Linked environment id (`t0c environment list`). Folder paths not yet registered there are registered automatically.                                 |
 | `issue`           | Local only | `Issue` or `{ project, url }`. Links the thread to that issue (not applied in linked environments).                                                 |
 | `timeout`         | All        | Time limit for each attempt (e.g. `"2 hours"`); an automatic retry or a resume starts a new one. Past it, the turn is stopped and the step fails.   |
 | `quiet`           | All        | Idle grace period (e.g. `"45 minutes"`) for agents that wait across turns before submitting `returns`.                                              |
 
 - **Worktrees:** Use a `worktree` workspace whenever two agents can edit the same repo at once (concurrent runs or parallel `agent` calls).
 - **Waiting across turns (`quiet`):** If an agent watches PR checks or background work and ends its turn while waiting to be woken, set `quiet: "45 minutes"` and tell it in `brief` to end waiting turns without submitting. The step prompts for the result only after the thread has been idle for `quiet`. Without `quiet`, it prompts as soon as a turn ends without output. Always set a `timeout` alongside `quiet`.
-- **Retries and pauses:** If a turn dies (crashes or is cut off), `agent` automatically tries once more (on a fresh thread, or the same thread if continuing `thread`). An agent that finishes its turn without valid `returns` is asked to correct it twice in the same thread, and then gives up without starting the job again. A timeout or manual stop does not auto-retry. A run paused by an agent that ran and gave up or timed out waits for a person—`resumeAfter` does not auto-resume it (`t3 workflow resume` starts a fresh attempt). An agent that could not be started at all (no project at that folder, linked environment unreachable) pauses like a failed `step` and resumes on its own; `agent.try` returns that failure as data instead.
+- **Retries and pauses:** If a turn dies (crashes or is cut off), `agent` automatically tries once more (on a fresh thread, or the same thread if continuing `thread`). An agent that finishes its turn without valid `returns` is asked to correct it twice in the same thread, and then gives up without starting the job again. A timeout or manual stop does not auto-retry. A run paused by an agent that ran and gave up or timed out waits for a person—`resumeAfter` does not auto-resume it (`t0c workflow resume` starts a fresh attempt). An agent that could not be started at all (no project at that folder, linked environment unreachable) pauses like a failed `step` and resumes on its own; `agent.try` returns that failure as data instead.
 - **Fallback with `agent.try`:**
 
 ```ts
@@ -181,7 +181,7 @@ Effect.fn(function* () {
 });
 ```
 
-- **Linked environments:** Enable Settings → Labs → Linked environments. The run stays on this server; only the thread runs remotely, bounded by the link's paired access. For a machine per run, create and link it in a `step` (`t3 auth pairing create --json` on the remote, `t3 environment link <url> --pairing-code <code> --access <access>` here), return its id, and delete it in `onEnd`.
+- **Linked environments:** Enable Settings → Labs → Linked environments. The run stays on this server; only the thread runs remotely, bounded by the link's paired access. For a machine per run, create and link it in a `step` (`t0c auth pairing create --json` on the remote, `t0c environment link <url> --pairing-code <code> --access <access>` here), return its id, and delete it in `onEnd`.
 
 ## Other workflows
 
@@ -247,7 +247,7 @@ Effect.fn(function* () {
 
 - **Shared gate pattern (`signalAll`):** Because `signalAll` keeps nothing for late arrivals, check the switch in a `step`, then while it is on call `wait` with `{ channel: "main-green", timeout: "10 minutes", returns: Schema.Null }` and re-check in a loop. Number step names per iteration (`switch/1`, `released/1`, `switch/2`, `released/2`). Whoever clears the switch calls `signalAll({ channel: "main-green" }, null)`.
 - **Transactions:** Use `entry.update` or `store.transaction` whenever a write depends on a read, or when a step might fail after writing.
-- **CLI access:** Inspect or flip keys with `t3 workflow store list [prefix]`, `store set <key> '<json>'`, and `store delete <key>`.
+- **CLI access:** Inspect or flip keys with `t0c workflow store list [prefix]`, `store set <key> '<json>'`, and `store delete <key>`.
 
 ## Issues and pull requests
 
@@ -307,17 +307,17 @@ Effect.fn(function* () {
 
 A workflow's `payload` schema must match what its `triggers` emit.
 
-| Trigger                                          | Payload          | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `every("1 hour")`                                | `Tick`           | `{ scheduledAt }`. Minimum 1 minute. The first run comes one interval after the file loads, not at load. Downtime collapses into one run, not one per missed interval.                                                                                                                                                                                                                                                                                                                     |
-| `daily("09:00", { weekdays?: [1, 2, 3, 4, 5] })` | `Tick`           | Server local time; `0` is Sunday. Missed by more than 10 minutes is skipped.                                                                                                                                                                                                                                                                                                                                                                                                               |
-| `webhook("name", { key? })`                      | `WebhookRequest` | `{ method, headers, query, body }` (lowercase header names, text `query`/`body`). Set `payload: WebhookRequest`, taken from `T3`; never write its shape out yourself. `t3 workflow hooks` prints URL paths (includes secret). A retry that repeats a delivery header (`X-GitHub-Delivery`, `Idempotency-Key`, `webhook-id`, and the Gitea, GitLab and Linear ones) starts no second run; for other senders, `key: (r) => …` names the run from the request. Bodies over 1 MiB are refused. |
-| `issues.opened({ project, labels?, query? })`    | `Issue`          | Polls ~once a minute. Only issues opened after the workflow first loaded. Issue must carry all `labels`.                                                                                                                                                                                                                                                                                                                                                                                   |
-| `pullRequests.opened({ project, query? })`       | `PullRequest`    | Polls ~once a minute. Only pull requests opened after the workflow first loaded.                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Trigger                                          | Payload          | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ------------------------------------------------ | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `every("1 hour")`                                | `Tick`           | `{ scheduledAt }`. Minimum 1 minute. The first run comes one interval after the file loads, not at load. Downtime collapses into one run, not one per missed interval.                                                                                                                                                                                                                                                                                                                      |
+| `daily("09:00", { weekdays?: [1, 2, 3, 4, 5] })` | `Tick`           | Server local time; `0` is Sunday. Missed by more than 10 minutes is skipped.                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `webhook("name", { key? })`                      | `WebhookRequest` | `{ method, headers, query, body }` (lowercase header names, text `query`/`body`). Set `payload: WebhookRequest`, taken from `T3`; never write its shape out yourself. `t0c workflow hooks` prints URL paths (includes secret). A retry that repeats a delivery header (`X-GitHub-Delivery`, `Idempotency-Key`, `webhook-id`, and the Gitea, GitLab and Linear ones) starts no second run; for other senders, `key: (r) => …` names the run from the request. Bodies over 1 MiB are refused. |
+| `issues.opened({ project, labels?, query? })`    | `Issue`          | Polls ~once a minute. Only issues opened after the workflow first loaded. Issue must carry all `labels`.                                                                                                                                                                                                                                                                                                                                                                                    |
+| `pullRequests.opened({ project, query? })`       | `PullRequest`    | Polls ~once a minute. Only pull requests opened after the workflow first loaded.                                                                                                                                                                                                                                                                                                                                                                                                            |
 
 Filter unwanted deliveries in the body with `skip("not a push to main")` so they stay out of run lists. Verify webhook signatures inside a `step`.
 
-Start any workflow manually with `t3 workflow start <name> --input '<json>' --key <key>`. A `key` identifies one run of that workflow across all versions.
+Start any workflow manually with `t0c workflow start <name> --input '<json>' --key <key>`. A `key` identifies one run of that workflow across all versions.
 
 ## Rules you must not break
 
@@ -333,18 +333,18 @@ Start any workflow manually with `t3 workflow start <name> --input '<json>' --ke
 If an edited file fails to load, its last good version keeps running and the server logs `A workflow definitions file was not loaded` with the reason. A change that defines the same `(name, version)` twice or removes a version with unfinished runs is rejected. The Workflows page shows these errors, and its Definitions view validates files on save.
 
 ```sh
-t3 workflow start <name> --input '<json>' --key <key>
-t3 workflow list [--status paused]
-t3 workflow show <run> [--json]
-t3 workflow resume <run>
-t3 workflow cancel <run> [--reason '<why>']
-t3 workflow questions
-t3 workflow signal '{"choice":"upgrade"}' --run <run> --wait approve-upgrade
-t3 workflow signal '<json>' --workflow <name> --channel <channel>
-t3 workflow hooks
-t3 workflow store list [prefix]
-t3 workflow store set <key> '<json>'
-t3 workflow store delete <key>
+t0c workflow start <name> --input '<json>' --key <key>
+t0c workflow list [--status paused]
+t0c workflow show <run> [--json]
+t0c workflow resume <run>
+t0c workflow cancel <run> [--reason '<why>']
+t0c workflow questions
+t0c workflow signal '{"choice":"upgrade"}' --run <run> --wait approve-upgrade
+t0c workflow signal '<json>' --workflow <name> --channel <channel>
+t0c workflow hooks
+t0c workflow store list [prefix]
+t0c workflow store set <key> '<json>'
+t0c workflow store delete <key>
 ```
 
 - **Run states:** `running`, `waiting` (agent, signal, question, PR wait, or sleep), `paused` (step failed), `completed`, `stopped`, `skipped`, `cancelled`.

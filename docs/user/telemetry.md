@@ -15,16 +15,16 @@ which is off unless you turn it on.
 
 ## Agent feedback
 
-Agent feedback lets agents tell the T3 team about T0 Code: a T3 tool or `t3` command that did not
+Agent feedback lets agents tell the T3 team about T0 Code: a T0 Code tool or `t0c` command that did not
 do what they expected, a confusing instruction, or a missing capability. Choose a mode in
 **Agent feedback** in **Settings > Labs**:
 
-- **Off**, the default: agents do not see the feedback tools, and `t3 feedback` stops with a
+- **Off**, the default: agents do not see the feedback tools, and `t0c feedback` stops with a
   message pointing to Labs.
 - **When I ask**: agents send a report only when you ask them to, about anything in T0 Code.
-- **Automatic**: agents also report T0 Code problems they hit on their own, such as a T3 tool that
+- **Automatic**: agents also report T0 Code problems they hit on their own, such as a T0 Code tool that
   failed and made them find another way. These reports carry no outline and no message text, and
-  go out without asking you. `t3 feedback --kind bug --subject "t3 thread send" --expected "…" --actual "…"`
+  go out without asking you. `t0c feedback --kind bug --subject "t0c thread send" --expected "…" --actual "…"`
   sends one the same way, so it works only in this mode.
 
 When you ask your agent for a report, in either mode, T0 Code shows it in the thread as a card
@@ -34,7 +34,7 @@ even after the turn ends or the server restarts; **Don't send** sends nothing, a
 told not to send it another way. Only someone who can run agents on that machine can answer the
 card; people on a guest link cannot.
 
-Each report has the kind of problem, the T3 tool or command it concerns (or `general`), and up to
+Each report has the kind of problem, the T0 Code tool or command it concerns (or `general`), and up to
 300 characters each of expected behavior, actual behavior, and workaround, written by the agent,
 which is told not to quote your messages or code. The agent also says how many recent turns the
 problem spans. A report you approved carries an outline of those turns, and of at least the last 5,
@@ -45,7 +45,7 @@ messages and the agent's replies in the turns the problem spans, up to 1,000 cha
 message and 16 KB in all, oldest text dropped first; the card shows that text before you send it.
 To change a report, such as the turns it covers, ask the agent in the chat: it shows a new card,
 and you can decline the old one. Tool inputs and outputs, files, and attachments are never sent. An agent can
-show you at most 3 report cards and send 3 reports on its own per turn, and `t3 feedback` can
+show you at most 3 report cards and send 3 reports on its own per turn, and `t0c feedback` can
 send at most 10 an hour.
 
 Before anything is saved, T0 Code removes file paths (when text mentions one, the rest of that line
@@ -57,8 +57,8 @@ are sent.
 
 Reports are saved on your machine first, and a declined one is not saved at all; its card keeps
 only what you would have sent without the conversation. When product usage
-data is turned off, saved reports stay there and are not sent. `t3 feedback list` shows recent
-reports, the thread each came from, and a line for each outline; `t3 feedback list --json` shows
+data is turned off, saved reports stay there and are not sent. `t0c feedback list` shows recent
+reports, the thread each came from, and a line for each outline; `t0c feedback list --json` shows
 exactly what each one holds.
 
 ## Relay connection diagnostics
@@ -79,7 +79,7 @@ separate browser or mobile clients.
 The desktop app reads `T0CODE_TELEMETRY_ENABLED` from your shell profile (for example `~/.zshrc`) on macOS and
 Linux, so export it there and restart the app. On Windows, set it as a user environment variable.
 
-The web app in a browser, including one the `t3` CLI opens, does not read these environment
+The web app in a browser, including one the `t0c` CLI opens, does not read these environment
 variables. When its build has relay tracing configured, it sends its own connection traces even
 if the server has opted out. The browser app has no relay tracing toggle.
 

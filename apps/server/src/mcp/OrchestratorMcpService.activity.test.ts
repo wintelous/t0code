@@ -715,7 +715,7 @@ it("readThread returns the newest items that fit the response budget", async () 
     expect(outside.items.at(-1)?.position).toBe(99);
     expect(outside.earlierPosition).toBe(outside.items[0]?.position);
     expect(outside.hasMore).toBe(false);
-    // The t3 thread CLI pages forward from here, following only hasMore.
+    // The t0c thread CLI pages forward from here, following only hasMore.
     expect(fromStart.items[0]?.position).toBe(0);
     expect(fromStart.hasMore).toBe(true);
     expect(fromStart.nextPosition).toBe(fromStart.items.at(-1)?.position);
@@ -1241,7 +1241,7 @@ it("requestSecret saves a pasted value to a file without opening a card", async 
     readonly requestKey: string;
     readonly value: string;
   }> = [];
-  const file = "/home/user/.t3/userdata/secrets/files/0123456789abcdef0123456789abcdef";
+  const file = "/home/user/.t0c/userdata/secrets/files/0123456789abcdef0123456789abcdef";
 
   const layer = layerOrchestratorService.pipe(
     Layer.provide(
@@ -1589,8 +1589,8 @@ it("requestSecret delivers a fields card as one file per field", async () => {
     readonly secretStatus?: string;
   }> = [];
   const files = {
-    email: "/home/user/.t3/userdata/secrets/files/0123456789abcdef0123456789abcdef",
-    password: "/home/user/.t3/userdata/secrets/files/fedcba9876543210fedcba9876543210",
+    email: "/home/user/.t0c/userdata/secrets/files/0123456789abcdef0123456789abcdef",
+    password: "/home/user/.t0c/userdata/secrets/files/fedcba9876543210fedcba9876543210",
   };
   const projection = () => {
     const card = dispatched.find((command) => command.type === "secret_request.record");

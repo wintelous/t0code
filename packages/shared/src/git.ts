@@ -117,7 +117,7 @@ export function buildTemporaryWorktreeBranchName(
   return `${WORKTREE_BRANCH_PREFIX}/${token}`;
 }
 
-/** Flatten temporary t3/<hex> refs because an existing t3 branch blocks nested refs. */
+/** Flatten temporary t3/<hex> refs because an existing t0c branch blocks nested refs. */
 export function flattenTemporaryWorktreeBranchName(refName: string): string {
   const normalized = refName.trim().toLowerCase();
   const tokenStart = normalized.search(/[-/]/) + 1;

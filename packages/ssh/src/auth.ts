@@ -250,7 +250,7 @@ export const buildSshChildEnvironment = Effect.fn("ssh/auth.buildSshChildEnviron
       };
     }
     // Win32-OpenSSH uses a value that starts with a quote as the command line as written; an
-    // unquoted one is split after a lower-case ".exe" only. The single-executable t3.exe ignores
+    // unquoted one is split after a lower-case ".exe" only. The single-executable t0c.exe ignores
     // a script argument, so it loads the helper through NODE_OPTIONS instead.
     const execPath = yield* HostProcess.ExecutablePath;
     const preload = (yield* HostProcess.IsExecutable)

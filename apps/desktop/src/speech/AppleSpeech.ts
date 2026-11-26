@@ -88,14 +88,14 @@ export const layer = Layer.effect(
     // macOS 26 is Darwin 25, the helper's minimum deployment target.
     if (environment.platform === "darwin" && Number.parseInt(kernelRelease, 10) >= 25) {
       const candidate = environment.isPackaged
-        ? environment.path.join(environment.resourcesPath, "apple-speech", "t3-apple-speech")
+        ? environment.path.join(environment.resourcesPath, "apple-speech", "t0c-apple-speech")
         : environment.path.join(
             environment.rootDir,
             "native",
             "apple-speech",
             "build",
             environment.processArch,
-            "t3-apple-speech",
+            "t0c-apple-speech",
           );
       if (yield* fileSystem.exists(candidate).pipe(Effect.orElseSucceed(() => false)))
         helper = candidate;

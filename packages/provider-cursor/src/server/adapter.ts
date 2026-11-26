@@ -1010,7 +1010,7 @@ interface ActiveCursorTurn {
 type CursorTurnUsage = NonNullable<Extract<InteractionUpdate, { type: "turn-ended" }>["usage"]>;
 
 const CURSOR_BACKGROUND_WAIT_INSTRUCTIONS =
-  "To wait for a background shell you started (tests, a build), call `t3_background_wait` with its shell ID or pid before you end your turn. It returns at once, and T3 wakes you when the shell exits. Do not mark work you leave running, or PRs.";
+  "To wait for a background shell you started (tests, a build), call `t0c_background_wait` with its shell ID or pid before you end your turn. It returns at once, and T0 Code wakes you when the shell exits. Do not mark work you leave running, or PRs.";
 
 const BACKGROUND_SHELL_DETAIL_COMMAND_MAX_LENGTH = 200;
 

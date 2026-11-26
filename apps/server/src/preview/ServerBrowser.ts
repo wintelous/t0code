@@ -1808,7 +1808,7 @@ const make = Effect.gen(function* () {
   const assertTabCapacity = (agentSessionId: string) => {
     if (atTabLimit(agentSessionId))
       throw new BrowserControlInterrupted({
-        message: `Too many server browser tabs are open (${AGENT_TAB_LIMIT} per agent session, ${SERVER_TAB_LIMIT} per server). Close one with t3_preview_close or reuse one from preview_status tabs.`,
+        message: `Too many server browser tabs are open (${AGENT_TAB_LIMIT} per agent session, ${SERVER_TAB_LIMIT} per server). Close one with t0c_preview_close or reuse one from preview_status tabs.`,
         reason: "tabLimit",
       });
   };
@@ -3497,7 +3497,7 @@ const make = Effect.gen(function* () {
     (yield* PreviewBrowserHost.sandboxBlocked)
   ) {
     yield* Effect.logWarning(
-      `This host blocks the sandbox T3's browser runs in, so browser tabs and HTML previews will not start. Run \`${setupCommand}\` once to allow it.`,
+      `This host blocks the sandbox T0 Code's browser runs in, so browser tabs and HTML previews will not start. Run \`${setupCommand}\` once to allow it.`,
     );
   }
 

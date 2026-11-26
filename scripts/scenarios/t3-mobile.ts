@@ -1,4 +1,4 @@
-// `test` for iOS scenarios: e2e's mobile test plus `t3`, which seeds state like the web one and
+// `test` for iOS scenarios: e2e's mobile test plus `t0c`, which seeds state like the web one and
 // opens the dev client paired with the scenario's server.
 import { test as base } from "@e2e-dev/mobile";
 import * as HostProcess from "@t3tools/shared/HostProcess";

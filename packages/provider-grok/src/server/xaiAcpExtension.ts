@@ -988,7 +988,7 @@ export interface XAiExitPlanModeResponse {
   readonly feedback?: string;
 }
 
-/** Abandon the native approval gate after T3 captures the plan; implementation uses T3 UI. */
+/** Abandon the native approval gate after T0 Code captures the plan; implementation uses T0 Code UI. */
 export function makeXAiExitPlanModeCapturedResponse(feedback?: string): XAiExitPlanModeResponse {
   return {
     outcome: "abandoned",

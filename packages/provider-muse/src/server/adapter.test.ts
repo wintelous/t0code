@@ -420,7 +420,7 @@ describe("MuseAdapterV2", () => {
           agentFeedback: "auto",
         });
         const turn = yield* fake.takeCall("turn/start");
-        assert.match(JSON.stringify(turn.params.input), /t3_feedback/);
+        assert.match(JSON.stringify(turn.params.input), /t0c_feedback/);
       }
     }).pipe(Effect.scoped, Effect.provide(testLayer)),
   );

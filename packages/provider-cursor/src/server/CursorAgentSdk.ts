@@ -501,7 +501,7 @@ function isDisposableCursorLocalStore(value: unknown): value is DisposableCursor
   );
 }
 
-// T3 persists its own event log and never tails SDK run_events; skipping per-delta SQLite
+// T0 Code persists its own event log and never tails SDK run_events; skipping per-delta SQLite
 // run_events writes avoids synchronous BEGIN IMMEDIATE write locks and multi-GB index.db bloat.
 export function withNoopCursorRunEvents(store: CursorLocalStore): CursorLocalStore {
   if (

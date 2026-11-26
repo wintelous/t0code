@@ -99,14 +99,14 @@ it.effect("list includes delegated threads across pages and still leaves out sub
     using _session = vi.spyOn(McpBridge, "mcpToolSession").mockReturnValue(
       Effect.succeed({
         call: (tool, args) => {
-          if (tool === "t3_project_list")
+          if (tool === "t0c_project_list")
             return Effect.succeed({
               structuredContent: {
                 projects: [{ id: projectId, title: "Project", workspaceRoot: baseDir }],
                 nextCursor: null,
               },
             });
-          if (tool === "t3_thread_list") {
+          if (tool === "t0c_thread_list") {
             const all = args.includeSubagents ? [root, subagent, delegated] : [root];
             const cursor = Number(args.cursor);
             return Effect.succeed({
@@ -185,9 +185,9 @@ it.effect(
         Effect.succeed({
           call: (tool, args) => {
             switch (tool) {
-              case "t3_project_list":
+              case "t0c_project_list":
                 return Effect.succeed({ structuredContent: { projects, nextCursor: null } });
-              case "t3_thread_launch":
+              case "t0c_thread_launch":
                 return Effect.succeed({
                   structuredContent: { threadId, projectId: args.projectId, runId: null },
                 });
@@ -293,18 +293,18 @@ it.effect("--wait follows the sent run to its continuation's terminal status", (
   Effect.gen(function* () {
     const continuation = RunId.make("run-2");
     const { tools, calls } = scriptedTools({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { threadId, runId, status: "running", timedOut: true },
         { threadId, runId: continuation, status: "failed", timedOut: false },
       ],
-      t3_thread_read: [{ thread: { pendingRequestCount: 0 } }],
+      t0c_thread_read: [{ thread: { pendingRequestCount: 0 } }],
     });
 
     const outcome = yield* waitForRun(tools, threadId, runId);
 
     assert.deepStrictEqual(outcome, { type: "ended", runId: continuation, status: "failed" });
     assert.deepStrictEqual(
-      calls.filter((entry) => entry.tool === "t3_thread_wait").map((entry) => entry.args),
+      calls.filter((entry) => entry.tool === "t0c_thread_wait").map((entry) => entry.args),
       [
         { threadId, runId, timeoutMs: 15_000 },
         { threadId, runId, timeoutMs: 15_000 },
@@ -331,7 +331,7 @@ it.effect("--wait lasts until background work the agent waits on wakes it and th
   Effect.gen(function* () {
     const wakeRun = RunId.make("run-2");
     const { tools, calls } = scriptedTools({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { threadId, runId, status: "completed", timedOut: false },
         {
           threadId,
@@ -344,13 +344,13 @@ it.effect("--wait lasts until background work the agent waits on wakes it and th
         },
       ],
       // The wake run starts from a notification, which the messages view leaves out.
-      t3_thread_read: laterRunReads(wakeRun, []),
+      t0c_thread_read: laterRunReads(wakeRun, []),
     });
 
     const outcome = yield* waitForRun(tools, threadId, runId, true);
 
     assert.deepStrictEqual(
-      calls.filter((entry) => entry.tool === "t3_thread_wait").map((entry) => entry.args),
+      calls.filter((entry) => entry.tool === "t0c_thread_wait").map((entry) => entry.args),
       [
         { threadId, runId, timeoutMs: 15_000 },
         { threadId, runId, timeoutMs: 15_000, untilDelegatedWorkSettled: true },
@@ -381,7 +381,7 @@ it.effect(
         { thread: {}, items: [], nextPosition: null, hasMore: false },
       ];
       const { tools } = scriptedTools({
-        t3_thread_wait: [
+        t0c_thread_wait: [
           { threadId, runId, status: "completed", timedOut: false },
           { threadId, runId, status: "completed", timedOut: true },
           // The work ended, and the run it wakes is not recorded yet.
@@ -400,7 +400,7 @@ it.effect(
             resultRun: { runId: wakeRun, status: "completed" },
           },
         ],
-        t3_thread_read: [
+        t0c_thread_read: [
           ownOnly,
           { thread: { pendingRequestCount: 0 } },
           ownOnly,
@@ -426,7 +426,7 @@ it.effect(
     Effect.gen(function* () {
       const sentRun = RunId.make("run-2");
       const { tools } = scriptedTools({
-        t3_thread_wait: [
+        t0c_thread_wait: [
           { threadId, runId, status: "completed", timedOut: false },
           {
             threadId,
@@ -437,7 +437,7 @@ it.effect(
             output: { head: "abc" },
           },
         ],
-        t3_thread_read: laterRunReads(sentRun, [{ runId: sentRun, type: "user_message" }]),
+        t0c_thread_read: laterRunReads(sentRun, [{ runId: sentRun, type: "user_message" }]),
       });
 
       assert.deepStrictEqual(yield* waitForRun(tools, threadId, runId, true), {
@@ -452,11 +452,11 @@ it.effect(
 it.effect("--wait stops when the thread waits for an answer instead of polling forever", () =>
   Effect.gen(function* () {
     const { tools } = scriptedTools({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { threadId, runId, status: "queued", timedOut: true },
         { threadId, runId, status: "queued", timedOut: true },
       ],
-      t3_thread_read: [{ thread: { pendingRequestCount: 1 } }],
+      t0c_thread_read: [{ thread: { pendingRequestCount: 1 } }],
     });
 
     assert.deepStrictEqual(yield* waitForRun(tools, threadId, runId), { type: "needs_input" });
@@ -466,11 +466,11 @@ it.effect("--wait stops when the thread waits for an answer instead of polling f
 it.effect("--wait reports its run's result when a later run is the one waiting", () =>
   Effect.gen(function* () {
     const { tools } = scriptedTools({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { threadId, runId, status: "running", timedOut: true },
         { threadId, runId, status: "completed", timedOut: false },
       ],
-      t3_thread_read: [{ thread: { pendingRequestCount: 1 } }],
+      t0c_thread_read: [{ thread: { pendingRequestCount: 1 } }],
     });
 
     assert.deepStrictEqual(yield* waitForRun(tools, threadId, runId), {
@@ -540,7 +540,7 @@ it.effect("--output-schema reads a ~/ path from the home directory", () =>
   }).pipe(Effect.provide(NodeServices.layer)),
 );
 
-/** Serves t3_thread_read pages the way the server does: positions count every item, and a cursorless read is the newest page. */
+/** Serves t0c_thread_read pages the way the server does: positions count every item, and a cursorless read is the newest page. */
 const timelineTools = (types: ReadonlyArray<string>) => {
   const items = types.map((type, position) => ({ position, itemId: `item-${position}`, type }));
   const served: Array<number> = [];
@@ -685,7 +685,7 @@ it.effect("show gives the latest run's last error only when that run did not com
       nextPosition: null,
       hasMore: false,
     };
-    const { tools, calls } = scriptedTools({ t3_thread_read: [page] });
+    const { tools, calls } = scriptedTools({ t0c_thread_read: [page] });
 
     assert.strictEqual(
       yield* latestRunError(tools, { threadId, status: "failed", latestRunId: runId }),
@@ -755,7 +755,7 @@ it.live("resolves a path inside a git worktree of the project's repository to th
       identifier = ".",
     ) =>
       resolveProject(
-        scriptedTools({ t3_project_list: [{ projects, nextCursor: null }] }).tools,
+        scriptedTools({ t0c_project_list: [{ projects, nextCursor: null }] }).tools,
         identifier,
       ).pipe(Effect.provideService(HostProcess.WorkingDirectory, workingDirectory));
 

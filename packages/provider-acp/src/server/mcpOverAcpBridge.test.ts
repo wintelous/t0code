@@ -158,7 +158,7 @@ describe("AcpMcpOverAcpBridge", () => {
       yield* bridge.message({ connectionId, method: "initialize" });
 
       const wait = yield* bridge
-        .message({ connectionId, method: "tools/call", params: { name: "t3_thread_wait" } })
+        .message({ connectionId, method: "tools/call", params: { name: "t0c_thread_wait" } })
         .pipe(Effect.forkChild);
       yield* Effect.promise(() => waitStarted.promise);
       expect(yield* bridge.message({ connectionId, method: "tools/list" })).toEqual({ tools: [] });

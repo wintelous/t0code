@@ -1,19 +1,19 @@
 # Observability
 
-Server observability has three outputs: pretty stdout logs (not persisted locally, except SSH-managed launches at `~/.t3/ssh-launch/<state>/server.log`), a local NDJSON trace file (always on), and optional OTLP export (traces, metrics, logs).
+Server observability has three outputs: pretty stdout logs (not persisted locally, except SSH-managed launches at `~/.t0c/ssh-launch/<state>/server.log`), a local NDJSON trace file (always on), and optional OTLP export (traces, metrics, logs).
 
 ## Local traces and event-loop stalls
 
 Default trace paths (`server.trace.ndjson`):
 
 - Production / explicit `--home-dir` / `T0CODE_HOME`: `<home>/userdata/logs/server.trace.ndjson`
-- Linked worktree dev run: `<worktree>/.t3/userdata/logs/server.trace.ndjson`
-- Non-worktree dev run: `~/.t3/dev/logs/server.trace.ndjson`
+- Linked worktree dev run: `<worktree>/.t0c/userdata/logs/server.trace.ndjson`
+- Non-worktree dev run: `~/.t0c/dev/logs/server.trace.ndjson`
 
 Summarize counts, rates, and latency percentiles offline (even while a server is stalled or stopped):
 
 ```sh
-t3 trace summary --since 30m --limit 40
+t0c trace summary --since 30m --limit 40
 # Set T0CODE_TRACE_FILE=/path/to/server.trace.ndjson for dev or copied traces
 ```
 
@@ -51,7 +51,7 @@ On macOS and Linux (not Windows), send `SIGUSR2` to the server PID from `server-
 
 ```sh
 pid="$(jq .pid "${T0CODE_HOME:-$HOME/.t3}/userdata/server-runtime.json")"
-ps -p "$pid" -o command=   # verify it is the T3 server—never signal desktop or launcher
+ps -p "$pid" -o command=   # verify it is the T0 Code server—never signal desktop or launcher
 kill -USR2 "$pid"
 ```
 

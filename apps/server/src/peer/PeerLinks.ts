@@ -227,7 +227,7 @@ const probeFailure = (
     );
   }
   return new PeerLinkError({
-    reason: "not_a_t3_environment",
+    reason: "not_a_t0c_environment",
     message: `${origin} answered, but not as a T0 Code environment this version understands.`,
   });
 };
@@ -731,7 +731,7 @@ const make = Effect.gen(function* () {
     function* (environmentId) {
       const notLinked = new PeerLinkError({
         reason: "unknown_link",
-        message: `This environment is not linked to ${environmentId}. t3_environment_links lists the linked ones.`,
+        message: `This environment is not linked to ${environmentId}. t0c_environment_links lists the linked ones.`,
       });
       const row = yield* readRow(environmentId);
       if (Option.isNone(row)) return yield* notLinked;

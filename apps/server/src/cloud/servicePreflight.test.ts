@@ -28,9 +28,9 @@ it.each([1])("blocks legacy launcher protocol %i with exact recovery steps", (la
   expect(reason).toMatch(new RegExp(`\\b${launcherProtocol}\\b`));
   expect(reason).toMatch(new RegExp(`\\b${SERVICE_LAUNCHER_PROTOCOL}\\b`));
   expect(reason).toContain("curl -fsSL https://t3.codes/install.sh | T0CODE_VERSION=9.8.7 sh");
-  expect(reason).toContain("~/.local/bin/t3 service install");
-  expect(reason).toContain("t3 --version");
-  expect(reason).toContain("which -a t3");
+  expect(reason).toContain("~/.local/bin/t0c service install");
+  expect(reason).toContain("t0c --version");
+  expect(reason).toContain("which -a t0c");
 });
 
 // regression: #34502 every installed launcher was protocol 3, so protocol 4 blocked every remote update

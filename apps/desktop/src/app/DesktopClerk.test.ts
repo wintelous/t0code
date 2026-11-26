@@ -197,11 +197,11 @@ describe("DesktopClerk", () => {
 
       return Effect.gen(function* () {
         const clerk = yield* DesktopClerk.DesktopClerk;
-        if (entry === "before configure") listeners.get("second-instance")?.({}, ["t3"]);
+        if (entry === "before configure") listeners.get("second-instance")?.({}, ["t0c"]);
         yield* clerk.configure;
 
         assert.equal(quit.mock.calls.length, 0);
-        if (entry === "after configure") listeners.get("second-instance")!({}, ["t3"]);
+        if (entry === "after configure") listeners.get("second-instance")!({}, ["t0c"]);
         assert.strictEqual(yield* Effect.promise(() => revealed.promise), window);
       }).pipe(
         Effect.scoped,
@@ -322,7 +322,7 @@ it.effect(
       assert.equal(loadURL.mock.calls.length, 0);
       assert.equal(event.preventDefault.mock.calls.length, 0);
       listeners.get("second-instance")!({}, [
-        "t3",
+        "t0c",
         "t0code-dev://app/settings/providers?instanceId=work&code=never-forward",
       ]);
       yield* Effect.promise(() => revealed.promise);
@@ -416,7 +416,7 @@ it.effect.each(["startup", "open-url", "early-second-instance"] as const)(
         assert.strictEqual(delivery?.returnUrl, request.returnUrl);
       }).pipe(
         Effect.provide(layerDesktopClerk(true, [], "darwin", undefined, shell, listeners)),
-        Effect.provideService(HostProcess.Arguments, entry === "startup" ? ["t3", link] : ["t3"]),
+        Effect.provideService(HostProcess.Arguments, entry === "startup" ? ["t3", link] : ["t0c"]),
         Effect.provideService(ElectronApp.ElectronApp, electronApp),
         Effect.provideService(
           ElectronWindow.ElectronWindow,
@@ -467,7 +467,7 @@ it.effect("hands web and app links to the renderer and leaves other links alone"
       ]);
     }).pipe(
       Effect.provide(layerDesktopClerk(true, [], "darwin", undefined, undefined, listeners)),
-      Effect.provideService(HostProcess.Arguments, ["t3"]),
+      Effect.provideService(HostProcess.Arguments, ["t0c"]),
       Effect.provideService(ElectronApp.ElectronApp, electronApp),
       Effect.provideService(
         ElectronWindow.ElectronWindow,

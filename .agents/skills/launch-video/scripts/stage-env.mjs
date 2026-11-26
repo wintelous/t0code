@@ -47,7 +47,7 @@ const identityEnv = (home) => {
 };
 
 /**
- * A fresh T3 home whose server calls itself `label` on a `machine`. `settings` merge into
+ * A fresh T0 Code home whose server calls itself `label` on a `machine`. `settings` merge into
  * settings.json. With `claude` (scripted turns) the real Claude provider runs fake-claude.mjs
  * and `model` is a Claude model id; without it `model` is a replay-agent scenario.
  */
@@ -302,7 +302,7 @@ export async function openBrowser({ width = 1440, height = 720, args = [] } = {}
 }
 
 /**
- * Writes link rows straight into a stopped server's database, as if `t3 environment link` had
+ * Writes link rows straight into a stopped server's database, as if `t0c environment link` had
  * made them. The server must have started once (migrations). The map probes each row's URLs
  * live: a row is "reachable" only while something there answers as that environment.
  * Rows: { environmentId, label, urls, access = "full-access", lastError = null }.

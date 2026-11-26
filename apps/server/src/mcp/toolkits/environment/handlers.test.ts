@@ -77,7 +77,7 @@ it.effect("refuses a preferences update when the caller's turn ends while it wai
         .pipe(Effect.forkChild);
       yield* Deferred.await(held);
       const update = yield* toolkit
-        .handle("t3_environment_preferences_update", { newWorktreesStartFromOrigin: true })
+        .handle("t0c_environment_preferences_update", { newWorktreesStartFromOrigin: true })
         .pipe(Stream.unwrap, Stream.runCollect, Effect.forkChild);
       yield* Deferred.await(checked);
       yield* Ref.update(caller, (shell) => ({ ...shell, activeRunId: null }));
@@ -104,6 +104,8 @@ it("keeps agent feedback out of the preferences agents read and write", () => {
     }),
   ).not.toHaveProperty("agentFeedback");
   expect(
-    Object.keys(EnvironmentToolkit.tools.t3_environment_preferences_update.parametersSchema.fields),
+    Object.keys(
+      EnvironmentToolkit.tools.t0c_environment_preferences_update.parametersSchema.fields,
+    ),
   ).not.toContain("agentFeedback");
 });

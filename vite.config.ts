@@ -6,7 +6,7 @@ import { cachedTestTasks } from "./scripts/lib/cached-tests.ts";
 
 const TEST_EXCLUDE = [
   "**/.repos/**",
-  "**/.t3/**",
+  "**/.t0c/**",
   "**/node_modules/**",
   "**/dist/**",
   "**/dist-electron/**",
@@ -391,7 +391,7 @@ export default defineConfig({
         rules: { "t0code/no-global-process-runtime": "off" },
       },
       {
-        // The `t3` npm launcher is published as plain, dependency-free Node.
+        // The `t0c` npm launcher is published as plain, dependency-free Node.
         files: ["scripts/npm-launcher/**"],
         rules: {
           "t0code/no-global-process-runtime": "off",

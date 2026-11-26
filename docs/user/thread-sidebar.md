@@ -35,8 +35,8 @@ list. It starts on your current machine; before sending, pick another machine
 from the machine menu to move it there. To move a draft into a project, pick the
 project in the heading.
 
-Each thread without a project works in its own folder under `~/.t3/scratch` (the
-`scratch` folder of your T3 data directory), named after its date, the first words
+Each thread without a project works in its own folder under `~/.t0c/scratch` (the
+`scratch` folder of your T0 Code data directory), named after its date, the first words
 of its first message, and a short id, like
 `2026-09-25-convert-these-pngs-to-webp-a1b2c3d4`. Deleting a thread keeps its
 folder, so the files the agent wrote stay until you delete them. Branch, worktree, and diff controls stay hidden because
@@ -174,7 +174,7 @@ terminals that wait at an idle prompt, and keeps their output. A terminal that
 runs a command, such as a dev server, stays open unless its action has **Stop this action
 when the thread settles** enabled in Settings > Projects > Actions. You can also set
 `"stopOnSettle": true` on a `t3.json` action and import it there. Start the command through
-that action so T3 can stop its terminal and child processes. Commands started through an
+that action so T0 Code can stop its terminal and child processes. Commands started through an
 agent's own shell tools are managed by the provider.
 
 To reclaim disk space from settled work, turn on **Run in the thread's worktree when the
@@ -197,7 +197,7 @@ is waiting on prevent automatic settlement. An open pull request does not preven
 settlement unless you turn on **Keep threads with a PR** in **Settings → Threads**,
 but an old closed or merged pull request does not settle work you
 resumed after it closed. Your own messages count as resuming, and so does a
-message an agent sends with `t3_thread_send` or `t3 thread send`. A turn that finished
+message an agent sends with `t0c_thread_send` or `t0c thread send`. A turn that finished
 background work or a pull request watch starts on its own does not.
 
 To keep one thread out of the settled shelf no matter how long it sits idle, open its menu,
@@ -258,7 +258,7 @@ you paste it and pastes into a composer as a thread chip (see
 [sharing a thread](./prompt-links.md#share-a-thread)). To copy the thread even
 when it has a PR, choose **Copy → Thread** from its context menu, or **Copy
 thread** from its long-press menu on mobile.
-**Thread ID** copies the bare ID for scripts and the `t3` CLI. See
+**Thread ID** copies the bare ID for scripts and the `t0c` CLI. See
 [keybindings](./keybindings.md) for custom configuration.
 
 ## Inspect agent work

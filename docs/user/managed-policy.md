@@ -8,14 +8,14 @@ the desktop app, a browser, or the mobile app.
 ## Roll out a policy
 
 1. Write the policy as JSON, starting from the [example](#write-a-policy).
-2. Run `t3 policy check policy.json`. It prints what the policy will do, or what is wrong with it.
+2. Run `t0c policy check policy.json`. It prints what the policy will do, or what is wrong with it.
 3. Deploy the policy to each machine with your device management tool, in
    [one of the supported places](#where-the-policy-goes).
 4. Restart T0 Code on the machine. The server reads the policy only when it starts.
-5. Run `t3 policy show` on the machine to
+5. Run `t0c policy show` on the machine to
    [check what the server loaded](#check-what-the-server-loaded).
 
-The desktop app includes the `t3` command; see [The `t3` command](./install.md#the-t3-command).
+The desktop app includes the `t0c` command; see [The `t0c` command](./install.md#the-t3-command).
 
 ## Write a policy
 
@@ -63,12 +63,12 @@ administrators.
 `organization`, `supportUrl`, `settings`, `limits`); JSON objects become dictionaries and lists
 become arrays. To make the payload from a policy file you checked, run
 `plutil -convert xml1 -o com.t3tools.t0code.plist policy.json` and upload the result, or run
-`t3 policy templates <directory> --policy policy.json` to write a complete
+`t0c policy templates <directory> --policy policy.json` to write a complete
 `macos/t0code.mobileconfig`. Install it as
 a device profile, since T0 Code ignores user profiles, and deploy only one profile for this domain.
 A profile cannot hold `null`, so use a policy file if a setting's value must be `null`.
 
-**Windows Group Policy.** Run `t3 policy templates <directory>` and copy
+**Windows Group Policy.** Run `t0c policy templates <directory>` and copy
 `windows/t0code.admx` and `windows/en-US/t0code.adml` into your `PolicyDefinitions` folder or
 central store, or import them into Intune. The policies appear under Computer Configuration >
 Administrative Templates > T0 Code. Set **Organization** whenever you set any other T0 Code policy.
@@ -93,7 +93,7 @@ Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\T3Tools\T0Code -Name Policy -Valu
 
 ## Check what the server loaded
 
-Run `t3 policy show` as the user who runs T0 Code. It prints the installed policy and its
+Run `t0c policy show` as the user who runs T0 Code. It prints the installed policy and its
 fingerprint, then says whether the running server loaded that policy or an older one. The server
 reads the policy only when it starts, so "Restart T0 Code to apply the installed policy" means it
 still enforces the old one. In Settings, users see that your organization manages the environment,
@@ -102,7 +102,7 @@ and each locked control shows **Managed by**.
 ## Change or remove a policy
 
 After you deploy, change, or remove a policy, restart the T0 Code server on the machine: quit and
-reopen the desktop app, or run `t3 service restart` for the
+reopen the desktop app, or run `t0c service restart` for the
 [background service](./background-service.md). Reconnecting a phone or browser does not reload the
 policy.
 
@@ -118,7 +118,7 @@ policy it cannot read or parse, a setting it does not know, a value of the wrong
 version does not support, or a machine with both a native policy and a file. The error names where
 the policy came from and what is wrong.
 
-`t3 policy check` catches the same problems in a JSON file. For a profile or registry value, check
+`t0c policy check` catches the same problems in a JSON file. For a profile or registry value, check
 the JSON before you convert it. For the Group Policy template, check a complete policy file that
 holds the same settings, then paste its `settings` and `limits.providers.instances` objects into the
 two JSON policies. A policy written for a newer version can use keys an older one
@@ -127,7 +127,7 @@ cannot enforce, so upgrade T0 Code before you deploy a policy that uses them.
 ## Settings
 
 Each key under `settings` is a setting's path in the server's `settings.json`, such as
-`storageCleanup.logsAfterDays`. Run `t3 policy settings` to list every path a policy can manage,
+`storageCleanup.logsAfterDays`. Run `t0c policy settings` to list every path a policy can manage,
 with its default.
 
 - `"locked": false` sets a default. It applies wherever the user has not chosen a value of their
@@ -218,7 +218,7 @@ The limit decides which modes T0 Code asks the provider for. It is not a sandbox
 `clients` lists how the server may run:
 
 - `desktop`: as the desktop app's own server.
-- `local-browser`: as a server only browsers on this machine reach, such as `npx t3`.
+- `local-browser`: as a server only browsers on this machine reach, such as `npx t0c`.
 - `remote`: reachable from phones, other computers, and app.t3.codes over the network.
 
 `remote` is the line that matters. A server reachable from the network also accepts browsers on
@@ -229,13 +229,13 @@ Without `remote`, the server listens only on a loopback address, creates no pair
 signs out devices that paired earlier. It does not start with a host other than a loopback
 address or `localhost`. A [background service](./background-service.md) installed before
 `T0CODE_LAN` existed keeps private-network access, so without `remote` it refuses to start.
-Run `t3 up --no-lan` when its `service.env` sets no `T0CODE_HOST`, or set
-`T0CODE_HOST=127.0.0.1` in `service.env`, then run `t3 service restart`. The desktop app starts
+Run `t0c up --no-lan` when its `service.env` sets no `T0CODE_HOST`, or set
+`T0CODE_HOST=127.0.0.1` in `service.env`, then run `t0c service restart`. The desktop app starts
 with network access and Tailscale Serve off, whatever the user chose. That also turns off
 T0 Connect. To keep other remote access but turn off T0 Connect alone, set `"connect": false`.
 
 When it starts, the server also turns off each Tailscale Serve route, HTTPS or TCP, that forwards
-to it, such as one `t3 pair --tailscale` set up, and leaves other routes alone. It does not start
+to it, such as one `t0c pair --tailscale` set up, and leaves other routes alone. It does not start
 while such a route stays on, or while Tailscale's answer cannot be read; the error names the
 command that turns the route off. A route whose target is a name, such as `localhost` or another
 machine on the same port, also stops it, since a name can resolve to this server; change the route
@@ -266,7 +266,7 @@ so restart T0 Code after that.
 `claudeAgent` (Claude), `cursor` (Cursor), `grok` (Grok), `opencode` (OpenCode), `antigravity`
 (Antigravity), `fx` (fx), `kiro` (Kiro), `pi` (Pi), `muse` (Muse Code), and `acpRegistry` (ACP
 Registry).
-`t3 policy check` rejects an ID this version does not know. Threads on other providers stay,
+`t0c policy check` rejects an ID this version does not know. Threads on other providers stay,
 marked unavailable, and users can still turn those providers off.
 
 `providers.instances` sets fields on every instance of a provider, such as an environment variable
@@ -282,12 +282,12 @@ starts the binary you set.
 
 - `mode`: `auto` keeps the normal update flow. `off` stops T0 Code from checking for updates, for
   machines that get T0 Code through device management.
-- `feedUrl`: T0 Code updates from your own mirror instead of GitHub: the desktop app, `t3 update`,
+- `feedUrl`: T0 Code updates from your own mirror instead of GitHub: the desktop app, `t0c update`,
   and updates started from another device. Publish only the versions you have approved, laid out
   as on a GitHub release. The release's update files (`latest.yml`, `latest-mac.yml`,
   `latest-linux.yml`, `latest-linux-arm64.yml`, and their `nightly` versions if you allow nightly)
-  and the desktop installers they list go at the URL's root. The release's `t3-*` archives and
-  `SHA256SUMS` go under `v<version>/`. A `t3` run through `npx` comes from npm, so pin it with your
+  and the desktop installers they list go at the URL's root. The release's `t0c-*` archives and
+  `SHA256SUMS` go under `v<version>/`. A `t0c` run through `npx` comes from npm, so pin it with your
   package tooling.
 - `allowNightly: false`: the nightly channel is unavailable.
 

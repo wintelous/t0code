@@ -1655,7 +1655,7 @@ it.effect("SQL queue readiness skips held runs without bypassing active work", (
   }).pipe(Effect.provide(layerTest)),
 );
 
-it.effect("SQL shells flag only an active turn blocked solely on T3 thread waits", () =>
+it.effect("SQL shells flag only an active turn blocked solely on T0 Code thread waits", () =>
   Effect.gen(function* () {
     const store = yield* ProjectionStore.ProjectionStoreV2;
     const threadId = yield* addRolledBackRecoveryCandidate("thread-wait");
@@ -1715,7 +1715,7 @@ it.effect("SQL shells flag only an active turn blocked solely on T3 thread waits
       id: TurnItemId.make("item:thread-wait:active"),
       runId: run.id,
       type: "dynamic_tool" as const,
-      toolName: "mcp__t0_code__t3_thread_wait",
+      toolName: "mcp__t0_code__t0c_thread_wait",
       input: { threadId: "child-thread" },
       status: "running" as const,
     };
@@ -1729,7 +1729,7 @@ it.effect("SQL shells flag only an active turn blocked solely on T3 thread waits
     const foreign = {
       ...wait,
       id: TurnItemId.make("item:thread-wait:foreign"),
-      toolName: "weather.t3_thread_wait",
+      toolName: "weather.t0c_thread_wait",
     };
     yield* updateItem(foreign);
     yield* assertBlocked(false);
@@ -3189,7 +3189,7 @@ it.effect("SQL shells read a subagent family and a worktree's threads", () =>
     const store = yield* ProjectionStore.ProjectionStoreV2;
     const now = yield* DateTime.now;
     const projectId = ProjectId.make("project:family");
-    const worktreePath = "/repo/.t3/worktrees/family";
+    const worktreePath = "/repo/.t0c/worktrees/family";
     const id = (name: string) => ThreadId.make(`thread:family:${name}`);
     const payloadOf = (input: {
       readonly name: string;

@@ -752,7 +752,7 @@ export const layer = Layer.effect(
     });
 
     type RefreshAllCompletion = Deferred.Deferred<ReadonlyArray<ServerProvider>>;
-    // A refresh is how a user asks T3 to see a CLI installed since launch; a burst shares one probe.
+    // A refresh is how a user asks T0 Code to see a CLI installed since launch; a burst shares one probe.
     // Drivers copy the environment when built, so instances still missing their CLI are rebuilt
     // on the new PATH. They cannot have live sessions, and installed ones keep theirs.
     // Compared with the last PATH seen here, since other features re-read the login shell too.

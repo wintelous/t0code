@@ -309,12 +309,12 @@ static inline void load_data(u8* dest, const u8* src, size_t n) {
   }
 
 #define DEFINE_LOAD(name, t1, t2, t3, force_read)                             \
-  static inline t3 name##_unchecked(uint8_t* const wasm_rt_local_memory_base, \
+  static inline t0c name##_unchecked(uint8_t* const wasm_rt_local_memory_base, \
                                     wasm_rt_memory_t* mem, u64 addr) {        \
     t1 result;                                                                \
     wasm_rt_memcpy(&result, MEM_ADDR_MEMOP(mem, addr, sizeof(t1)),            \
                    sizeof(t1));                                               \
-    t3 ret = (t3)(t2)result;                                                  \
+    t0c ret = (t3)(t2)result;                                                  \
     force_read(ret);                                                          \
     return ret;                                                               \
   }                                                                           \

@@ -113,7 +113,7 @@ it("does not expose arbitrary cause messages and preserves explicit messages", (
   }
 });
 
-it("preserves actionable T3 errors wrapped by turn startup", () => {
+it("preserves actionable T0 Code errors wrapped by turn startup", () => {
   for (const error of [
     new ContextHandoffBudgetError(),
     new ContextHandoffBackgroundWorkError(),

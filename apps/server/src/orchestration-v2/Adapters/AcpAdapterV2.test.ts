@@ -1476,7 +1476,7 @@ describe("AcpAdapterV2", () => {
       const completed = (yield* runTurn(2)).at(-1);
       assert.equal(completed?.type === "turn.terminal" ? completed.status : null, "completed");
       assert.deepEqual(promptRuntimes, [1, 2], "the next turn runs on a fresh runtime");
-      // The fresh runtime has no record of what reached the agent, so it sends T3's notes again.
+      // The fresh runtime has no record of what reached the agent, so it sends T0 Code's notes again.
       assert.include(promptTexts[1] ?? "", "<runtime_info>");
       assert.include(promptTexts[1] ?? "", "T0 Code interaction mode: Default");
       assert.equal(watchedSessions.length, 2);
@@ -2571,7 +2571,7 @@ describe("AcpAdapterV2", () => {
       buildModeId: "https://agentclientprotocol.com/protocol/session-modes#agent",
     },
     {
-      // Without a `mode` category, T3 derives no mode state and only the config option switches.
+      // Without a `mode` category, T0 Code derives no mode state and only the config option switches.
       modeIds: "Copilot URL collaboration_mode",
       environment: { T3_ACP_COPILOT_MODES: "1", T3_ACP_MODE_OPTION_CATEGORY: "collaboration_mode" },
       planModeId: "https://agentclientprotocol.com/protocol/session-modes#plan",
@@ -2714,7 +2714,7 @@ describe("AcpAdapterV2", () => {
         assert.deepEqual(
           restoredBuild.modeSets,
           [buildModeId],
-          "Build should restore the native mode that T3 temporarily replaced for Plan",
+          "Build should restore the native mode that T0 Code temporarily replaced for Plan",
         );
         const switchedModel = yield* runTurn(7, defaultPolicy, "Switch models.", {
           instanceId,
@@ -3374,7 +3374,7 @@ describe("AcpAdapterV2", () => {
     }).pipe(Effect.provide(layerTest), Effect.scoped),
   );
 
-  // regression: #21499 turns blocked only on T3 thread waits must show as waiting
+  // regression: #21499 turns blocked only on T0 Code thread waits must show as waiting
   it.effect.each(["agent_message_chunk"] as const)(
     "keeps named ACP %s open while deriving thread wait execution state",
     (sessionUpdate) =>
@@ -3413,7 +3413,7 @@ describe("AcpAdapterV2", () => {
                         status: "in_progress",
                         rawInput: {
                           server: "t0-code",
-                          tool: "t3_thread_wait",
+                          tool: "t0c_thread_wait",
                           arguments: { threadId: "child" },
                         },
                         _meta: { is_mcp_tool_call: true },
@@ -6367,7 +6367,7 @@ describe("AcpAdapterV2", () => {
       }).pipe(Effect.provide(layerTest)),
   );
 
-  it.effect("ends a running T3 MCP tool call when its session closes mid-prompt", () =>
+  it.effect("ends a running T0 Code MCP tool call when its session closes mid-prompt", () =>
     Effect.gen(function* () {
       const sessionScope = yield* Scope.make();
       const harness = yield* makePromptInactivityHarness({
@@ -6384,7 +6384,7 @@ describe("AcpAdapterV2", () => {
         Stream.filter((event) => trackedToolStatus(event) !== undefined),
         Stream.runHead,
       );
-      // t3_worktree_handoff releases the live session while its own tool call is open.
+      // t0c_worktree_handoff releases the live session while its own tool call is open.
       yield* Scope.close(sessionScope, Exit.void);
       // The event queue outlives the session; only events emitted by the close remain.
       const after = yield* harness.runtime.events.pipe(
@@ -6619,7 +6619,7 @@ describe("AcpAdapterV2", () => {
             name: "t0-code",
             command: process.execPath,
             args: [
-              process.argv[1] === undefined ? "t3" : NodePath.resolve(process.argv[1]),
+              process.argv[1] === undefined ? "t0c" : NodePath.resolve(process.argv[1]),
               "acp-mcp-bridge",
             ],
             env: [
@@ -7535,132 +7535,134 @@ describe("AcpAdapterV2", () => {
     }).pipe(Effect.provide(layerTest)),
   );
 
-  it.effect("resends T3 notes after rollback when the replaced runtime's prompt settles late", () =>
-    Effect.gen(function* () {
-      const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;
-      const path = yield* Path.Path;
-      const selfInvocation = yield* resolveSelfInvocation();
-      const mockAgentPath = yield* path.fromFileUrl(
-        new URL("../../../scripts/acp-mock-agent.ts", import.meta.url),
-      );
-      type RuntimeService = AcpSessionRuntime.AcpSessionRuntime["Service"];
-      let firstSessionUpdate: Parameters<RuntimeService["handleSessionUpdate"]>[0] | undefined;
-      const firstPromptGate = yield* Deferred.make<EffectAcpSchema.PromptResponse>();
-      const firstPromptCallbackDone = yield* Deferred.make<void>();
-      const replacementPromptText = yield* Deferred.make<string>();
-      const instanceId = ProviderInstanceId.make("acp-test-late-prompt-rollback");
-      const adapter = yield* makeAcpAdapterV2({
-        instanceId,
-        testHooks: {
-          afterPromptCallback: () =>
-            Deferred.succeed(firstPromptCallbackDone, undefined).pipe(Effect.asVoid),
-        },
-        flavor: {
-          driver: ACP_TEST_DRIVER,
-          capabilities: AcpProviderCapabilitiesV2,
-          followAgentWorkState: true,
-          makeRuntime: makeMockRuntime({
-            childProcessSpawner,
-            mockAgentPath,
-            wrapRuntime: (runtime, runtimeOrdinal) =>
-              runtimeOrdinal === 1
-                ? {
-                    ...runtime,
-                    handleSessionUpdate: (handler) =>
-                      Effect.sync(() => {
-                        firstSessionUpdate = handler;
-                      }).pipe(Effect.andThen(runtime.handleSessionUpdate(handler))),
-                    prompt: () => Deferred.await(firstPromptGate),
-                  }
-                : {
-                    ...runtime,
-                    prompt: (payload, options) =>
-                      Deferred.succeed(
-                        replacementPromptText,
-                        payload.prompt
-                          .flatMap((block) => (block.type === "text" ? [block.text] : []))
-                          .join("\n"),
-                      ).pipe(Effect.andThen(runtime.prompt(payload, options))),
-                  },
+  it.effect(
+    "resends T0 Code notes after rollback when the replaced runtime's prompt settles late",
+    () =>
+      Effect.gen(function* () {
+        const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;
+        const path = yield* Path.Path;
+        const selfInvocation = yield* resolveSelfInvocation();
+        const mockAgentPath = yield* path.fromFileUrl(
+          new URL("../../../scripts/acp-mock-agent.ts", import.meta.url),
+        );
+        type RuntimeService = AcpSessionRuntime.AcpSessionRuntime["Service"];
+        let firstSessionUpdate: Parameters<RuntimeService["handleSessionUpdate"]>[0] | undefined;
+        const firstPromptGate = yield* Deferred.make<EffectAcpSchema.PromptResponse>();
+        const firstPromptCallbackDone = yield* Deferred.make<void>();
+        const replacementPromptText = yield* Deferred.make<string>();
+        const instanceId = ProviderInstanceId.make("acp-test-late-prompt-rollback");
+        const adapter = yield* makeAcpAdapterV2({
+          instanceId,
+          testHooks: {
+            afterPromptCallback: () =>
+              Deferred.succeed(firstPromptCallbackDone, undefined).pipe(Effect.asVoid),
+          },
+          flavor: {
+            driver: ACP_TEST_DRIVER,
+            capabilities: AcpProviderCapabilitiesV2,
+            followAgentWorkState: true,
+            makeRuntime: makeMockRuntime({
+              childProcessSpawner,
+              mockAgentPath,
+              wrapRuntime: (runtime, runtimeOrdinal) =>
+                runtimeOrdinal === 1
+                  ? {
+                      ...runtime,
+                      handleSessionUpdate: (handler) =>
+                        Effect.sync(() => {
+                          firstSessionUpdate = handler;
+                        }).pipe(Effect.andThen(runtime.handleSessionUpdate(handler))),
+                      prompt: () => Deferred.await(firstPromptGate),
+                    }
+                  : {
+                      ...runtime,
+                      prompt: (payload, options) =>
+                        Deferred.succeed(
+                          replacementPromptText,
+                          payload.prompt
+                            .flatMap((block) => (block.type === "text" ? [block.text] : []))
+                            .join("\n"),
+                        ).pipe(Effect.andThen(runtime.prompt(payload, options))),
+                    },
+            }),
+          },
+          selfInvocation,
+          continuationRequests: { offer: () => Effect.void },
+        });
+        const threadId = ThreadId.make("thread-acp-late-prompt-rollback");
+        const runtimePolicy = ProviderAdapter.ProviderAdapterV2RuntimePolicy.make({
+          runtimeMode: "full-access",
+          interactionMode: "default",
+          cwd: process.cwd(),
+        });
+        const modelSelection = { instanceId, model: "default" } as const;
+        const runtime = yield* adapter.openSession({
+          threadId,
+          providerSessionId: ProviderSessionId.make("provider-session-acp-late-prompt-rollback"),
+          modelSelection,
+          runtimePolicy,
+        });
+        const events = yield* Queue.unbounded<ProviderAdapter.ProviderAdapterV2Event>();
+        yield* runtime.events.pipe(
+          Stream.runForEach((event) => Queue.offer(events, event)),
+          Effect.forkScoped,
+        );
+        const providerThread = yield* runtime.ensureThread({
+          threadId,
+          modelSelection,
+          runtimePolicy,
+        });
+        yield* runtime.startTurn(
+          makeTurnInput({
+            threadId,
+            providerThread,
+            instanceId,
+            runtimePolicy,
+            now: yield* DateTime.now,
           }),
-        },
-        selfInvocation,
-        continuationRequests: { offer: () => Effect.void },
-      });
-      const threadId = ThreadId.make("thread-acp-late-prompt-rollback");
-      const runtimePolicy = ProviderAdapter.ProviderAdapterV2RuntimePolicy.make({
-        runtimeMode: "full-access",
-        interactionMode: "default",
-        cwd: process.cwd(),
-      });
-      const modelSelection = { instanceId, model: "default" } as const;
-      const runtime = yield* adapter.openSession({
-        threadId,
-        providerSessionId: ProviderSessionId.make("provider-session-acp-late-prompt-rollback"),
-        modelSelection,
-        runtimePolicy,
-      });
-      const events = yield* Queue.unbounded<ProviderAdapter.ProviderAdapterV2Event>();
-      yield* runtime.events.pipe(
-        Stream.runForEach((event) => Queue.offer(events, event)),
-        Effect.forkScoped,
-      );
-      const providerThread = yield* runtime.ensureThread({
-        threadId,
-        modelSelection,
-        runtimePolicy,
-      });
-      yield* runtime.startTurn(
-        makeTurnInput({
-          threadId,
-          providerThread,
-          instanceId,
-          runtimePolicy,
-          now: yield* DateTime.now,
-        }),
-      );
-      if (firstSessionUpdate === undefined) {
-        return yield* Effect.die("the first runtime's session handler must be wired");
-      }
-      // The agent goes idle while its prompt RPC is still open, which ends the turn.
-      yield* firstSessionUpdate({
-        sessionId: "mock-session-1",
-        update: { sessionUpdate: "user_message_chunk", content: { type: "text", text: "echo" } },
-      });
-      yield* firstSessionUpdate({
-        sessionId: "mock-session-1",
-        update: { sessionUpdate: "state_update", state: "idle", stopReason: "end_turn" },
-      });
-      while ((yield* Queue.take(events)).type !== "turn.terminal") {}
+        );
+        if (firstSessionUpdate === undefined) {
+          return yield* Effect.die("the first runtime's session handler must be wired");
+        }
+        // The agent goes idle while its prompt RPC is still open, which ends the turn.
+        yield* firstSessionUpdate({
+          sessionId: "mock-session-1",
+          update: { sessionUpdate: "user_message_chunk", content: { type: "text", text: "echo" } },
+        });
+        yield* firstSessionUpdate({
+          sessionId: "mock-session-1",
+          update: { sessionUpdate: "state_update", state: "idle", stopReason: "end_turn" },
+        });
+        while ((yield* Queue.take(events)).type !== "turn.terminal") {}
 
-      const rolledBack = yield* runtime.rollbackThread({
-        providerThread,
-        providerThreadTurns: [],
-        target: {
-          type: "thread_start",
-          checkpointId: CheckpointId.make("checkpoint-acp-late-prompt-rollback"),
-          appRunOrdinal: 0,
-        },
-      });
-      // The replaced runtime's prompt settles late. A successful result would record delivery
-      // without the generation check; a cancelled one never records it, so it proves nothing.
-      // Its completion callback must finish before the next turn reads delivery state.
-      yield* Deferred.succeed(firstPromptGate, { stopReason: "end_turn" });
-      yield* Deferred.await(firstPromptCallbackDone);
-      yield* runtime.startTurn(
-        makeTurnInput({
-          threadId,
-          providerThread: rolledBack.providerThread,
-          instanceId,
-          runtimePolicy,
-          now: yield* DateTime.now,
-          ordinal: 2,
-        }),
-      );
-      const replacementPrompt = yield* Deferred.await(replacementPromptText);
-      assert.include(replacementPrompt, "T0 Code interaction mode: Default");
-      assert.include(replacementPrompt, "<runtime_info>");
-    }).pipe(Effect.provide(layerTest)),
+        const rolledBack = yield* runtime.rollbackThread({
+          providerThread,
+          providerThreadTurns: [],
+          target: {
+            type: "thread_start",
+            checkpointId: CheckpointId.make("checkpoint-acp-late-prompt-rollback"),
+            appRunOrdinal: 0,
+          },
+        });
+        // The replaced runtime's prompt settles late. A successful result would record delivery
+        // without the generation check; a cancelled one never records it, so it proves nothing.
+        // Its completion callback must finish before the next turn reads delivery state.
+        yield* Deferred.succeed(firstPromptGate, { stopReason: "end_turn" });
+        yield* Deferred.await(firstPromptCallbackDone);
+        yield* runtime.startTurn(
+          makeTurnInput({
+            threadId,
+            providerThread: rolledBack.providerThread,
+            instanceId,
+            runtimePolicy,
+            now: yield* DateTime.now,
+            ordinal: 2,
+          }),
+        );
+        const replacementPrompt = yield* Deferred.await(replacementPromptText);
+        assert.include(replacementPrompt, "T0 Code interaction mode: Default");
+        assert.include(replacementPrompt, "<runtime_info>");
+      }).pipe(Effect.provide(layerTest)),
   );
 
   it.effect("quarantines callbacks from a failed rollback replacement before retrying", () =>
@@ -8089,7 +8091,7 @@ describe("AcpAdapterV2", () => {
       );
       const blocks = rawProtocolPromptTextBlocks(Option.getOrThrow(prompt));
       if (native) {
-        // Same shape as a typed native command: one bare text block, no T3 instructions.
+        // Same shape as a typed native command: one bare text block, no T0 Code instructions.
         assert.deepEqual(blocks, [{ type: "text", text: sent }]);
       } else {
         assert.isTrue(blocks.some((block) => block.text.includes(sent)));

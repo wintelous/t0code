@@ -201,7 +201,7 @@ describe("resolveUserMessagePresentation", () => {
   });
 
   it("attributes older server-sent restart continuations to T0 Code, not another agent", () => {
-    const text = "Note: the T3 server restarted.";
+    const text = "Note: the T0 Code server restarted.";
     expect(
       resolveUserMessagePresentation({
         role: "user",

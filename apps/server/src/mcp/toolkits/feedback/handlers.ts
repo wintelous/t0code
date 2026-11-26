@@ -8,7 +8,7 @@ import * as McpToolAccess from "../../McpToolAccess.ts";
 import { FeedbackToolkit } from "./tools.ts";
 
 export const layer = McpToolAccess.toLayer(FeedbackToolkit, {
-  t3_feedback: McpToolAccess.writes((input) =>
+  t0c_feedback: McpToolAccess.writes((input) =>
     Effect.gen(function* () {
       const scope = yield* McpInvocationContext.McpInvocationContext;
       const feedback = yield* Feedback.FeedbackService;

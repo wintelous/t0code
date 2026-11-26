@@ -12,14 +12,14 @@ Sharing & access**, sign in, and enable **T0 Connect** for that environment.
 For a command-line host, run:
 
 ```bash
-t3 up
+t0c up
 ```
 
 It asks how your other devices reach the machine: T0 Connect, the local network,
 or both. Choose T0 Connect and follow the sign-in instructions. It then runs
 T0 Code as a [background service](./background-service.md).
-`t3 connect` is the same as `t3 up --connect`. Run `t3 up` again to change your
-choice, and `t3 status` to see it.
+`t0c connect` is the same as `t0c up --connect`. Run `t0c up` again to change your
+choice, and `t0c status` to see it.
 
 Instead of the background service, you can keep the desktop app running with
 its local environment enabled. Closing the desktop app's last window stops its
@@ -50,13 +50,13 @@ approval. Review the devices that are already approved, described below.
 A new device waits and shows a code such as `K7QM-2XFD`. Approve it from a
 device that is already connected, using the prompt or **Settings → Sharing &
 access**. Check that the code matches the one on the waiting device. On a
-headless host, run `t3 auth connect-device list` and then
-`t3 auth connect-device approve K7QM-2XFD`. A request expires after 10 minutes,
+headless host, run `t0c auth connect-device list` and then
+`t0c auth connect-device approve K7QM-2XFD`. A request expires after 10 minutes,
 and the device asks again when it retries. Deny keeps that device out until its
 request expires.
 
 Each device is approved once. Revoke it from **T0 Connect devices** in the same
-settings page, or with `t3 auth connect-device revoke <code>`. With approval on,
+settings page, or with `t0c auth connect-device revoke <code>`. With approval on,
 it has to ask again. With approval off, it can connect again on its own, so
 revoking in the app offers to turn approval on first. Devices that connected through T0 Connect while approval was off stay
 approved and appear in that list for you to review. A device that has not
@@ -65,15 +65,15 @@ cannot show the code, so update them before you turn approval on.
 
 ### Scripts and agents
 
-`t3 up` asks nothing when you name a choice: `--connect`, `--lan`, or their
+`t0c up` asks nothing when you name a choice: `--connect`, `--lan`, or their
 `--no-` forms. Choices you do not name keep their settings, and `--yes` takes
 the defaults. Without a terminal:
 
 - T0 Connect sign-in prints a URL and a code. Approve it on any device.
 - A needed restart runs without asking, and stops running agent turns.
-- With nothing set up and no choice named, `t3 up` stops and names the flags.
+- With nothing set up and no choice named, `t0c up` stops and names the flags.
 
-`t3 status --json` prints the settings. `t3 up --help` lists every flag with
+`t0c status --json` prints the settings. `t0c up --help` lists every flag with
 examples.
 
 ### More machines with T3 Chat
@@ -96,20 +96,20 @@ On a desktop host, open **Settings → Sharing & access**, enable **Network acce
 then create a pairing link using an address the other device can reach. Changing
 network access restarts the desktop app. You can turn it off in the same place.
 
-For a command-line host, choose the local network in `t3 up`, or run:
+For a command-line host, choose the local network in `t0c up`, or run:
 
 ```bash
-t3 up --lan
+t0c up --lan
 ```
 
-For a server in a terminal, run `t3 serve --lan`. Either way, T0 Code then
+For a server in a terminal, run `t0c serve --lan`. Either way, T0 Code then
 accepts connections from your local network and tailnet, so a pairing code is
 all that keeps other devices on them out.
 
 If a server is already running, generate a fresh link without restarting it:
 
 ```bash
-t3 pair
+t0c pair
 ```
 
 Scan the QR code on your phone or paste the pairing URL into **Add environment**
@@ -152,7 +152,7 @@ pairing once through T0 Connect is enough to use the LAN at home. When the
 machine's LAN address changes, for example after it joins another Wi-Fi network,
 the learned route follows it. The machine must allow network access for its LAN
 address to be learned: **Network access** in the desktop app, or the
-[local network](./background-service.md#local-network-access) choice in `t3 up`.
+[local network](./background-service.md#local-network-access) choice in `t0c up`.
 You can reorder a learned route, but not remove it; it
 goes away with the route it was learned through, or when the machine stops
 reporting that address.
@@ -211,13 +211,13 @@ add the HTTPS route.
 To start a command-line server with Tailscale HTTPS:
 
 ```bash
-t3 serve --tailscale-serve
+t0c serve --tailscale-serve
 ```
 
 For an already-running server:
 
 ```bash
-t3 pair --tailscale
+t0c pair --tailscale
 ```
 
 The pairing link uses an address such as `https://machine.tailnet.ts.net/`.
@@ -229,7 +229,7 @@ tailscale serve --https=443 --set-path=/ off
 ```
 
 If that port is already in use, choose another with
-`--tailscale-serve-port`. See `t3 pair --help` for other pairing options.
+`--tailscale-serve-port`. See `t0c pair --help` for other pairing options.
 
 ### Hosted web app
 
@@ -251,7 +251,7 @@ credentials, and agent work stay on the remote machine.
 
 The remote host must be Linux or an Apple Silicon Mac with `curl` or `wget`,
 `tar`, `sha256sum` or `shasum`, and [provider setup](./install.md#providers).
-The first launch downloads T0 Code's server to `~/.t3/runtime` on the host, so
+The first launch downloads T0 Code's server to `~/.t0c/runtime` on the host, so
 it takes longer than later ones.
 Provider CLIs must be on the `PATH` of a non-interactive login shell there;
 check with:
@@ -278,8 +278,8 @@ running is left alone.
 
 Each desktop app keeps one session on the host for its SSH connection and reuses
 it when it reconnects. Revoke sessions you no longer use in **Settings →
-Sharing & access** on the host, or on a headless host with `t3 auth session list` and
-`t3 auth session revoke <id>`. A desktop that can still sign in over SSH pairs
+Sharing & access** on the host, or on a headless host with `t0c auth session list` and
+`t0c auth session revoke <id>`. A desktop that can still sign in over SSH pairs
 again on its next connect.
 
 For Antigravity's Google callback on a remote host, see
@@ -339,7 +339,7 @@ anyone who can use the host's browser tabs can still view its `localhost` pages
 there. An administrator can also turn it off with a
 [managed policy](./managed-policy.md#other-capabilities).
 
-The first tab downloads a headless Chrome, about 120 MB, into the T3 home. It
+The first tab downloads a headless Chrome, about 120 MB, into the T0 Code home. It
 is the same browser [HTML renders](html-renders.md) use, so a host downloads it
 only once. Some Linux hosts need [setup](#browser-host-setup) before it can
 start.
@@ -380,12 +380,12 @@ the server says so at startup, and browser tabs and HTML previews show the
 command to run on the host:
 
 ```sh
-sudo t3 browser setup
+sudo t0c browser setup
 ```
 
 The server shows the exact line for how you started it, and keeps your `PATH`
-when you started it with `npx` and Node is installed only for your user. Where `t3` is not on your `PATH`, such as with only the
-desktop app installed, it names the full path of the app's own `t3` instead. It allows Chrome's sandbox with an AppArmor profile and installs
+when you started it with `npx` and Node is installed only for your user. Where `t0c` is not on your `PATH`, such as with only the
+desktop app installed, it names the full path of the app's own `t0c` instead. It allows Chrome's sandbox with an AppArmor profile and installs
 any missing libraries and system fonts with apt; pages that load without text
 can mean the host has no fonts. It is safe to run again, and each run reloads
 the AppArmor profile: run it again if the browser reports a blocked sandbox on a
@@ -393,21 +393,21 @@ host restored from an image or snapshot, where the profile can be on disk
 without being loaded. Without `sudo`, it only reports what it would change.
 
 The browser runs in Chrome's sandbox by default. Chrome cannot start that sandbox
-as root. If your T3 server runs as root, run it as a nonroot user to keep
-sandboxing enabled. `t3 browser setup` does not fix this root restriction.
+as root. If your T0 Code server runs as root, run it as a nonroot user to keep
+sandboxing enabled. `t0c browser setup` does not fix this root restriction.
 
 If you need to run as root, or cannot enable the sandbox on your host, set
-`T0CODE_SERVER_BROWSER_SANDBOX=0` in the **T3 server's environment** and restart
+`T0CODE_SERVER_BROWSER_SANDBOX=0` in the **T0 Code server's environment** and restart
 the server. This disables Chrome's sandbox. For a manual launch:
 
 ```sh
-T0CODE_SERVER_BROWSER_SANDBOX=0 t3 serve
+T0CODE_SERVER_BROWSER_SANDBOX=0 t0c serve
 ```
 
 For a systemd service, add `Environment=T0CODE_SERVER_BROWSER_SANDBOX=0` under
 `[Service]` in its configuration, run `sudo systemctl daemon-reload`, then restart
-your T3 service. Setting the variable in an agent's terminal does not change the
-environment of an already running T3 server.
+your T0 Code service. Setting the variable in an agent's terminal does not change the
+environment of an already running T0 Code server.
 
 ## Connect an outside agent
 
@@ -425,7 +425,7 @@ Linked environments is a beta. Turn it on for both machines in **Settings →
 Labs**; on mobile, **Settings → Labs** lists each connected machine. On a
 headless server, open its address in a browser and pair to reach its **Settings
 → Labs**, or add `"linkedEnvironmentsEnabled": true` to `settings.json` in its
-`userdata` directory, such as `~/.t3/userdata/settings.json`; a running server
+`userdata` directory, such as `~/.t0c/userdata/settings.json`; a running server
 picks it up. While it is
 off on either machine, agents start nothing over a link between them. A task
 already running on the other machine still finishes, and if that machine has it
@@ -438,7 +438,7 @@ app has an address for that machine and is connected to it with a session that
 manages access there, it makes the pairing code itself; otherwise paste one
 from that machine's **Settings → Sharing & access**. An address you type always
 needs a pasted code. From a terminal, use
-`t3 environment link <address> --pairing-code <code> --access <mode>`.
+`t0c environment link <address> --pairing-code <code> --access <mode>`.
 
 To link many machines at once, choose **Link several…** (it appears once this
 app has two other machines saved). Tick the machines, pick one access level for
@@ -449,8 +449,8 @@ reports its own result, and the ones that failed stay ticked so you can try
 only those again. Machines already linked are left as they are.
 
 For machines no app is connected to, put one `<address> <pairing-code>` per
-line in a file (make each code with `t3 pair` on that machine) and run
-`t3 environment link --from <file> --access <mode>`, or `--from -` to read
+line in a file (make each code with `t0c pair` on that machine) and run
+`t0c environment link --from <file> --access <mode>`, or `--from -` to read
 standard input. It prints a result per line, leaves machines already linked as
 they are, and exits non-zero if any line failed, so the same file can be run
 again with fresh codes for the failures.
@@ -566,7 +566,7 @@ any other thread on web and desktop, and a shorter read-only list on mobile.
 On the host, **Settings → Sharing & access** lets authorized administrators create
 pairing links and revoke client sessions. Revoking an unused link prevents new
 pairings; revoke a device's session to remove its existing access. Command-line
-management is available through `t3 auth --help`.
+management is available through `t0c auth --help`.
 
 When the app connects to more than one environment, choose one at the top of the
 page. A desktop app with **Local environment** off can manage a background
@@ -578,11 +578,11 @@ expires.
 To choose a token's permissions, pass `--scope` once for each scope you want:
 
 ```sh
-t3 pair --scope orchestration:read --scope relay:read
+t0c pair --scope orchestration:read --scope relay:read
 ```
 
 The selected scopes replace the default permissions. The same option works with
-`t3 auth pairing create` and `t3 auth session issue`; each command's
+`t0c auth pairing create` and `t0c auth session issue`; each command's
 `--help` lists the available scopes. Without `--scope`, pairing tokens and issued
 bearer sessions get the standard client permissions, including managing access.
 Setting up or replacing a T0 Connect link requires the separate `relay:configure` permission.
@@ -643,9 +643,9 @@ already on, turn it off and on again. Either needs a client paired with
 `relay:read`, `relay:write`, and `relay:configure`. The desktop app's own session
 and the startup pairing link include all three; a pairing link created in
 **Settings → Sharing & access** needs `relay:configure` selected. You can also
-run `t3 connect link` on the host and then restart T0 Code there. A
+run `t0c connect link` on the host and then restart T0 Code there. A
 command-line host that released its tunnel when it last stopped may link itself
-again on its next start; run `t3 connect unlink` on that host to keep it off.
+again on its next start; run `t0c connect unlink` on that host to keep it off.
 Removing an environment from a device's connection settings only forgets it on
 that device and doesn't change your T0 Connect account. A device keeps a saved
 environment after it's deregistered until you remove it from that device.
@@ -661,8 +661,8 @@ T0 Code once it has been offline for seven days. That environment shows a messag
 asking you to update. Start T0 Code on that computer and update it to the latest
 version; it reconnects at the same address without pairing again.
 
-On a command-line host, `t3 connect unlink` disables exposure while retaining
-your login; `t3 connect logout` also clears that login. Background-service
+On a command-line host, `t0c connect unlink` disables exposure while retaining
+your login; `t0c connect logout` also clears that login. Background-service
 [removal](./background-service.md#manage-the-service) is separate.
 
 Treat pairing URLs and authorization codes as passwords. Do not include them in
@@ -681,7 +681,7 @@ desktop app, open **Settings → Environments** and switch off **Local
 environment**. T0 Code restarts without a local server: no local agents or terminals run, WSL
 backends stay off, and other devices can no longer connect to this computer. Your projects,
 history, and saved connections are kept, and you keep working through pairing, T0 Connect, or SSH.
-If a [background service](./background-service.md) on this computer uses the same T3 home, the
+If a [background service](./background-service.md) on this computer uses the same T0 Code home, the
 app still treats it as this computer: **Open in** and file reveal for its projects run here,
 whichever connection you reach it through.
 

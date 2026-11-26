@@ -3821,7 +3821,7 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
       }
       return plan.parentRun?.id;
     }
-    // task_status and t3_thread_read use distinct command IDs, so two
+    // task_status and t0c_thread_read use distinct command IDs, so two
     // valid observations can race after their read preflight. Re-emit the
     // existing task row so the second dispatch is a successful idempotent
     // no-op rather than "already acknowledged/disposed" or empty-events.
@@ -8235,7 +8235,7 @@ const makeOrchestrator = Effect.fn("orchestrationV2.Orchestrator.layer")(functio
       const queueIsHeld = projection.runs.some(
         (candidate) => candidate.status === "queued" && candidate.queueHeld === true,
       );
-      // Buffered wakes need a T3 run for output the CLI already started producing.
+      // Buffered wakes need a T0 Code run for output the CLI already started producing.
       // Stop still holds wakes that arrive before the active run settles.
       const wakeSkipsHold =
         !worktreeSetupUnresolved &&

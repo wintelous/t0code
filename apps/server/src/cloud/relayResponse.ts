@@ -64,7 +64,7 @@ function recoveryHint(error: RelayProtectedError): string {
     case "RelayEnvironmentLinkLimitExceededError":
       return "Unlink an unused environment in T0 Connect, then restart T0 Code on this machine.";
     case "RelayAuthInvalidError":
-      return "Run `t3 connect login` to check this machine's authorization. If the stored credential was revoked, sign out with `t3 connect logout`, then run `t3 connect` again. Restart T0 Code after signing in.";
+      return "Run `t0c connect login` to check this machine's authorization. If the stored credential was revoked, sign out with `t0c connect logout`, then run `t0c connect` again. Restart T0 Code after signing in.";
     case "RelayEnvironmentLinkProofInvalidError":
       if (error.reason === "environment_key_mismatch") {
         return "T0 Connect already has this environment linked with a different key. Unlink it in T0 Connect, then restart T0 Code on this machine.";

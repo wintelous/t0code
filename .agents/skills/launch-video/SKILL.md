@@ -27,7 +27,7 @@ There are two ways to build one:
 2. **Write the story** before any code: who the user is, what they want, and two or three
    beats that get them there. Show it to the maintainer if the angle is a guess.
 3. **Stage it.** Copy `stagings/linked-environments/` to `stagings/<slug>/`.
-   - `serve.mjs` builds fresh homes under `.t3/launch/<slug>/` with `scripts/stage-env.mjs`.
+   - `serve.mjs` builds fresh homes under `.t0c/launch/<slug>/` with `scripts/stage-env.mjs`.
      Each home gets a fictional machine label, the replay agent, and no paid provider.
      It starts the servers, creates projects, writes `<out>/stage.json` and keeps running.
      Run it in the background.
@@ -38,14 +38,14 @@ There are two ways to build one:
      `scripts/fake-claude.mjs` as its CLI, so the video shows Claude's logo, models, thinking
      and tool rows. Each turn is `{ match, steps }`: `think`, `text`, `bash` (+ `output`, `ms`),
      `wait`, `edit` (+ `old`, `new`) and `write` (+ `content`), which change the file for real
-     so diffs and checkpoints show them, and `tool` (+ `input`), which calls that T3 MCP tool
+     so diffs and checkpoints show them, and `tool` (+ `input`), which calls that T0 Code MCP tool
      for real, e.g. `delegate_task`; with `server` and `output` it plays another MCP server's
      tool instead. `<var:name>` is filled from the JSON file at `FAKE_CLAUDE_VARS`, for ids
      that change every run. `bash` with `run: true` executes the command in the session's cwd
      (to push a branch or open a pull request with a forge CLI); `as: "name"` keeps its output,
      or the `pick` regex match in it, as `<var:name>` for the turn's later steps. A workflow
      `agent` step with `returns` finishes on `submit: { ... }`, which hands it that value
-     through `t3_submit_output`. `fake-claude.log` in the home records the protocol, for debugging.
+     through `t0c_submit_output`. `fake-claude.log` in the home records the protocol, for debugging.
    - Titles, commit messages and branch names come from `claude -p --json-schema`: answer them
      with `{ match, json }` turns, where `match` is tested against the schema plus the prompt
      (`'"title"'`, `'"subject"[\\s\\S]*products\\.ts'`). Unanswered ones fail in the app.

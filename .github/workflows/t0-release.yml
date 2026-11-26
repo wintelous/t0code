@@ -3,8 +3,8 @@ name: T0 Release
 # t0: the fork's release pipeline. It runs on GitHub-hosted runners and talks to no upstream
 # service: no relay, Clerk, npm, Discord, website deploys or tracing. Each platform is packaged by
 # upstream's release-desktop.yml; this workflow builds the shared JS bundle once and publishes one
-# GitHub release with every installer, the update feed and the `t3` server archives that remote
-# (SSH) hosts download. Upstream's own release.yml only runs in pingdotgg/t3code.
+# GitHub release with every installer, the update feed and the `t0c` server archives that remote
+# (SSH) hosts download. Upstream's own release.yml only runs in wintelous/t0code.
 #
 # Start it by pushing a tag (git tag v0.1.11 && git push origin v0.1.11), or from the Actions tab
 # with a version, which tags the selected branch. Builds are unsigned unless the signing secrets
@@ -97,7 +97,7 @@ jobs:
       - name: Setup dependencies
         uses: ./.github/actions/setup-ci-deps
         with:
-          install-args: --filter=t3... --filter=@t3tools/web... --filter=@t3tools/desktop... --filter=@t3tools/scripts...
+          install-args: --filter=t0c... --filter=@t3tools/web... --filter=@t3tools/desktop... --filter=@t3tools/scripts...
 
       - name: Align package versions to release version
         run: node scripts/update-release-package-versions.ts "${{ needs.preflight.outputs.version }}"
@@ -261,7 +261,7 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
-          archives=(t3-*.tar.gz t3-*.zip)
+          archives=(t0c-*.tar.gz t0c-*.zip)
           if [[ ${#archives[@]} -eq 0 ]]; then
             echo "::error::No CLI archives were produced." >&2
             exit 1
@@ -302,7 +302,7 @@ jobs:
         shell: bash
         run: |
           cat > release-notes.md <<'EOF'
-          T0 Code is an unofficial, telemetry-free fork of [T3 Code](https://github.com/pingdotgg/t3code).
+          T0 Code is an unofficial, telemetry-free fork of [T0 Code](https://github.com/wintelous/t0code).
 
           | Platform | Download |
           | --- | --- |
@@ -313,7 +313,7 @@ jobs:
           | Linux: Fedora, RHEL, openSUSE | `.rpm` |
           | Linux: Arch | `.pacman` (`sudo pacman -U <file>`) |
           | Linux: any | `.AppImage` |
-          | Server for remote hosts | `t3-*` archives (installed automatically over SSH) |
+          | Server for remote hosts | `t0c-*` archives (installed automatically over SSH) |
 
           These builds are not code-signed. On macOS, if the first launch is blocked, allow it in
           System Settings › Privacy & Security, or run `xattr -dr com.apple.quarantine "/Applications/T0 Code.app"`.

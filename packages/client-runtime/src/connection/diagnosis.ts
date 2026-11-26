@@ -169,7 +169,7 @@ function steps(
   resolve: MFunctionType,
 ): string[] {
   const checkHost = resolve(
-    msg("On {host}, check Settings > Sharing & access or run `t3 connect status`.", { host }),
+    msg("On {host}, check Settings > Sharing & access or run `t0c connect status`.", { host }),
   );
   switch (located.cause) {
     case "offline":
@@ -197,7 +197,7 @@ function steps(
               ),
             ),
         resolve(
-          msg("Or run `t3 auth connect-device approve {code}` on {host}.", {
+          msg("Or run `t0c auth connect-device approve {code}` on {host}.", {
             code: code ?? "<code>",
             host,
           }),

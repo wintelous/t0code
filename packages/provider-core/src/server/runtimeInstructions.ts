@@ -5,8 +5,8 @@ import type { ProviderAdapterV2RuntimePolicy } from "./ProviderAdapter.ts";
 /** None while agent feedback is off, so users who never opt in pay no context for it. */
 export const AGENT_FEEDBACK_INSTRUCTIONS = {
   off: "",
-  "on-request": "Use `t3_feedback` only when the user asks you to send T3 feedback.",
-  auto: "`t3_feedback` reports are wanted and cheap. Send one, then continue, when a T3 tool or `t3` command fails or gives a wrong result, the user corrects how you use T0 Code, or a T3 capability you looked for is missing. Once per problem; also when the user asks. Only about T0 Code, never the user's code or other tools.",
+  "on-request": "Use `t0c_feedback` only when the user asks you to send T0 Code feedback.",
+  auto: "`t0c_feedback` reports are wanted and cheap. Send one, then continue, when a T0 Code tool or `t0c` command fails or gives a wrong result, the user corrects how you use T0 Code, or a T0 Code capability you looked for is missing. Once per problem; also when the user asks. Only about T0 Code, never the user's code or other tools.",
 } satisfies Record<AgentFeedbackMode, string>;
 
 /** Session-invariant; harnesses with a native system-prompt append can carry it once per session. */

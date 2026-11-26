@@ -1163,7 +1163,7 @@ it.layer(layerGitManagerTest)("GitManager", (it) => {
     }),
   );
 
-  it.effect("a git read in flight during a T3 git action does not outlive it", () =>
+  it.effect("a git read in flight during a T0 Code git action does not outlive it", () =>
     Effect.gen(function* () {
       const repoDir = yield* makeTempDir("t0code-git-manager-");
       yield* initRepo(repoDir);
@@ -5714,7 +5714,7 @@ it.layer(layerGitManagerTest)("GitManager", (it) => {
         const result = yield* runStackedAction(manager, { cwd: worktreePath, action: "create_pr" });
         expect(result.pr.status).toBe("created");
 
-        // A branch created outside T3 has only gh's legacy short base setting.
+        // A branch created outside T0 Code has only gh's legacy short base setting.
         yield* runGit(worktreePath, ["checkout", "-b", "feature/legacy-local-base"]);
         yield* runGit(worktreePath, [
           "config",

@@ -61,7 +61,7 @@ It works with Claude Code, Codex, Cursor, OpenCode, Grok Build, Antigravity, Kir
 
 ### Command line
 
-This installs the `t3` command. Run `t3` to start the server and open the web app.
+This installs the `t0c` command. Run `t0c` to start the server and open the web app.
 
 ```bash
 curl -fsSL https://t3.codes/install.sh | sh
@@ -73,7 +73,7 @@ On Windows, in PowerShell:
 irm https://t3.codes/install.ps1 | iex
 ```
 
-To try it once without an install, run `npx t3@latest`.
+To try it once without an install, run `npx t0c@latest`.
 
 ### Phone
 
