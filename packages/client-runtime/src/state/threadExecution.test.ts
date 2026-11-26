@@ -742,7 +742,7 @@ describe("deriveProviderSubagentStatus", () => {
     nodes: [root],
   });
 
-  it("leaves T3 delegated tasks and ordinary threads alone", () => {
+  it("leaves T0 Code delegated tasks and ordinary threads alone", () => {
     expect(deriveProviderSubagentStatus(child("mcp"))).toBeNull();
     expect(deriveProviderSubagentStatus({ ...v2Projection, nodes: [root] })).toBeNull();
   });

@@ -18,7 +18,7 @@ describe("resolveDesktopAppControlAddress", () => {
       joinPath: (...segments) => segments.join("/"),
     });
     const second = resolveDesktopAppControlAddress({
-      stateDir: "/home/user/.t3/other/userdata",
+      stateDir: "/home/user/.t0c/other/userdata",
       platform,
       tempDir,
       userId: 1000,

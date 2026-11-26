@@ -212,8 +212,8 @@ function formatCloudStatus(
           : !status.desired
             ? `Run \`${commands.link}\` to enable T0 Connect.`
             : publishOnly
-              ? "Start T3 to provision the environment link."
-              : "Start T3 to provision the environment link and launch its managed tunnel.";
+              ? "Start T0 Code to provision the environment link."
+              : "Start T0 Code to provision the environment link and launch its managed tunnel.";
 
   return [
     "T0 Connect",
@@ -250,7 +250,7 @@ const CLOUD_CLI_LIVE_SERVER_TIMEOUT = Duration.seconds(5);
 const confirmRelayClientInstall = (version: string) =>
   Prompt.run(
     Prompt.Confirm({
-      message: `The T3 relay client is required for T0 Connect. Download and install version ${version}?`,
+      message: `The T0 Code relay client is required for T0 Connect. Download and install version ${version}?`,
       initial: false,
     }),
   );
@@ -361,7 +361,7 @@ function formatAlertBox(text: string): string {
 }
 
 /**
- * Waits for the server that `t3 connect` just started to prove other devices
+ * Waits for the server that `t0c connect` just started to prove other devices
  * can reach it, so a broken tunnel fails setup instead of looking green.
  */
 export const waitForReachability = Effect.fn("cloud.cli.wait_for_reachability")(function* () {
@@ -381,7 +381,7 @@ export const waitForReachability = Effect.fn("cloud.cli.wait_for_reachability")(
   yield* Console.error(
     formatAlertBox(
       last === null
-        ? "✕ Could not check T0 Connect\n  The T3 server on this machine did not answer.\n  Fix: run `t3 service status`, then `t3 connect status`."
+        ? "✕ Could not check T0 Connect\n  The T0 Code server on this machine did not answer.\n  Fix: run `t0c service status`, then `t0c connect status`."
         : formatReachabilityFailure(last),
     ),
   );
@@ -474,11 +474,11 @@ const reportCloudDisconnectResults = Effect.fn("cloud.cli.report_disconnect_resu
       yield* Console.warn(
         input.clearAuthorization
           ? "Could not revoke the relay-side environment record before signing out.\nThe stored CLI authorization was still removed locally."
-          : "Could not revoke the relay-side environment record yet.\nRun `t3 connect unlink` again when the relay is reachable, or deregister it from the T0 Connect page of your T3 account.",
+          : "Could not revoke the relay-side environment record yet.\nRun `t0c connect unlink` again when the relay is reachable, or deregister it from the T0 Connect page of your T3 account.",
       );
     } else if (input.relayResult.value.status === "not-authenticated") {
       yield* Console.warn(
-        "The relay-side environment record was not revoked.\nDeregister it from the T0 Connect page of your T3 account, or run `t3 connect login` and retry.",
+        "The relay-side environment record was not revoked.\nDeregister it from the T0 Connect page of your T3 account, or run `t0c connect login` and retry.",
       );
     } else if (input.relayResult.value.status === "revoked") {
       yield* Console.log("Revoked the relay-side environment record.");
@@ -507,7 +507,7 @@ export const disconnectCloud = Effect.fn("cloud.cli.disconnect")(function* (opti
 
   if (options.clearAuthorization) {
     yield* Console.log(
-      "Signed out of T0 Connect locally.\nThe background service is managed separately with `t3 service`.",
+      "Signed out of T0 Connect locally.\nThe background service is managed separately with `t0c service`.",
     );
   }
   return liveResult;
@@ -574,7 +574,7 @@ function formatRelayClientReady(version: string): string {
 const linkEnvironmentForConnect = Effect.fn("cloud.cli.link_environment")(function* (options: {
   readonly headless: boolean;
   readonly publishOnly?: boolean;
-  /** For `t3 up`, where the user already chose T0 Connect: install it quietly, without asking. */
+  /** For `t0c up`, where the user already chose T0 Connect: install it quietly, without asking. */
   readonly installRelayClient?: boolean;
 }) {
   const publishOnly = options.publishOnly ?? false;
@@ -652,7 +652,7 @@ const connectLinkCommand = Command.make("link", {
           const serveCommand = yield* resolveHostCliHint("serve", flags.baseDir);
           yield* Console.log(
             flags.publishOnly
-              ? `✓ Authorized${connectedAs(linked.identity)}\n\nNext\n  Start T3 to publish agent activity (no managed tunnel).`
+              ? `✓ Authorized${connectedAs(linked.identity)}\n\nNext\n  Start T0 Code to publish agent activity (no managed tunnel).`
               : `✓ Authorized${connectedAs(linked.identity)}\n\nNext\n  Start the server with \`${serveCommand}\` to make this machine reachable.`,
           );
         }
@@ -785,13 +785,13 @@ const connectPublishCommand = Command.make("publish", {
         // A desired managed link already covers publishing and must not be downgraded.
         if (yield* CliState.readCliDesiredCloudLink) {
           yield* Console.log(
-            "A T0 Connect link is already pending. Start T3 to finish provisioning it; publishing starts once it links.",
+            "A T0 Connect link is already pending. Start T0 Code to finish provisioning it; publishing starts once it links.",
           );
           return;
         }
         yield* CliState.setCliDesiredCloudLink(true, "publish_only");
         yield* Console.log(
-          "Restart T3 to finish authorizing this environment to publish (no managed tunnel is created).",
+          "Restart T0 Code to finish authorizing this environment to publish (no managed tunnel is created).",
         );
       }),
     ),
@@ -816,7 +816,7 @@ const connectLogoutCommand = Command.make("logout", {
   ),
 );
 
-// `t3 connect` itself is `t3 up --connect`, in up.ts.
+// `t0c connect` itself is `t0c up --connect`, in up.ts.
 export const connectSubcommands = [
   connectLoginCommand,
   connectLinkCommand,

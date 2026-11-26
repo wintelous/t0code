@@ -1423,7 +1423,7 @@ describe("orchestration v2 provider switching", () => {
           (yield* orchestrator.getThreadProjection(threadId)).runs.at(-1)?.status,
           "completed",
         );
-        // A second generation means T3 discarded the native session as full.
+        // A second generation means T0 Code discarded the native session as full.
         assert.equal(yield* Ref.get(generation), 1);
       }).pipe(
         Effect.provide(
@@ -3128,7 +3128,7 @@ describe("orchestration v2 provider switching", () => {
     }),
   );
 
-  // regression: #15993 t3_worktree_handoff releases the Claude session that runs it. Nothing
+  // regression: #15993 t0c_worktree_handoff releases the Claude session that runs it. Nothing
   // was left to report how the call ended, so it stayed running and the thread stayed Waiting.
   it.live("interrupts the handoff tool call that releases its own session", () =>
     Effect.gen(function* () {
@@ -3149,7 +3149,7 @@ describe("orchestration v2 provider switching", () => {
           holdFirstTurn: started,
           heldRunningToolCall: {
             id: toolCallId,
-            toolName: "mcp__t0-code__t3_worktree_handoff",
+            toolName: "mcp__t0-code__t0c_worktree_handoff",
           },
           backgroundTasksEndWithProcess: true,
         }),

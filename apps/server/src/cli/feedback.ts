@@ -124,7 +124,9 @@ export const feedbackCommand = Command.make("feedback", {
     Flag.withDescription("What went wrong."),
   ),
   subject: Flag.String("subject").pipe(
-    Flag.withDescription("The T3 tool name, t3 command such as `t3 thread send`, or `general`."),
+    Flag.withDescription(
+      "The T0 Code tool name, t0c command such as `t0c thread send`, or `general`.",
+    ),
   ),
   expected: Flag.String("expected").pipe(Flag.withDescription("What you expected.")),
   actual: Flag.String("actual").pipe(Flag.withDescription("What happened instead.")),
@@ -141,7 +143,7 @@ export const feedbackCommand = Command.make("feedback", {
       { baseDir, json: true, clientLabel: FEEDBACK_CLI_CLIENT_LABEL },
       Effect.fn("cli.feedback.submit")(function* (tools) {
         const report = yield* tools.call(
-          "t3_feedback",
+          "t0c_feedback",
           { kind, subject, expected, actual, workaround },
           FeedbackSubmitResult,
         );

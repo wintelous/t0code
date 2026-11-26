@@ -16,7 +16,7 @@ import {
 const out = NodePath.resolve(process.argv[2] ?? "");
 if (!process.argv[2]) throw new Error("usage: serve.mjs <out-dir>");
 NodeFS.mkdirSync(out, { recursive: true });
-const root = NodePath.join(REPO, ".t3/launch/linked-environments");
+const root = NodePath.join(REPO, ".t0c/launch/linked-environments");
 const vars = NodePath.join(root, "replay-vars.json");
 
 // A linked environment must be another machine: loopback is refused, and plain http is accepted

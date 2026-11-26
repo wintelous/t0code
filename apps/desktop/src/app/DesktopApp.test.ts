@@ -331,7 +331,7 @@ it.effect.each([false, true])(
 );
 
 it.effect(
-  "points a stale t3 launcher at the updated AppImage and accepts t3 <dir> with Local environment off",
+  "points a stale t0c launcher at the updated AppImage and accepts t0c <dir> with Local environment off",
   () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
@@ -379,11 +379,11 @@ it.effect(
       assert.include(
         content,
         `app='${updatedAppImage}'`,
-        "startup left the t3 launcher pointing at the removed AppImage",
+        "startup left the t0c launcher pointing at the removed AppImage",
       );
       assert.isTrue(
         yield* Deferred.isDone(activationStarted),
-        "startup left the t3 <dir> control socket closed",
+        "startup left the t0c <dir> control socket closed",
       );
     }).pipe(Effect.provide(Layer.mergeAll(DesktopShutdown.layer, NodeServices.layer))),
 );

@@ -442,7 +442,7 @@ class T3WorkspaceNavigationView(
       "threads" -> R.drawable.t3_chats
       "pullRequests" -> R.drawable.t3_pull_requests
       "issues" -> R.drawable.t3_issues
-      "workflows" -> R.drawable.t3_workflows
+      "workflows" -> R.drawable.t0c_workflows
       "usage" -> R.drawable.t3_usage
       else -> R.drawable.t3_settings
     }

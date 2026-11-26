@@ -535,7 +535,7 @@ it.layer(NodeServices.layer)("migrate-dev-db", (it) => {
       const sourceDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-peer-" });
       const destDir = yield* fs.makeTempDirectoryScoped({ prefix: "migrate-dev-db-peer-dest-" });
       const source = yield* createFixtureSource(sourceDir, 67);
-      // Mirrors a real ~/.t3 seed written by a build whose 68-70 differ from main's.
+      // Mirrors a real ~/.t0c seed written by a build whose 68-70 differ from main's.
       yield* withDatabase(
         source,
         Effect.gen(function* () {

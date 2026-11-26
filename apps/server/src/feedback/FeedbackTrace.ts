@@ -21,7 +21,7 @@ export const FEEDBACK_TRACE_ITEM_TYPES = [
 ] as const satisfies ReadonlyArray<OrchestrationV2TurnItem["type"]>;
 
 // Claude and Codex namespace or mark tools from other MCP servers; other harnesses name them
-// like built-ins, so there every tool that is not T3's could be one.
+// like built-ins, so there every tool that is not T0 Code's could be one.
 const NAMES_BUILT_IN_TOOLS: ReadonlySet<string> = new Set(["claudeAgent", "codex"]);
 const BUILT_IN_NAME = /^[A-Za-z][A-Za-z0-9_-]{0,63}$/u;
 /** Every tool from the user's other MCP servers, whose names describe their setup. */
@@ -83,12 +83,12 @@ export const buildFeedbackTrace = (input: {
   const runs = started.slice(-window);
   const firstTextTurn = input.withText ? runs.length - input.turns + 1 : Infinity;
   const turnOf = new Map(runs.map((run, index) => [run.id, { turn: index + 1, run }] as const));
-  // The `t3_feedback` call making this report is still running; listed, it reads as a hung call.
+  // The `t0c_feedback` call making this report is still running; listed, it reads as a hung call.
   const submitting = (item: OrchestrationV2TurnItem) =>
     item.runId === input.submittingRunId &&
     item.type === "dynamic_tool" &&
     outcome(item) === "unfinished" &&
-    resolveT3ToolName(item.toolName ?? "", input.t3Tools) === "t3_feedback";
+    resolveT3ToolName(item.toolName ?? "", input.t3Tools) === "t0c_feedback";
   // Asked for more turns than the window holds, in a thread long enough to have them.
   let truncated = input.turns > window && started.length >= window;
   const entries = input.items

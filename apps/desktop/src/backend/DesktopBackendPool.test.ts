@@ -95,7 +95,7 @@ const runningConfig = {
     mode: "desktop",
     noBrowser: true,
     port: 3774,
-    t3Home: "/tmp/t3",
+    t3Home: "/tmp/t0c",
     host: "127.0.0.1",
     desktopBootstrapToken: "token",
     tailscaleServeEnabled: false,

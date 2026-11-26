@@ -34,7 +34,7 @@ export interface PeerCallLimits {
 }
 
 /**
- * Calls a linked environment's T3 MCP tools as this environment's outside
+ * Calls a linked environment's T0 Code MCP tools as this environment's outside
  * agent. Each call carries the calling agent's limits in `T3-Mode-Limit`, so
  * the peer enforces the narrower of those and the link's own access.
  */

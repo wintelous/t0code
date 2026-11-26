@@ -26,15 +26,15 @@ describe("OtelEnvironment", () => {
       disabled: false,
       warnings: [specIgnored("1")],
     },
-    { name: "t3 1", env: { T0CODE_OTEL_SDK_DISABLED: "1" }, disabled: true, warnings: [T3_OFF] },
+    { name: "t0c 1", env: { T0CODE_OTEL_SDK_DISABLED: "1" }, disabled: true, warnings: [T3_OFF] },
     {
-      name: "t3 false overrides spec true",
+      name: "t0c false overrides spec true",
       env: { T0CODE_OTEL_SDK_DISABLED: "false", OTEL_SDK_DISABLED: "true" },
       disabled: false,
       warnings: [],
     },
     {
-      name: "unreadable t3 warns and falls through",
+      name: "unreadable t0c warns and falls through",
       env: { T0CODE_OTEL_SDK_DISABLED: "maybe", OTEL_SDK_DISABLED: "true" },
       disabled: true,
       warnings: ["T0CODE_OTEL_SDK_DISABLED=maybe is not a yes or a no and was ignored", SPEC_OFF],

@@ -253,7 +253,7 @@ export function buildPiRpcLaunch(input: {
   readonly extensionPath: string | undefined;
   readonly sessionPath?: string | undefined;
   readonly ephemeral?: boolean;
-  // T3 stops these processes as soon as they answer. They run --offline because Pi's startup
+  // T0 Code stops these processes as soon as they answer. They run --offline because Pi's startup
   // catalog refresh renews expired OAuth tokens, and a stop mid-request loses the rotated one.
   readonly shortLived?: boolean;
   readonly disableExtensions?: boolean;
@@ -293,7 +293,7 @@ export function buildPiRpcLaunch(input: {
     args.push("--extension", input.extensionPath);
   }
   const environment = { ...input.environment };
-  // MCP credentials belong to this T3 session; discard inherited server/parent credentials.
+  // MCP credentials belong to this T0 Code session; discard inherited server/parent credentials.
   delete environment[T3_MCP_URL_ENV];
   delete environment[T3_MCP_BEARER_ENV];
   delete environment[T3_PI_MCP_EXTENSION_PATH_ENV];

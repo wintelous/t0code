@@ -408,8 +408,8 @@ const attempt = Effect.fn("workflow.agent")(function* <A, I>(
         start(
           `${round}/correct/${correction}`,
           misfit === undefined
-            ? "Your turn ended without an accepted result. Do not redo the work: call `t3_submit_output` now with the result of what you did."
-            : `The result you submitted does not fit: ${misfit}\nDo not redo the work: call \`t3_submit_output\` again with a corrected result.`,
+            ? "Your turn ended without an accepted result. Do not redo the work: call `t0c_submit_output` now with the result of what you did."
+            : `The result you submitted does not fit: ${misfit}\nDo not redo the work: call \`t0c_submit_output\` again with a corrected result.`,
           threadOf(turn),
         ),
       );

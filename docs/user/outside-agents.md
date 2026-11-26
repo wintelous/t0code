@@ -65,7 +65,7 @@ Either page names the agent and where its access goes:
 
 Only approve a sign-in you just started. On the environment's own page, enter a
 code from **Use T0 Code in another app (MCP)**, **Settings → Sharing & access**,
-or `t3 auth pairing create` on the host. A browser already signed in to the
+or `t0c auth pairing create` on the host. A browser already signed in to the
 environment with permission to manage access can approve without a code. On the
 web app, **Use a sign-in code instead** opens the environment's own page.
 
@@ -86,41 +86,41 @@ policy. Approving without a code starts at **Read only**:
 
 ## What outside agents can call
 
-Some tools only work for an agent running inside a T3 thread, because they act
+Some tools only work for an agent running inside a T0 Code thread, because they act
 as that thread: subagents, secret requests, rendered HTML, the browser preview,
 devices, and worktree handoff. They still appear in an outside agent's tool
 list, but calling one returns an error saying it needs an agent running inside
 T0 Code.
 
-- To hand off work, start a thread with `t3_thread_launch`, then follow it with
-  `t3_thread_wait` or `t3_thread_read`, instead of `create_threads` or
+- To hand off work, start a thread with `t0c_thread_launch`, then follow it with
+  `t0c_thread_wait` or `t0c_thread_read`, instead of `create_threads` or
   `delegate_task`.
 - Tools that default to the caller's own project or thread need an explicit
   `projectId` or `threadId`.
-- To list threads across projects, call `t3_thread_list` with
-  `allProjects: true`, or use `t3_thread_search`.
+- To list threads across projects, call `t0c_thread_list` with
+  `allProjects: true`, or use `t0c_thread_search`.
 
 ## Claude Code
 
 ```sh
-claude mcp add --transport http t3 https://<environment-address>/mcp
+claude mcp add --transport http t0c https://<environment-address>/mcp
 claude mcp login t3
 ```
 
 `claude mcp login` opens the sign-in page in your browser. On a machine
 without a browser, add `--no-browser`, open the printed URL elsewhere, and
-paste the final URL back when asked. `claude mcp list` shows `t3` as connected
+paste the final URL back when asked. `claude mcp list` shows `t0c` as connected
 once you approve.
 
 ## Codex
 
 ```sh
-codex mcp add t3 --url https://<environment-address>/mcp
+codex mcp add t0c --url https://<environment-address>/mcp
 codex mcp login t3
 ```
 
 `codex mcp login --no-browser` prints the sign-in URL instead of opening it.
-`codex mcp list` shows `t3` with OAuth once you approve.
+`codex mcp list` shows `t0c` with OAuth once you approve.
 
 ## ChatGPT
 
@@ -158,14 +158,14 @@ plain `http`.
 
 ## Scripts on the host
 
-On the machine that runs the environment, `t3 thread` uses the same tools
+On the machine that runs the environment, `t0c thread` uses the same tools
 without a sign-in:
 
 ```sh
 id=$(t3 thread start . "Find why the tests are slow")
-t3 thread send "$id" "Now fix it" --wait
-t3 thread show "$id"
-t3 thread list
+t0c thread send "$id" "Now fix it" --wait
+t0c thread show "$id"
+t0c thread list
 ```
 
 `.` means the project that contains the current folder, or a git worktree of

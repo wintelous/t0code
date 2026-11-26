@@ -37,7 +37,7 @@ picker. See [Use multiple accounts](#use-multiple-accounts).
 
 If an authenticated Codex installation reports “Timed out while checking Codex
 app-server provider status,” set `T0CODE_CODEX_PROBE_TIMEOUT_MS=60000` in the
-T3 server's environment and restart it. See [Provider check timeouts](./install.md#provider-check-timeouts)
+T0 Code server's environment and restart it. See [Provider check timeouts](./install.md#provider-check-timeouts)
 for configuration and other providers.
 
 ## Generate images

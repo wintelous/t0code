@@ -17,7 +17,7 @@ const isRead = (action: string): action is (typeof WORKFLOW_READ_ACTIONS)[number
   (WORKFLOW_READ_ACTIONS as ReadonlyArray<string>).includes(action);
 
 export const layer = McpToolAccess.toLayer(WorkflowToolkit, {
-  t3_workflow: McpToolAccess.either(
+  t0c_workflow: McpToolAccess.either(
     (input) => isRead(input.action),
     McpToolAccess.reads((input) =>
       Effect.gen(function* () {

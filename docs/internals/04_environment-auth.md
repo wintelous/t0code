@@ -15,7 +15,7 @@ model.
   guest link (which reads a thread). Revoking is not capped by the caller's scopes. Admitting a
   T0 Connect device is not delegation; see [T0 Connect](./06_t0-connect.md).
 - **Why the default grant includes management scopes.** `terminal:operate` and
-  `orchestration:operate` already grant OS-user execution (which can invoke `t3 auth session issue`),
+  `orchestration:operate` already grant OS-user execution (which can invoke `t0c auth session issue`),
   so withholding access or relay management from the default grant would not be a real boundary.
   Narrower clients receive explicit scopes.
 - **No recoverable secrets in read models.** Only the creation response returns a raw pairing
@@ -60,7 +60,7 @@ model.
   or an administrator's ceiling below it) can start or change runs, change what workflows store, or
   read webhook paths. Narrower callers can still read runs.
 - **Peer-link client pairing.** Only a full-access peer link may mint a one-time client pairing on
-  the linked environment (since full-access agents can already run `t3 auth pairing create`). The
+  the linked environment (since full-access agents can already run `t0c auth pairing create`). The
   linked side enforces this itself, and the operation stays a human-triggered RPC/HTTP route rather
   than an MCP tool. The same route mints a code that links another environment at a chosen access
   level, and the linking side's RPC requires the caller to hold that level's scopes.

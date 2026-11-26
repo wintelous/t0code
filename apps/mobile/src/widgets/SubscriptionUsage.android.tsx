@@ -56,7 +56,7 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
       };
   // English until the app publishes its first snapshot in the UI language.
   const text = props.text ?? {
-    refresh: "Open T3 to refresh",
+    refresh: "Open T0 Code to refresh",
     left: "left",
     asOf: "As of {time}",
     tapToConnect: "Tap to connect in T3",
@@ -64,9 +64,21 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
   };
   const providers = props.providers ?? [
     // oxlint-disable-next-line t0code/no-untranslated-copy -- widget fallback until the app publishes translated text
-    { name: "Codex", detail: "Open T3 to connect", windows: [], expiresAt: 0, totalWindows: 0 },
+    {
+      name: "Codex",
+      detail: "Open T0 Code to connect",
+      windows: [],
+      expiresAt: 0,
+      totalWindows: 0,
+    },
     // oxlint-disable-next-line t0code/no-untranslated-copy -- widget fallback until the app publishes translated text
-    { name: "Claude", detail: "Open T3 to connect", windows: [], expiresAt: 0, totalWindows: 0 },
+    {
+      name: "Claude",
+      detail: "Open T0 Code to connect",
+      windows: [],
+      expiresAt: 0,
+      totalWindows: 0,
+    },
   ];
 
   const pad = 14;

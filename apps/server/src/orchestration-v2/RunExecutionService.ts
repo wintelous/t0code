@@ -742,7 +742,7 @@ export const layer: Layer.Layer<
         readonly loadRunInterruptReason?: () => Effect.Effect<string | undefined, never>;
         readonly openRunOwnedSubagents?: OpenRunOwnedSubagentProjection;
         readonly openRunOwnedSubagentsTerminal?: ProviderTerminalEvent;
-        // Root turn snapshot written with the run when T3 ends the run itself.
+        // Root turn snapshot written with the run when T0 Code ends the run itself.
         readonly abandonedProviderTurn?: OrchestrationV2ProviderTurn;
         // Stored root tool calls still open when the provider runtime was lost; nothing else ends them.
         readonly lostToolCalls?: ReadonlyArray<OrchestrationV2TurnItem>;

@@ -132,7 +132,7 @@ export type OrchestrationV2LinkOrigin = typeof OrchestrationV2LinkOrigin.Type;
 /**
  * Work from a link paired below full access may change only work from the same
  * link. A full-access link's agents already run as this environment's user,
- * so fencing T3's own tools would stop nothing they could not do anyway. An
+ * so fencing T0 Code's own tools would stop nothing they could not do anyway. An
  * origin stamped before access was recorded stays fenced.
  */
 export const linkOriginIsFenced = (origin: OrchestrationV2LinkOrigin) =>
@@ -613,7 +613,7 @@ export const isDelegatedAppThread = (
   // MCP-launched threads store `delegatedFrom: null` at runtime, so check both absent shapes.
   thread.lineage.relationshipToParent === "subagent" || thread.delegatedFrom != null;
 
-/** Provider-native children cannot receive messages; T3 delegate_task children can. */
+/** Provider-native children cannot receive messages; T0 Code delegate_task children can. */
 export function isProviderNativeSubagentThread(
   thread: Pick<OrchestrationV2AppThread, "lineage" | "creationSource">,
 ): boolean {
@@ -660,9 +660,9 @@ export function withMessageSenderNote(
   const agent = message.createdBy === "agent";
   const note =
     agent && message.linkedSender !== undefined
-      ? `[T0 Code: the agent in T3 thread ${JSON.stringify(message.linkedSender.threadId)} on linked environment ${JSON.stringify(message.linkedSender.environmentId)} sent this message, not the user.]`
+      ? `[T0 Code: the agent in T0 Code thread ${JSON.stringify(message.linkedSender.threadId)} on linked environment ${JSON.stringify(message.linkedSender.environmentId)} sent this message, not the user.]`
       : agent && message.senderThreadId !== undefined
-        ? `[T0 Code: the agent in T3 thread ${JSON.stringify(message.senderThreadId)} sent this message, not the user.]`
+        ? `[T0 Code: the agent in T0 Code thread ${JSON.stringify(message.senderThreadId)} sent this message, not the user.]`
         : message.scheduledTaskId !== undefined
           ? `[T0 Code: scheduled task ${JSON.stringify(message.scheduledTaskId)} sent this prompt, not the user typing in this chat.]`
           : agent && message.creationSource === "mcp"

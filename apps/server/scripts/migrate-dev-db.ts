@@ -26,7 +26,7 @@ export class MigrateDevDbNotInWorktreeError extends Schema.TaggedError<MigrateDe
   {},
 ) {
   override get message(): string {
-    return "Not inside a linked git worktree. Pass --base-dir to target an isolated .t3 directory.";
+    return "Not inside a linked git worktree. Pass --base-dir to target an isolated .t0c directory.";
   }
 }
 
@@ -35,7 +35,7 @@ export class MigrateDevDbSharedHomeError extends Schema.TaggedError<MigrateDevDb
   {},
 ) {
   override get message(): string {
-    return "Refusing to rebuild the shared ~/.t3 database. Use an isolated --base-dir.";
+    return "Refusing to rebuild the shared ~/.t0c database. Use an isolated --base-dir.";
   }
 }
 
@@ -69,7 +69,7 @@ export class MigrateDevDbLegacySourceError extends Schema.TaggedError<MigrateDev
   },
 ) {
   override get message(): string {
-    return `Source database '${this.sourcePath}' holds ${this.legacyThreads} legacy threads the server has not imported into V2 yet, which this command cannot carry over. Start a server once on a T3 home holding a copy of it so it imports them, then pass the userdata/statev2.sqlite that server leaves behind as --source.`;
+    return `Source database '${this.sourcePath}' holds ${this.legacyThreads} legacy threads the server has not imported into V2 yet, which this command cannot carry over. Start a server once on a T0 Code home holding a copy of it so it imports them, then pass the userdata/statev2.sqlite that server leaves behind as --source.`;
   }
 }
 
@@ -81,7 +81,7 @@ export class MigrateDevDbServerRunningError extends Schema.TaggedError<MigrateDe
   },
 ) {
   override get message(): string {
-    return `Dev database at '${this.databasePath}' is open by a running server (pid ${this.pid} per server-runtime.json). Stop that server first; if that pid is not actually a T3 server (stale descriptor, reused pid), delete the server-runtime.json next to the database and retry.`;
+    return `Dev database at '${this.databasePath}' is open by a running server (pid ${this.pid} per server-runtime.json). Stop that server first; if that pid is not actually a T0 Code server (stale descriptor, reused pid), delete the server-runtime.json next to the database and retry.`;
   }
 }
 
@@ -391,7 +391,7 @@ export const dropResumableFamilies = Effect.fn("dropResumableDevDbFamilies")(fun
       Effect.map((info) => Option.map(info.ino, (ino) => `${info.dev}:${ino}`)),
       Effect.orElseSucceed(() => Option.none<string>()),
     );
-  const sharedHome = path.resolve(options.sharedHome ?? path.join(NodeOS.homedir(), ".t3"));
+  const sharedHome = path.resolve(options.sharedHome ?? path.join(NodeOS.homedir(), ".t0c"));
   const liveDatabase = path.join(sharedHome, "userdata", "statev2.sqlite");
   const [target, live] = yield* Effect.all([resolve(databasePath), resolve(liveDatabase)]);
   const targetIdentity = yield* identity(target);
@@ -613,7 +613,7 @@ export const runMigrateDevDb = Effect.fn("runMigrateDevDb")(function* (
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
 
-  const sharedHome = path.resolve(options.sharedHome ?? path.join(NodeOS.homedir(), ".t3"));
+  const sharedHome = path.resolve(options.sharedHome ?? path.join(NodeOS.homedir(), ".t0c"));
   const sourcePath = path.resolve(
     input.source ?? path.join(sharedHome, "userdata", "statev2.sqlite"),
   );
@@ -756,11 +756,11 @@ export const migrateDevDbCommand = Command.make(
     ),
     baseDir: Flag.String("base-dir").pipe(
       Flag.optional,
-      Flag.withDescription("Isolated .t3 directory. Defaults to the current worktree's .t3."),
+      Flag.withDescription("Isolated .t0c directory. Defaults to the current worktree's .t3."),
     ),
     source: Flag.String("source").pipe(
       Flag.optional,
-      Flag.withDescription("Source database. Defaults to ~/.t3/userdata/statev2.sqlite."),
+      Flag.withDescription("Source database. Defaults to ~/.t0c/userdata/statev2.sqlite."),
     ),
     dropResumable: Flag.String("drop-resumable").pipe(
       Flag.optional,
@@ -798,7 +798,7 @@ export const migrateDevDbCommand = Command.make(
     }),
 ).pipe(
   Command.withDescription(
-    "Rebuild the worktree dev database from a pruned snapshot of the real ~/.t3 data, then run migrations.",
+    "Rebuild the worktree dev database from a pruned snapshot of the real ~/.t0c data, then run migrations.",
   ),
 );
 

@@ -20,7 +20,7 @@ describe("electron development launcher", () => {
     const environmentScript = makeDevelopmentEnvironmentScript({
       VITE_DEV_SERVER_URL: "http://127.0.0.1:8526",
       T0CODE_PORT: "16566",
-      T0CODE_HOME: "/tmp/t3",
+      T0CODE_HOME: "/tmp/t0c",
       T0CODE_OTLP_PROTOCOL: "http/protobuf",
     });
 

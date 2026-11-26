@@ -369,7 +369,7 @@ it("lists the ignored inputs that main's pathspecs list, without entering node_m
 
 function launcherFixture() {
   const root = NodeFS.realpathSync(
-    NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t3 checks & (fixture) ")),
+    NodeFS.mkdtempSync(NodePath.join(NodeOS.tmpdir(), "t0c checks & (fixture) ")),
   );
   const write = (file: string, content: string) => {
     const path = NodePath.join(root, file);

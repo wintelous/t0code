@@ -8031,7 +8031,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
           commandId: CommandId.make(`restart-${status}-${kind}-continuation`),
           threadId,
           messageId: MessageId.make(`restart-${status}-${kind}-continuation`),
-          text: "Note: the T3 server restarted.",
+          text: "Note: the T0 Code server restarted.",
           attachments: [],
           modelSelection,
           dispatchMode: { type: "start_immediately" },
@@ -10415,7 +10415,7 @@ it.layer(layerTest)("OrchestrationV2LayerLive lifecycle", (it) => {
           creationSource: "web",
         });
       }
-      // What t3_thread_send dispatches: no model of its own.
+      // What t0c_thread_send dispatches: no model of its own.
       yield* orchestrator.dispatch({
         type: "message.dispatch",
         commandId: CommandId.make(`${threadId}:agent`),

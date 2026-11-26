@@ -412,7 +412,7 @@ export const OpenCodeDriver: ProviderDriver<
         connection.events,
         loadOpenCode2DirectoryCatalog(connection.client, machineDirectory(connection)),
       );
-    // Locations whose scan T3 saw end on the current server; a scan is announced only once.
+    // Locations whose scan T0 Code saw end on the current server; a scan is announced only once.
     let scans = { url: "", scanned: new Set<string>() };
     const followScans = (connection: OpenCode2Server.OpenCode2Connection) =>
       Effect.suspend(() => {
@@ -469,7 +469,7 @@ export const OpenCodeDriver: ProviderDriver<
             stream._tag === "None" || seen.has(directory),
             processEnv,
           );
-          // A location loaded before T3 watched never announces its scan; wait for it only once.
+          // A location loaded before T0 Code watched never announces its scan; wait for it only once.
           seen.add(directory);
           return workspace;
         }).pipe(Effect.scoped),

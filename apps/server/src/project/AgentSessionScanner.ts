@@ -838,7 +838,7 @@ function isT3ManagedWorktree(
   const normalized = normalizeForWorktreeMatch(candidatePath, caseFold);
   return (
     normalized.startsWith(normalizeForWorktreeMatch(worktreesDir, caseFold)) ||
-    normalized.includes("/.t3/worktrees/")
+    normalized.includes("/.t0c/worktrees/")
   );
 }
 
@@ -925,7 +925,7 @@ export const make = Effect.gen(function* () {
     baseDir: path.resolve(serverConfig.baseDir),
     worktreesDir: path.resolve(serverConfig.worktreesDir),
   };
-  // Resolved candidates are compared with T3's folders as resolved too, so a symlinked base still matches.
+  // Resolved candidates are compared with T0 Code's folders as resolved too, so a symlinked base still matches.
   const realPathOf = (directory: string) =>
     fileSystem.realPath(directory).pipe(Effect.orElseSucceed(() => directory));
   const realT3Dirs = {
@@ -1625,7 +1625,7 @@ export const make = Effect.gen(function* () {
     }).pipe(Effect.orElseSucceed((): ReadonlyMap<string, ReadonlyArray<string>> => new Map()));
   });
 
-  // Only chats left in a scratch folder, such as Codex's, take their project's root; T3's own stay excluded.
+  // Only chats left in a scratch folder, such as Codex's, take their project's root; T0 Code's own stay excluded.
   const projectCwd = Effect.fnUntraced(function* (
     cwd: string,
     projectRoots: ReadonlyArray<string> | undefined,

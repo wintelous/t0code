@@ -86,7 +86,7 @@ function shouldPreserveOriginHeader(policy: MainWindowRequestHeaderPolicy, url: 
 
 /**
  * Strips Electron's synthetic `Origin` (`t0code://app`) and `Sec-Fetch-*` headers on outbound
- * main-window requests so origin-checking reverse proxies treat Desktop like native T3 clients.
+ * main-window requests so origin-checking reverse proxies treat Desktop like native T0 Code clients.
  */
 export function stripDesktopOriginHeaders(
   policy: MainWindowRequestHeaderPolicy,

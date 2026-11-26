@@ -68,7 +68,7 @@ function sharedBackendTargetHost(host: string | undefined): string {
 }
 
 export const DEFAULT_T3_HOME = Effect.map(Effect.service(Path.Path), (path) =>
-  path.join(NodeOS.homedir(), ".t3"),
+  path.join(NodeOS.homedir(), ".t0c"),
 );
 
 const MODE_ARGS = {
@@ -76,11 +76,11 @@ const MODE_ARGS = {
     "run",
     "--filter=@t3tools/contracts",
     "--filter=@t3tools/web",
-    "--filter=t3",
+    "--filter=t0c",
     "--parallel",
     "dev",
   ],
-  "dev:server": ["run", "--filter=t3", "dev"],
+  "dev:server": ["run", "--filter=t0c", "dev"],
   "dev:web": ["run", "--filter=@t3tools/web", "dev"],
   "dev:desktop": ["run", "--filter=@t3tools/desktop", "--filter=@t3tools/web", "dev"],
 } as const satisfies Record<string, ReadonlyArray<string>>;
@@ -90,7 +90,7 @@ const MODE_ARGS = {
 const BUILT_DEV_ARGS = [
   "run",
   "--filter=@t3tools/web",
-  "--filter=t3",
+  "--filter=t0c",
   "--parallel",
   "dev:built",
 ] as const;
@@ -330,16 +330,16 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
   };
 
   const path = yield* Path.Path;
-  // The server stores an explicit home's state in userdata, which for ~/.t3 is the live
-  // install. Left implicit, dev state goes to ~/.t3/dev.
-  const isLiveHome = resolvedBaseDir === path.join(yield* HostProcess.HomeDirectory, ".t3");
+  // The server stores an explicit home's state in userdata, which for ~/.t0c is the live
+  // install. Left implicit, dev state goes to ~/.t0c/dev.
+  const isLiveHome = resolvedBaseDir === path.join(yield* HostProcess.HomeDirectory, ".t0c");
   if (configuredBaseDir !== undefined && !isLiveHome) {
     output.T0CODE_HOME = resolvedBaseDir;
   } else {
     delete output.T0CODE_HOME;
   }
 
-  // Managed T3 service shells leak launcher variables that make dev servers fail version checks.
+  // Managed T0 Code service shells leak launcher variables that make dev servers fail version checks.
   // Dev-runner servers are never launcher-managed (serviceLauncherClient.ts resolveStartup).
   delete output.T3_SERVICE_LAUNCHER_CONTEXT;
   delete output.T3_BOOT_SERVICE_UNIT;
@@ -381,7 +381,7 @@ export const createDevRunnerEnv = Effect.fn("dev-runner.createDevRunnerEnv")(fun
     delete output.T0CODE_DEV_AUTH_TOKEN;
   }
 
-  // Agent shells inherit the parent T3 server's bind settings; only --host widens the dev server.
+  // Agent shells inherit the parent T0 Code server's bind settings; only --host widens the dev server.
   delete output.T0CODE_LAN;
   if (!isDesktopMode && host !== undefined) {
     output.T0CODE_HOST = host;
@@ -643,7 +643,12 @@ const prepareFirstStart = Effect.fn("dev-runner.prepareFirstStart")(function* (i
         );
       }
     }
-    const source = path.join(yield* HostProcess.HomeDirectory, ".t3", "userdata", "statev2.sqlite");
+    const source = path.join(
+      yield* HostProcess.HomeDirectory,
+      ".t0c",
+      "userdata",
+      "statev2.sqlite",
+    );
     // A V1 state.sqlite counts as data too: the server imports it only while
     // statev2.sqlite is missing, so seeding would hide it.
     if (
@@ -677,7 +682,9 @@ const prepareFirstStart = Effect.fn("dev-runner.prepareFirstStart")(function* (i
   if (input.mode !== "dev:web") {
     const crate = path.join(repoRoot, "native/resource-monitor");
     const binary =
-      (yield* HostProcess.Platform) === "win32" ? "t3-resource-monitor.exe" : "t3-resource-monitor";
+      (yield* HostProcess.Platform) === "win32"
+        ? "t0c-resource-monitor.exe"
+        : "t0c-resource-monitor";
     if (
       !(yield* exists(path.join(crate, "target/release", binary))) &&
       !(yield* exists(path.join(crate, "target/debug", binary)))
@@ -775,7 +782,7 @@ export const runDevRunnerWithInput = Effect.fn("dev-runner.runDevRunnerWithInput
 
   const hostEnvironment = yield* HostProcess.Environment;
   // A dev server started inside a worktree defaults to that worktree's own
-  // (gitignored) `.t3` — see @t3tools/shared/devHome for why this must
+  // (gitignored) `.t0c` — see @t3tools/shared/devHome for why this must
   // outrank an ambient T0CODE_HOME. `--home-dir` still wins.
   const worktreeHome = yield* resolveWorktreeT3Home(yield* HostProcess.WorkingDirectory);
   // Trim before choosing: `--home-dir ""` is not a selection, and treating it
@@ -972,7 +979,7 @@ const devRunnerCli = Command.make("dev-runner", {
   ),
   t3Home: Flag.String("home-dir").pipe(
     Flag.withDescription(
-      "Explicit T0 Code data directory; runtime state is stored under userdata (equivalent to T0CODE_HOME). Inside a git worktree this defaults to that worktree's own .t3 so dev state stays off the shared home.",
+      "Explicit T0 Code data directory; runtime state is stored under userdata (equivalent to T0CODE_HOME). Inside a git worktree this defaults to that worktree's own .t0c so dev state stays off the shared home.",
     ),
     Flag.optional,
     Flag.map(Option.getOrUndefined),
@@ -994,7 +1001,7 @@ const devRunnerCli = Command.make("dev-runner", {
   ),
   host: Flag.String("host").pipe(
     Flag.withDescription(
-      "Server host/interface override (forwards to T0CODE_HOST). Ambient T0CODE_HOST is ignored: agent shells inherit it from the T3 server that spawned them.",
+      "Server host/interface override (forwards to T0CODE_HOST). Ambient T0CODE_HOST is ignored: agent shells inherit it from the T0 Code server that spawned them.",
     ),
     Flag.optional,
     Flag.map(Option.getOrUndefined),
@@ -1002,7 +1009,7 @@ const devRunnerCli = Command.make("dev-runner", {
   port: Flag.Int("port").pipe(
     Flag.withSchema(Schema.Int.check(Schema.isBetween({ minimum: 1, maximum: 65535 }))),
     Flag.withDescription(
-      "Server port override (forwards to T0CODE_PORT). Ambient T0CODE_PORT is ignored: agent shells inherit it from the T3 server that spawned them.",
+      "Server port override (forwards to T0CODE_PORT). Ambient T0CODE_PORT is ignored: agent shells inherit it from the T0 Code server that spawned them.",
     ),
     Flag.optional,
     Flag.map(Option.getOrUndefined),
@@ -1027,7 +1034,7 @@ const devRunnerCli = Command.make("dev-runner", {
   ),
   seed: Flag.Boolean("seed").pipe(
     Flag.withDescription(
-      "Seed an empty worktree database from ~/.t3 on first start (read-only, via migrate-dev-db) if the source is at most 500 MiB. On by default; --no-seed or T0CODE_DEV_SEED=0 skips it.",
+      "Seed an empty worktree database from ~/.t0c on first start (read-only, via migrate-dev-db) if the source is at most 500 MiB. On by default; --no-seed or T0CODE_DEV_SEED=0 skips it.",
     ),
     Flag.withFallbackConfig(optionalBooleanConfig("T0CODE_DEV_SEED")),
   ),

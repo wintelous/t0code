@@ -253,7 +253,7 @@ const registerGrokAskUserQuestionExtensions = ({
     { discard: true },
   );
 
-/** Explicit policy overrides launch in ask mode so Grok cannot bypass T3 approval checks. */
+/** Explicit policy overrides launch in ask mode so Grok cannot bypass T0 Code approval checks. */
 export function grokLaunchRuntimeMode(
   runtimePolicy: ProviderAdapter.ProviderAdapterV2RuntimePolicy,
 ): RuntimeMode {

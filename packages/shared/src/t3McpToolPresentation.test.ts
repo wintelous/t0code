@@ -8,7 +8,7 @@ import {
 } from "./t3McpToolPresentation.ts";
 
 describe("resolveT3McpToolPresentation", () => {
-  it("recognizes every T3 tool across provider prefixes and completion suffixes", () => {
+  it("recognizes every T0 Code tool across provider prefixes and completion suffixes", () => {
     for (const tool of T3_MCP_TOOL_NAMES) {
       const presentation = resolveT3McpToolPresentation(tool);
       for (const prefix of [
@@ -46,8 +46,8 @@ describe("resolveT3McpToolDefinition", () => {
     expect(
       resolveT3McpToolDefinition("mcp__t0-code__preview_act", { action: "type" })?.labels,
     ).toEqual(resolveT3McpToolDefinition("preview_type")?.labels);
-    expect(resolveT3McpToolDefinition("t3_thread_transfer", { action: "fork" })?.displayName).toBe(
-      resolveT3McpToolDefinition("t3_thread_fork")?.displayName,
+    expect(resolveT3McpToolDefinition("t0c_thread_transfer", { action: "fork" })?.displayName).toBe(
+      resolveT3McpToolDefinition("t0c_thread_fork")?.displayName,
     );
     expect(resolveT3McpToolDefinition("preview_act", { action: "unknown" })?.labels[2]).toBe(
       "Used",
@@ -57,14 +57,14 @@ describe("resolveT3McpToolDefinition", () => {
 
 describe("resolveT3McpSummaryAction", () => {
   it("summarizes an action tool by the action each call ran", () => {
-    expect(resolveT3McpSummaryAction("mcp__t0-code__t3_queue", { action: "list" })).toBe(
+    expect(resolveT3McpSummaryAction("mcp__t0-code__t0c_queue", { action: "list" })).toBe(
       "queue-list",
     );
-    expect(resolveT3McpSummaryAction("t3_queue", { action: "edit" })).toBe("queue-edit");
-    expect(resolveT3McpSummaryAction("t3_thread_transfer", { action: "status" })).toBe(
+    expect(resolveT3McpSummaryAction("t0c_queue", { action: "edit" })).toBe("queue-edit");
+    expect(resolveT3McpSummaryAction("t0c_thread_transfer", { action: "status" })).toBe(
       "thread-transfers",
     );
-    expect(resolveT3McpSummaryAction("t3_thread_configure", {})).toBe("thread-configuration");
+    expect(resolveT3McpSummaryAction("t0c_thread_configure", {})).toBe("thread-configuration");
     expect(resolveT3McpSummaryAction("schedule_task", { scheduledTaskId: "task-1" })).toBe(
       "schedule-update",
     );

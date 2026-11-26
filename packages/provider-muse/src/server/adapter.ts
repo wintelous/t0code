@@ -1198,7 +1198,7 @@ export const makeMuseAdapterV2 = Effect.fn("makeMuseAdapterV2")(function* (
       });
       /**
        * A workflow child's approval is runless: the turn that started the workflow
-       * may end long before the child asks, and T3 keeps a runless request on the
+       * may end long before the child asks, and T0 Code keeps a runless request on the
        * thread until Muse settles it.
        */
       const publishRequest = Effect.fnUntraced(function* (native: PendingRequest["native"]) {
@@ -1326,7 +1326,7 @@ export const makeMuseAdapterV2 = Effect.fn("makeMuseAdapterV2")(function* (
                   required: true,
                 })),
               };
-        // Muse does not propagate allowAll to workflow children; T3 answers for them.
+        // Muse does not propagate allowAll to workflow children; T0 Code answers for them.
         const autoApprove = child && input.runtimePolicy.runtimeMode === "full-access";
         const entry: PendingRequest = {
           native,
@@ -1738,7 +1738,7 @@ export const makeMuseAdapterV2 = Effect.fn("makeMuseAdapterV2")(function* (
             const row: MuseRetryRow = {
               method,
               nativeId: turn.retries[index]?.nativeId ?? `retry:${retry.sourceRange.first.id}`,
-              // Muse counts the first request as attempt 1; T3 counts retries.
+              // Muse counts the first request as attempt 1; T0 Code counts retries.
               retry: {
                 attempt: retry.attempt,
                 maxAttempts: Math.max(1, retry.maxAttempts - 1),
@@ -1956,7 +1956,7 @@ export const makeMuseAdapterV2 = Effect.fn("makeMuseAdapterV2")(function* (
           const config = mcpSession
             ? {
                 mcpServers: {
-                  // Muse's required default fails runs if T3 tools are unreachable; make them optional.
+                  // Muse's required default fails runs if T0 Code tools are unreachable; make them optional.
                   "t0-code": {
                     transport: "streamableHttp",
                     mode: "optional",

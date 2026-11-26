@@ -369,7 +369,7 @@ export function ThreadMcpApp(props: {
         return result.value;
       },
       openLink: async (url) => {
-        // WebViews cannot prove user activation; confirm links to prevent timer-driven navigation out of T3.
+        // WebViews cannot prove user activation; confirm links to prevent timer-driven navigation out of T0 Code.
         if (
           !(await confirm(
             m(msg("Open a link from {server}?", { server: app.server })),

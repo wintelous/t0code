@@ -298,7 +298,7 @@ export type FontFamilyPreference = typeof FontFamilyPreference.Type;
 
 /** Clients apply each environment theme set once; later local choices persist until the next set. Empty clears it. */
 export const DefaultThemePreference = Schema.String.check(Schema.isMaxLength(64));
-// Excluded from RPC patches so t3 theme set can validate syntax and resolvability.
+// Excluded from RPC patches so t0c theme set can validate syntax and resolvability.
 export type DefaultThemePreference = typeof DefaultThemePreference.Type;
 
 /** A mode clients apply once per set, like the default theme. Empty sets none. */
@@ -1289,14 +1289,14 @@ const NULLABLE_PROJECT_SETTINGS_OVERRIDES: ReadonlySet<ProjectScopedServerSettin
   "sidebarAutoSettleAfterDays",
 ]);
 
-/** Reclaimable bytes from which the offline `t3 doctor` repair is worth suggesting. */
+/** Reclaimable bytes from which the offline `t0c doctor` repair is worth suggesting. */
 export const DATABASE_COMPACTION_RECOMMENDED_BYTES = 1024 ** 3;
 
 export const DatabaseStorageStatus = Schema.Struct({
   databaseBytes: Schema.Number,
   /** Free pages inside the file that an offline VACUUM (or incremental auto_vacuum) returns to disk. */
   reclaimableBytes: Schema.Number,
-  /** False on databases created before incremental auto_vacuum; `t3 doctor` converts them. */
+  /** False on databases created before incremental auto_vacuum; `t0c doctor` converts them. */
   incrementalVacuumEnabled: Schema.Boolean,
   /** Run on the host while offline. */
   compactCommand: Schema.String,
@@ -1508,7 +1508,7 @@ export const ServerSettings = Schema.Struct({
    * and tasks on another machine; tasks already running there finish.
    */
   linkedEnvironmentsEnabled: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
-  /** Beta: durable workflows from the workflows folder of the T3 home. Off runs none of them. */
+  /** Beta: durable workflows from the workflows folder of the T0 Code home. Off runs none of them. */
   workflowsEnabled: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),
   /** Beta: Claude and Codex predict the next prompt after completed turns. Codex follows a change at once; open Claude threads after they restart. */
   promptSuggestionsEnabled: Schema.Boolean.pipe(Schema.withDecodingDefault(Effect.succeed(false))),

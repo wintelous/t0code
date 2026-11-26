@@ -58,7 +58,7 @@ vi.mock("./connect.ts", async (importOriginal) => {
 });
 
 it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))(
-  "t3 up with T0 Connect",
+  "t0c up with T0 Connect",
   (it) => {
     it.effect.each([
       { label: "no link", prior: null, events: ["link", "restart", "unlink", "restart"] },
@@ -81,7 +81,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
           installed: true,
           current: true,
           unitPath: "/home/me/.config/systemd/user/t0code.service",
-          logPath: "/home/me/.t3/userdata/logs/boot-service.log",
+          logPath: "/home/me/.t0c/userdata/logs/boot-service.log",
         };
         vi.spyOn(BootService, "layer").mockReturnValue(
           Layer.succeed(
@@ -142,9 +142,9 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
                 supported: true,
                 installed: true,
                 current: false,
-                otherBaseDir: "/srv/t3",
+                otherBaseDir: "/srv/t0c",
                 unitPath: "/home/me/.config/systemd/user/t0code.service",
-                logPath: "/home/me/.t3/userdata/logs/boot-service.log",
+                logPath: "/home/me/.t0c/userdata/logs/boot-service.log",
               }),
               withStopped: (operation) => operation,
               restart: Effect.sync(() => events.push("restart")).pipe(

@@ -399,7 +399,7 @@ describe("DesktopBackendConfiguration", () => {
     }> = [];
     let probeCount = 0;
     let legacyCleanupCount = 0;
-    const t3Home = "/home/test/.config/t3";
+    const t3Home = "/home/test/.config/t0c";
     const linuxAppRoot = `${t3Home}/wsl-runtime/1.2.3-x64`;
     const resolvedPath = "/home/test/.local/bin:/usr/bin:/bin";
 
@@ -457,7 +457,7 @@ describe("DesktopBackendConfiguration", () => {
             "env",
             `PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${resolvedPath}`,
             `T0CODE_HOME=${t3Home}`,
-            `${linuxAppRoot}/t3`,
+            `${linuxAppRoot}/t0c`,
             "--bootstrap-fd",
             "0",
           ]);
@@ -502,9 +502,9 @@ describe("DesktopBackendConfiguration", () => {
 
           assert.deepEqual(observedRuntimeIds, [`sha256-${firstHash}`, `sha256-${secondHash}`]);
           assert.equal(first.wslRuntimeId, observedRuntimeIds[0]);
-          assert.include(first.args, `/runtime/sha256-${firstHash}/t3`);
+          assert.include(first.args, `/runtime/sha256-${firstHash}/t0c`);
           assert.equal(second.wslRuntimeId, observedRuntimeIds[1]);
-          assert.include(second.args, `/runtime/sha256-${secondHash}/t3`);
+          assert.include(second.args, `/runtime/sha256-${secondHash}/t0c`);
           assert.isUndefined(invalidIdentity.wslRuntimeId);
           assert.include(invalidIdentity.args, "/usr/bin/node");
           assert.include(invalidIdentity.args, `${mountedAppRoot}/apps/server/dist/bin.mjs`);
@@ -547,7 +547,7 @@ describe("DesktopBackendConfiguration", () => {
 
   it.effect("resolveWsl does not stage a runtime when the login-shell probe fails", () => {
     const archiveHash = "c".repeat(64);
-    const stagedAppRoot = `/home/test/.t3/wsl-runtime/sha256-${archiveHash}`;
+    const stagedAppRoot = `/home/test/.t0c/wsl-runtime/sha256-${archiveHash}`;
     let probeCount = 0;
     const observedNodePtyRoots: string[] = [];
     return withPackagedWslHarness(
@@ -581,7 +581,7 @@ describe("DesktopBackendConfiguration", () => {
           assert.deepEqual(observedNodePtyRoots, [mountedAppRoot]);
           assert.include(config.args, "/usr/bin/node");
           assert.include(config.args, `${mountedAppRoot}/apps/server/dist/bin.mjs`);
-          assert.notInclude(config.args, `${stagedAppRoot}/t3`);
+          assert.notInclude(config.args, `${stagedAppRoot}/t0c`);
           assert.equal(config.entryPath, mountedEntryPath);
           assert.isUndefined(config.wslRuntimeId);
           assert.isTrue(Option.isNone(config.preflightFailure));
@@ -590,7 +590,7 @@ describe("DesktopBackendConfiguration", () => {
   });
 
   it.effect("resolveWsl keeps WSL retryable when the mounted fallback fails transiently", () => {
-    const stagedAppRoot = "/home/test/.t3/wsl-runtime/cache";
+    const stagedAppRoot = "/home/test/.t0c/wsl-runtime/cache";
     return withPackagedWslHarness(
       {
         archiveHash: "f".repeat(64),
@@ -995,8 +995,8 @@ describe("DesktopBackendConfiguration", () => {
       });
       const resourcesPath = path.join(baseDir, "resources");
       const dirname = `${resourcesPath}/app.asar/apps/desktop/dist-electron`;
-      const embeddedMonitorPath = `${resourcesPath}/app.asar/apps/desktop/prod-resources/resource-monitor/t3-resource-monitor`;
-      const monitorPath = path.join(resourcesPath, "resource-monitor/t3-resource-monitor");
+      const embeddedMonitorPath = `${resourcesPath}/app.asar/apps/desktop/prod-resources/resource-monitor/t0c-resource-monitor`;
+      const monitorPath = path.join(resourcesPath, "resource-monitor/t0c-resource-monitor");
       yield* fileSystem.makeDirectory(
         `${resourcesPath}/app.asar/apps/desktop/prod-resources/resource-monitor`,
         { recursive: true },

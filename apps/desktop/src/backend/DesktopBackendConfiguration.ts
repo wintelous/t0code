@@ -100,7 +100,7 @@ const WSL_FORWARDED_ENV_NAMES = [
   "OTEL_SDK_DISABLED",
   "T0CODE_OTLP_HEADERS",
   "T0CODE_OTLP_PROTOCOL",
-  // Untranslated T3 URLs must override bootstrap endpoints inside WSL, as they do on Windows.
+  // Untranslated T0 Code URLs must override bootstrap endpoints inside WSL, as they do on Windows.
   "T0CODE_OTLP_TRACES_URL",
   "T0CODE_OTLP_METRICS_URL",
   "T0CODE_OTLP_LOGS_URL",
@@ -171,7 +171,7 @@ const logBackendObservabilitySettingsReadFailure = (
 };
 
 function resourceMonitorBinaryName(platform: NodeJS.Platform): string {
-  return platform === "win32" ? "t3-resource-monitor.exe" : "t3-resource-monitor";
+  return platform === "win32" ? "t0c-resource-monitor.exe" : "t0c-resource-monitor";
 }
 
 const resolveResourceMonitorPath = Effect.fn(
@@ -442,7 +442,7 @@ const runWslPreflight = Effect.fn("desktop.backendConfiguration.wslPreflight")(f
           _tag: "Ready",
           runningDistro,
           windowsEntryPath: environment.backendEntryPath,
-          runtime: { kind: "executable", entryPath: `${runtime.linuxAppRoot}/t3` },
+          runtime: { kind: "executable", entryPath: `${runtime.linuxAppRoot}/t0c` },
           resolvedPath: stagedProbe.resolvedPath,
           t3Home: stagedProbe.t3Home,
           runtimeId: input.runtimeArchive.runtimeId,

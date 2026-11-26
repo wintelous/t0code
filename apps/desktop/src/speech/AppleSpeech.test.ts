@@ -96,7 +96,7 @@ describe("AppleSpeech", () => {
       const speech = yield* AppleSpeech.AppleSpeech;
       assert.deepEqual(yield* speech.prepare("en-US"), expected);
       assert.deepEqual(commands, [
-        ["/app/Resources/apple-speech/t3-apple-speech", "prepare", "en-US"],
+        ["/app/Resources/apple-speech/t0c-apple-speech", "prepare", "en-US"],
       ]);
     }).pipe(Effect.provide(layer));
   });
@@ -155,7 +155,7 @@ describe("AppleSpeech", () => {
       assert.deepEqual(result, { ok: true, value: "hello" });
       assert.deepEqual(commands, [
         [
-          "/app/Resources/apple-speech/t3-apple-speech",
+          "/app/Resources/apple-speech/t0c-apple-speech",
           "transcribe",
           "en-US",
           "/tmp/recording.wav",

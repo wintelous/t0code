@@ -40,7 +40,7 @@ const thread = (
 it("reports every model name but never instance names", () => {
   expect(
     agentToolProperties({
-      tool: "t3_thread_send",
+      tool: "t0c_thread_send",
       providers,
       caller: thread("claudeAgent", "my-private-finetune"),
       targets: [thread("opencode", "ollama/acme-internal"), thread("removed-instance", "gpt-5.5")],
@@ -73,7 +73,7 @@ it("drops input strings outside the schema's literals, since rejected calls are 
     mode: "async",
   });
   expect(
-    handoffSettings("t3_thread_launch", { workspaceStrategy: { type: "/home/me/secret" } }, {}),
+    handoffSettings("t0c_thread_launch", { workspaceStrategy: { type: "/home/me/secret" } }, {}),
   ).toEqual({ targetChosen: false, workspace: "root" });
 });
 

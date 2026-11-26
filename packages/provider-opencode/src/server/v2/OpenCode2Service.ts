@@ -108,7 +108,7 @@ export const replaceOutdatedService = Effect.fn("OpenCode2Service.replaceOutdate
         Service.ensure({
           file,
           command: [command.command, ...command.args],
-          // T3 Desktop's backend sets this; undefined overrides the inherited value at spawn.
+          // T0 Code Desktop's backend sets this; undefined overrides the inherited value at spawn.
           env: { ...env, ELECTRON_RUN_AS_NODE: undefined } as unknown as Record<string, string>,
         }),
       ),

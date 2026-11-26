@@ -27,7 +27,7 @@ const writeExecutable = (path: string, content: string) => {
 };
 
 const writeShim = (root: string, target: CliShimTarget) => {
-  const shim = NodePath.join(root, "bin", "t3");
+  const shim = NodePath.join(root, "bin", "t0c");
   writeExecutable(shim, renderCliShim({ target, shimPath: shim, t3Home: `${root}/home` }));
   return shim;
 };
@@ -168,7 +168,7 @@ describe("renderCliShim", () => {
     expect(closedStdin.status).toBe(3);
   });
 
-  it("keeps the install's T3 home under sudo, unless one is set", () => {
+  it("keeps the install's T0 Code home under sudo, unless one is set", () => {
     const root = tempRoot();
     writeExecutable(NodePath.join(root, "app"), REPORTER);
     const shim = writeShim(root, {
@@ -178,7 +178,7 @@ describe("renderCliShim", () => {
     });
     expect(run(shim, []).stdout).toContain(`home=${root}/home`);
     expect(run(shim, [], { T0CODE_HOME: "/elsewhere" }).stdout).toContain("home=/elsewhere");
-    const relative = NodeChildProcess.spawnSync("./bin/t3", [], { cwd: root, encoding: "utf8" });
+    const relative = NodeChildProcess.spawnSync("./bin/t0c", [], { cwd: root, encoding: "utf8" });
     expect(relative.stdout).toContain(`cli=${shim}`);
   });
 
@@ -203,7 +203,7 @@ describe("renderCliShim", () => {
     const executable = "C:\\Apps\\R&whoami&X 100%\\!CHANNEL!\\T0 Code.exe";
     const script = renderCliShim({
       target: { kind: "windows", executable, entry: "C:\\Apps\\server.asar\\bin.mjs" },
-      shimPath: "C:\\Users\\José\\.t3\\bin\\t3.cmd",
+      shimPath: "C:\\Users\\José\\.t3\\bin\\t0c.cmd",
       t3Home: "C:\\Users\\José\\.t3",
     });
     const lines = script.split("\r\n");
@@ -216,6 +216,6 @@ describe("renderCliShim", () => {
       (line) => line.includes("whoami") && !/"[^"]*whoami[^"]*"/.test(line),
     );
     expect(bare).toEqual([]);
-    expect(lines).toContain('set "T0CODE_CLI_PATH=C:\\Users\\José\\.t3\\bin\\t3.cmd"');
+    expect(lines).toContain('set "T0CODE_CLI_PATH=C:\\Users\\José\\.t3\\bin\\t0c.cmd"');
   });
 });

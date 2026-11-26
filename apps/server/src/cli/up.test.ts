@@ -62,7 +62,7 @@ const SERVICE = {
   installed: true,
   current: true,
   unitPath: "/home/me/.config/systemd/user/t0code.service",
-  logPath: "/home/me/.t3/userdata/logs/boot-service.log",
+  logPath: "/home/me/.t0c/userdata/logs/boot-service.log",
 } as const;
 
 it.each([
@@ -153,7 +153,7 @@ const answering = (text: string) =>
     display: () => Effect.void,
   });
 
-it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))("t3 up", (it) => {
+it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))("t0c up", (it) => {
   afterEach(() => vi.restoreAllMocks());
 
   it.effect.each<{
@@ -187,7 +187,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     },
     {
       label: "the local network opens",
-      prints: ["Run `t3 pair --base-dir <baseDir>`."],
+      prints: ["Run `t0c pair --base-dir <baseDir>`."],
       installed: true,
       env: "T0CODE_LAN=false\n",
       args: ["--lan"],
@@ -206,7 +206,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     },
     {
       label: "a route turns off with no service to run",
-      prints: ["Run `t3 --base-dir <baseDir>` to use T0 Code here."],
+      prints: ["Run `t0c --base-dir <baseDir>` to use T0 Code here."],
       installed: false,
       env: "T0CODE_LAN=true\n",
       args: ["--no-lan"],
@@ -227,7 +227,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     {
       label: "a failed update keeps service.env matching the old service",
       // The old service still runs, so no foreground server is offered.
-      prints: ["Fix that, then run `t3 up --base-dir <baseDir>` again."],
+      prints: ["Fix that, then run `t0c up --base-dir <baseDir>` again."],
       installed: true,
       status: { current: false },
       installFails: true,
@@ -261,7 +261,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     {
       label: "a service for another home is refused without a restart",
       installed: true,
-      status: { current: false, otherBaseDir: "/srv/t3 home" },
+      status: { current: false, otherBaseDir: "/srv/t0c home" },
       fails: true,
       answer: "y",
       env: "T0CODE_LAN=false\n",
@@ -273,10 +273,10 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
     {
       label: "another home's service supplies no local network default",
       installed: true,
-      status: { current: false, otherBaseDir: "/srv/t3 home" },
+      status: { current: false, otherBaseDir: "/srv/t0c home" },
       reportStatus: true,
       json: {
-        service: { otherBaseDir: "/srv/t3 home" },
+        service: { otherBaseDir: "/srv/t0c home" },
         lan: { enabled: false, inheritedDefault: false },
       },
       env: "",
@@ -290,8 +290,8 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
       installed: true,
       reportStatus: true,
       prints: [
-        "Turn it off: `t3 up --base-dir <baseDir> --no-lan`.",
-        "Change access: `t3 up --base-dir <baseDir>`.",
+        "Turn it off: `t0c up --base-dir <baseDir> --no-lan`.",
+        "Change access: `t0c up --base-dir <baseDir>`.",
       ],
       env: "",
       args: [],
@@ -371,7 +371,7 @@ it.layer(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer, NetService.layer))
                   : Effect.sync(() => {
                       installs++;
                       return {
-                        program: ["t3"],
+                        program: ["t0c"],
                         baseDir,
                         unitPath: status.unitPath,
                         logPath: status.logPath,

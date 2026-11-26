@@ -193,7 +193,7 @@ describe("CodexAdapterV2 runtime policy", () => {
       }),
   );
 
-  it.effect("derives concrete Codex turn policies from every T3 runtime mode", () =>
+  it.effect("derives concrete Codex turn policies from every T0 Code runtime mode", () =>
     Effect.gen(function* () {
       const build = (
         runtimeMode: "approval-required" | "auto-accept-edits" | "auto" | "full-access",
@@ -2790,13 +2790,13 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               url: "http://127.0.0.1:43123/mcp",
               tool_timeout_sec: 3_900,
               http_headers: { Authorization: "Bearer secret-codex-token" },
-              disabled_tools: ["t3_thread_wait", "delegate_task"],
+              disabled_tools: ["t0c_thread_wait", "delegate_task"],
             },
             "mcp_servers.t0-code-direct": {
               url: "http://127.0.0.1:43123/mcp",
               tool_timeout_sec: 3_900,
               http_headers: { Authorization: "Bearer secret-codex-token" },
-              enabled_tools: ["t3_thread_wait", "delegate_task"],
+              enabled_tools: ["t0c_thread_wait", "delegate_task"],
               omit_tools_from: ["code_mode", "deferred"],
             },
           },
@@ -3759,7 +3759,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     ),
   );
 
-  it.effect("names the native thread after the T3 title and retries a failed rename", () =>
+  it.effect("names the native thread after the T0 Code title and retries a failed rename", () =>
     Effect.gen(function* () {
       const nativeThreadId = "thread-name-thread";
       const nameSet = (
@@ -4402,7 +4402,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
     ),
   );
 
-  it.effect("preserves T3 context on the wire and restores it after compaction", () =>
+  it.effect("preserves T0 Code context on the wire and restores it after compaction", () =>
     Effect.gen(function* () {
       const nativeThreadId = "context-thread";
       const nativeTurnId = "context-turn";
@@ -4543,7 +4543,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
       assert.deepEqual(
         wireOrder,
         ["item/completed", "turn/completed", "thread/inject_items"],
-        "restored T3 context while the compacting native turn was still running",
+        "restored T0 Code context while the compacting native turn was still running",
       );
     }).pipe(
       Effect.provide(
@@ -10171,7 +10171,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: COMPLETED_WAIT_ITEM,
               server: "t0-code",
-              tool: "t3_thread_wait",
+              tool: "t0c_thread_wait",
               status: "inProgress",
               arguments: { threadId: "thread:completed-wait", timeoutMs: 30000 },
             },
@@ -10191,7 +10191,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: COMPLETED_WAIT_ITEM,
               server: "t0-code",
-              tool: "t3_thread_wait",
+              tool: "t0c_thread_wait",
               status: "completed",
               arguments: { threadId: "thread:completed-wait", timeoutMs: 30000 },
               result: { content: [{ type: "text", text: "idle" }] },
@@ -10212,7 +10212,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
               type: "mcpToolCall",
               id: ORPHAN_WAIT_ITEM,
               server: "t0-code",
-              tool: "t3_thread_wait",
+              tool: "t0c_thread_wait",
               status: "inProgress",
               arguments: {
                 threadId:

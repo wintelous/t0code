@@ -113,7 +113,7 @@ export T0CODE_BITBUCKET_API_TOKEN="your-token"
 
 For a background service, put these `KEY=VALUE` entries in
 [`service.env`](./background-service.md#configure-the-service-environment)
-under T3 home, then run `t3 service restart`. Service installation and updates
+under T0 Code home, then run `t0c service restart`. Service installation and updates
 preserve that file.
 
 ### Azure DevOps
@@ -183,7 +183,7 @@ from GitHub keep their pull requests on GitHub; open those from the GitHub remot
 
 To start from nothing, choose **New project** in the command palette (`Cmd/Ctrl+K`), or
 **New project** under **Add Project** on any client, and type a name. T0 Code makes a Git
-repository in `~/.t3/projects` (the `projects` folder of your T3 data directory) with a README,
+repository in `~/.t0c/projects` (the `projects` folder of your T0 Code data directory) with a README,
 an icon, and a first commit, then opens a new thread in it. Until the project has a thread, new
 threads work in its folder, even when your default is a new worktree. The folder is named after the project,
 like `pinball-stats` for "Pinball Stats". Turn on **Create private repository on GitHub** to also

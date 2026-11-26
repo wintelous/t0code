@@ -108,7 +108,7 @@ jobs:
         run: vp run --filter @t3tools/source-control-github generate --check
 
       - name: Check generated Expo GraphQL operations
-        run: vp run --filter t3 generate --check
+        run: vp run --filter t0c generate --check
 
       - name: Check generated Linear GraphQL operations
         run: vp run --filter @t3tools/issue-tracker-linear generate --check
@@ -211,7 +211,7 @@ jobs:
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: |
           node apps/server/scripts/cli.ts build-exe
-          apps/server/dist-exe/t3 --version
+          apps/server/dist-exe/t0c --version
 
       # The release launch check, run unpackaged against the same old-state fixture, for
       # startup and sidebar changes. Packaging and signing stay release-only.
@@ -275,7 +275,7 @@ jobs:
           cat "$RUNNER_TEMP/typecheck.log"
           exit "$(cat "$RUNNER_TEMP/typecheck-status")"
 
-  # Everything except `t3` (apps/server) and the web app, which has its own job
+  # Everything except `t0c` (apps/server) and the web app, which has its own job
   # below. `--parallel` drops the package dependency ordering that `vp run`
   # applies by default: these `test` tasks declare no `dependsOn` and resolve
   # workspace deps from source, so ordering only bought us idle runners between
@@ -470,7 +470,7 @@ jobs:
         with:
           task-cache-read-token: ${{ secrets.T3_TASK_CACHE_READ_TOKEN }}
 
-      # No Electron setup here: `t3` (apps/server) has no Electron dependency
+      # No Electron setup here: `t0c` (apps/server) has no Electron dependency
       # and none of its tests touch the runtime. Only the non-server `test`
       # job, which covers @t3tools/desktop, needs the download.
       # Cache the pinned browser and skip apt unless shared libraries are missing.

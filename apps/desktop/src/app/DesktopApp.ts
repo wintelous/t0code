@@ -241,11 +241,11 @@ const startLocalBackend = Effect.gen(function* () {
     !(yield* DesktopHomeOwner.awaitHomeOwnershipRelease())
   ) {
     const owner = yield* DesktopHomeOwner.readLiveHomeOwner();
-    yield* logBootstrapWarning("bootstrap found another server owning the T3 home", {
+    yield* logBootstrapWarning("bootstrap found another server owning the T0 Code home", {
       owner: Option.getOrNull(owner),
     });
     yield* (yield* ElectronDialog.ElectronDialog).showErrorBox(
-      m(msg("This T3 home is unavailable")),
+      m(msg("This T0 Code home is unavailable")),
       DesktopHomeOwner.homeOwnedMessage(owner),
     );
     yield* (yield* ElectronApp.ElectronApp).quit;
@@ -322,7 +322,7 @@ const bootstrap = Effect.fn("desktop.bootstrap")(function* (backendStarted: bool
   }
 
   yield* snapShot.initialize;
-  // Only the user's own login shell PATH shows every t3 a new terminal runs; a fresh install has
+  // Only the user's own login shell PATH shows every t0c a new terminal runs; a fresh install has
   // no cached one. Without it, the command is left to Settings.
   const installCli = (yield* DesktopCliCommand.DesktopCliCommand).installOnFirstLaunch;
   yield* Effect.forkScoped(
@@ -330,7 +330,7 @@ const bootstrap = Effect.fn("desktop.bootstrap")(function* (backendStarted: bool
       Effect.flatMap((found) =>
         found || environment.platform === "win32"
           ? installCli
-          : logBootstrapInfo("skipped installing the t3 command without the shell PATH"),
+          : logBootstrapInfo("skipped installing the t0c command without the shell PATH"),
       ),
     ),
   );
@@ -341,7 +341,7 @@ const bootstrap = Effect.fn("desktop.bootstrap")(function* (backendStarted: bool
     if (!(yield* Ref.get(state.quitting))) {
       yield* desktopWindow.createMainIfBackendReady;
     }
-    // `t3 <dir>` still reaches the renderer, which opens it on this machine's connected service.
+    // `t0c <dir>` still reaches the renderer, which opens it on this machine's connected service.
     yield* startAppActivation;
     return;
   }

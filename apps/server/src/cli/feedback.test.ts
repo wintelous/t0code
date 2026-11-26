@@ -51,9 +51,9 @@ const listedPaths = (command: Command.Command.Any, path: string): ReadonlyArray<
   ),
 ];
 
-it("feedback subjects name every listed t3 command", () => {
+it("feedback subjects name every listed t0c command", () => {
   expect([...T3_CLI_COMMANDS].sort()).toEqual(
-    [...listedPaths(makeCli({ cloudEnabled: true }), "t3")].sort(),
+    [...listedPaths(makeCli({ cloudEnabled: true }), "t0c")].sort(),
   );
 });
 
@@ -187,7 +187,7 @@ it.effect("points to Labs only when the server hides the feedback tool", () =>
       .prepare(
         `INSERT INTO agent_feedback (id, thread_id, run_id, created_at, kind, subject, expected,
           actual, workaround, user_requested, trace, source, sent)
-        VALUES ('r1', 't1', 'run1', '2026-11-17T00:00:00.000Z', 'bug', 't3_thread_read', 'a', 'b',
+        VALUES ('r1', 't1', 'run1', '2026-11-17T00:00:00.000Z', 'bug', 't0c_thread_read', 'a', 'b',
           '', 1, ?, 'mcp', 1)`,
       )
       .run(JSON.stringify(trace));
@@ -198,7 +198,7 @@ it.effect("points to Labs only when the server hides the feedback tool", () =>
         threadId: "t1",
         createdAt: "2026-11-17T00:00:00.000Z",
         kind: "bug",
-        subject: "t3_thread_read",
+        subject: "t0c_thread_read",
         expected: "a",
         actual: "b",
         workaround: "",

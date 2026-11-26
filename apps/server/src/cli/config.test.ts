@@ -195,7 +195,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
       Effect.result,
     );
 
-  it.effect("refuses a manual web launch while a lock-aware server owns the T3 home", () =>
+  it.effect("refuses a manual web launch while a lock-aware server owns the T0 Code home", () =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
@@ -282,7 +282,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
       assert(child.pid !== undefined);
       for (const source of ["flag", "T0CODE_HOME", "default"] as const) {
         const home = yield* fs.makeTempDirectoryScoped({ prefix: "t3-cli-preflight-pair-" });
-        const baseDir = source === "default" ? path.join(home, ".t3") : home;
+        const baseDir = source === "default" ? path.join(home, ".t0c") : home;
         const stateDir = path.join(baseDir, "userdata");
         yield* fs.makeDirectory(stateDir, { recursive: true });
         yield* fs.writeFileString(
@@ -1079,7 +1079,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
         privateNetworkOnly: true,
       });
       // Without the launcher's IPC channel the context was inherited, e.g. by
-      // `t3 serve` started from an agent inside the service.
+      // `t0c serve` started from an agent inside the service.
       expect(yield* resolveHost({ connected: false })).toEqual({
         host: undefined,
         privateNetworkOnly: undefined,

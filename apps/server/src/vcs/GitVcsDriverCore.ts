@@ -62,10 +62,10 @@ import * as ServerConfig from "../config.ts";
 import { sourceControlDefinitions } from "../sourceControl/sourceControlDefinitions.ts";
 
 const DEFAULT_TIMEOUT_MS = 30_000;
-/** T3's record of the branch, named as on the host, that a branch was cut from. */
+/** T0 Code's record of the branch, named as on the host, that a branch was cut from. */
 const branchBaseConfigKey = (branch: string) => `branch.${branch}.t3-merge-base`;
 /**
- * Where T3 kept that record before it had a key of its own, for every host alike: the GitHub
+ * Where T0 Code kept that record before it had a key of its own, for every host alike: the GitHub
  * CLI's key, which branches cut before then still carry instead.
  */
 const legacyBranchBaseConfigKey = (branch: string) => `branch.${branch}.gh-merge-base`;
@@ -5806,7 +5806,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
 
   // A checkout stamps most files in the second it writes the index, and Git re-reads every file
   // stamped in the index's own second or later ("racily clean") on each status, diff and add.
-  // T3's own git calls never rewrite a worktree's index, so refresh it once.
+  // T0 Code's own git calls never rewrite a worktree's index, so refresh it once.
   const refreshNewWorktreeIndex = Effect.fn("refreshNewWorktreeIndex")(function* (
     worktreePath: string,
   ) {

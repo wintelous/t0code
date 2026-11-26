@@ -243,7 +243,7 @@ export const OrchestratorMcpDelegateTaskResult = Schema.Struct({
   resultContextTransferId: Schema.NullOr(ContextTransferId),
   hasPendingQuestion: Schema.Boolean.annotate({
     description:
-      "A question blocks the child and ends a wait. Answer via `t3_pending_request` on `childThreadId`, or the user does.",
+      "A question blocks the child and ends a wait. Answer via `t0c_pending_request` on `childThreadId`, or the user does.",
   }),
   pendingApproval: Schema.NullOr(
     Schema.Struct({ requestId: RuntimeRequestId, kind: ProviderRequestKind, runId: RunId }),
@@ -564,7 +564,7 @@ export const OrchestratorMcpThreadSendInput = Schema.Struct({
   outputSchema: Schema.optional(
     Schema.Record(Schema.String, Schema.Json).annotate({
       description:
-        "JSON Schema for a result the turn must return as data, read back as `output` from `t3_thread_wait`. Never steers.",
+        "JSON Schema for a result the turn must return as data, read back as `output` from `t0c_thread_wait`. Never steers.",
     }),
   ),
   clientRequestId: Schema.optional(OrchestratorMcpClientRequestId),
@@ -852,7 +852,7 @@ export const OrchestratorMcpRequestSecretInput = Schema.Struct({
   }),
   placeholder: Schema.optional(TrimmedNonEmptyString),
   delivery: Schema.optional(Schema.Literals(["secretRef", "file"])).annotate({
-    description: "secretRef (default) for a T3 tool; file for a command.",
+    description: "secretRef (default) for a T0 Code tool; file for a command.",
   }),
   fields: Schema.optional(RequestSecretFields).annotate({
     description:
@@ -934,7 +934,7 @@ export const OrchestratorMcpEnvironmentLinkResult = Schema.Union([
   Schema.Struct({
     status: Schema.Literal("linked"),
     environmentId: EnvironmentId.annotate({
-      description: "Pass it as environmentId to act there; t3_environment_links lists it.",
+      description: "Pass it as environmentId to act there; t0c_environment_links lists it.",
     }),
     label: Schema.String,
     access: AuthMcpClientAccess.annotate({ description: "The access the user chose." }),
@@ -956,7 +956,7 @@ export type OrchestratorMcpEnvironmentLinkResult = typeof OrchestratorMcpEnviron
 
 export const OrchestratorMcpEnvironmentUnlinkInput = Schema.Struct({
   environmentId: EnvironmentId.annotate({
-    description: "The linked environment to forget, from t3_environment_links.",
+    description: "The linked environment to forget, from t0c_environment_links.",
   }),
 });
 export type OrchestratorMcpEnvironmentUnlinkInput =

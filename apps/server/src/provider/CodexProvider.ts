@@ -162,7 +162,7 @@ export interface CodexAppServerProviderSnapshot {
   readonly version: string | undefined;
   readonly models: ReadonlyArray<ServerProviderModel> | undefined;
   readonly serviceTier?: string | undefined;
-  /** Undefined when `config/read` failed, so T3 cannot know Codex's default program. */
+  /** Undefined when `config/read` failed, so T0 Code cannot know Codex's default program. */
   readonly daybreakEnabled?: boolean | undefined;
   readonly cyberAccessProgramsUnavailable?: boolean | undefined;
   readonly skills: ReadonlyArray<ServerProviderSkill>;

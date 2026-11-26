@@ -216,7 +216,7 @@ This needs Git 2.35 or newer.
 
 ## Worktree location
 
-New worktrees go in the `worktrees` folder of the T3 home directory. To put them somewhere else,
+New worktrees go in the `worktrees` folder of the T0 Code home directory. To put them somewhere else,
 such as another drive, set **Settings → Worktrees → Worktree location** to an absolute path like
 `D:\worktrees` or `~/worktrees`. The setting is per machine. Existing worktrees stay where they
 are, and cleanup covers both the default folder and the custom one.
@@ -225,12 +225,12 @@ are, and cleanup covers both the default folder and the custom one.
 
 Fast worktree checkout is a beta. Turn it on for each Mac in **Settings → Labs → Fast worktree
 checkout**. T0 Code then keeps a few recent checkouts of each repository in the `caches` folder of
-the T3 home directory. A new worktree is cloned from one of them with APFS copy-on-write, which is
+the T0 Code home directory. A new worktree is cloned from one of them with APFS copy-on-write, which is
 about twice as fast as writing every file and makes the first `git status` in it fast as well.
 Turning it off deletes the cache.
 
 The first worktree of a repository uses Git's normal checkout and fills the cache. It needs Git 2.42
-or newer. Git's normal checkout is also used for worktrees on a different drive from the T3 home
+or newer. Git's normal checkout is also used for worktrees on a different drive from the T0 Code home
 directory, sparse checkouts, repositories whose attributes use filters such as Git LFS, and
 repositories whose checkout settings changed.
 

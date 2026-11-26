@@ -87,7 +87,7 @@ export const make = Effect.fn("NpmRelease.make")(function* () {
           runner.run({
             command: npmPath,
             // Named fields keep the output small; the full package document grows with every release.
-            args: ["view", "--global", "--json", `t3@${spec}`, "version", "t0code"],
+            args: ["view", "--global", "--json", `t0c@${spec}`, "version", "t0code"],
             timeout: Duration.seconds(15),
             maxOutputBytes: 256 * 1024,
           }),

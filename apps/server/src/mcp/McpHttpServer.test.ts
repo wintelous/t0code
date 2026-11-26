@@ -302,14 +302,14 @@ it.effect("rejects a metadata-only response when the screenshot is saved", () =>
 const layerRecordingTools = (calls: Array<unknown>) => {
   const RecordingToolkit = Toolkit.make(
     OrchestratorToolkit.tools.delegate_task,
-    OrchestratorToolkit.tools.t3_thread_list,
-    OrchestratorToolkit.tools.t3_thread_read,
-    OrchestratorToolkit.tools.t3_thread_wait,
-    ProjectToolkit.tools.t3_project_list,
-    ProjectToolkit.tools.t3_project_update,
-    ThreadToolkit.tools.t3_queue,
-    PreviewControlsToolkit.tools.t3_preview_list,
-    ProjectToolkit.tools.t3_thread_launch,
+    OrchestratorToolkit.tools.t0c_thread_list,
+    OrchestratorToolkit.tools.t0c_thread_read,
+    OrchestratorToolkit.tools.t0c_thread_wait,
+    ProjectToolkit.tools.t0c_project_list,
+    ProjectToolkit.tools.t0c_project_update,
+    ThreadToolkit.tools.t0c_queue,
+    PreviewControlsToolkit.tools.t0c_preview_list,
+    ProjectToolkit.tools.t0c_thread_launch,
   );
   const record = McpToolAccess.reads((params: unknown) =>
     Effect.sync(() => calls.push(params)).pipe(
@@ -322,14 +322,14 @@ const layerRecordingTools = (calls: Array<unknown>) => {
     RecordingToolkit,
     McpToolAccess.toLayer(RecordingToolkit, {
       delegate_task: record,
-      t3_thread_list: record,
-      t3_thread_read: record,
-      t3_thread_wait: record,
-      t3_project_list: record,
-      t3_project_update: record,
-      t3_queue: record,
-      t3_preview_list: record,
-      t3_thread_launch: record,
+      t0c_thread_list: record,
+      t0c_thread_read: record,
+      t0c_thread_wait: record,
+      t0c_project_list: record,
+      t0c_project_update: record,
+      t0c_queue: record,
+      t0c_preview_list: record,
+      t0c_thread_launch: record,
     }),
   ).pipe(
     Layer.provideMerge(McpHttpServer.layerInProcessMcpServer),
@@ -661,11 +661,11 @@ it.effect("decodes null optional arguments the way it decodes omitted ones", () 
   const calls: Array<unknown> = [];
   return Effect.gen(function* () {
     const thread = { threadId: "thread-null-arguments" };
-    yield* callTool("t3_thread_read", thread);
-    yield* callTool("t3_thread_read", { ...thread, afterPosition: null, view: null });
+    yield* callTool("t0c_thread_read", thread);
+    yield* callTool("t0c_thread_read", { ...thread, afterPosition: null, view: null });
     yield* callTool("delegate_task", { task: "Inspect", target: {} });
     yield* callTool("delegate_task", { task: "Inspect", title: null, target: { model: null } });
-    yield* callTool("t3_project_update", { projectId: "project-1", projectIcon: null });
+    yield* callTool("t0c_project_update", { projectId: "project-1", projectIcon: null });
 
     expect(calls).toHaveLength(5);
     expect(calls[1]).toEqual(calls[0]);
@@ -706,10 +706,10 @@ it.effect("rejects arguments a tool does not declare instead of dropping them", 
   const calls: Array<unknown> = [];
   return Effect.gen(function* () {
     const launch = yield* Effect.flip(
-      callTool("t3_thread_launch", { title: "Repro", scratch: true, prompt: "say hi" }),
+      callTool("t0c_thread_launch", { title: "Repro", scratch: true, prompt: "say hi" }),
     );
     const wait = yield* Effect.flip(
-      callTool("t3_thread_wait", { threadId: "thread-excess-arguments", timeout: 5_000 }),
+      callTool("t0c_thread_wait", { threadId: "thread-excess-arguments", timeout: 5_000 }),
     );
 
     expect(calls).toEqual([]);
@@ -722,7 +722,7 @@ it.effect("accepts a nested key the merged advertised schema shows", () => {
   const calls: Array<unknown> = [];
   return Effect.gen(function* () {
     yield* Effect.exit(
-      callTool("t3_thread_launch", {
+      callTool("t0c_thread_launch", {
         title: "Root",
         projectId: "project-1",
         message: "say hi",
@@ -735,25 +735,25 @@ it.effect("accepts a nested key the merged advertised schema shows", () => {
 });
 
 it.effect(
-  "clamps t3_thread_read page sizes above their maximum instead of rejecting the call",
+  "clamps t0c_thread_read page sizes above their maximum instead of rejecting the call",
   () => {
     const calls: Array<unknown> = [];
     return Effect.gen(function* () {
       const thread = { threadId: "thread-clamped-arguments" };
       // Codex never shows the model these bounds, so an over-large page must still read.
-      yield* callTool("t3_thread_read", {
+      yield* callTool("t0c_thread_read", {
         ...thread,
         limit: 150,
         runLimit: 80,
         maxCharsPerItem: 60_000,
       });
-      yield* callTool("t3_thread_read", {
+      yield* callTool("t0c_thread_read", {
         ...thread,
         limit: 100,
         runLimit: 50,
         maxCharsPerItem: 20_000,
       });
-      yield* callTool("t3_thread_read", { ...thread, limit: 7, runLimit: 1, maxCharsPerItem: 1 });
+      yield* callTool("t0c_thread_read", { ...thread, limit: 7, runLimit: 1, maxCharsPerItem: 1 });
 
       expect(calls).toEqual([
         { ...thread, limit: 100, runLimit: 50, maxCharsPerItem: 20_000 },
@@ -765,12 +765,12 @@ it.effect(
 );
 
 it.effect.each(["limit", "runLimit", "maxCharsPerItem"])(
-  "still rejects a t3_thread_read %s below its minimum",
+  "still rejects a t0c_thread_read %s below its minimum",
   (field) => {
     const calls: Array<unknown> = [];
     return Effect.gen(function* () {
       // Zero is a different request than one item, so it fails rather than answering another question.
-      const rejected = yield* callTool("t3_thread_read", {
+      const rejected = yield* callTool("t0c_thread_read", {
         threadId: "thread-below-minimum",
         [field]: 0,
       }).pipe(Effect.flip);
@@ -782,10 +782,10 @@ it.effect.each(["limit", "runLimit", "maxCharsPerItem"])(
 );
 
 const clampedListLimits = [
-  { tool: "t3_thread_list", input: { allProjects: true }, maximum: 100 },
-  { tool: "t3_project_list", input: {}, maximum: 100 },
-  { tool: "t3_queue", input: { action: "list" }, maximum: 100 },
-  { tool: "t3_preview_list", input: {}, maximum: 50 },
+  { tool: "t0c_thread_list", input: { allProjects: true }, maximum: 100 },
+  { tool: "t0c_project_list", input: {}, maximum: 100 },
+  { tool: "t0c_queue", input: { action: "list" }, maximum: 100 },
+  { tool: "t0c_preview_list", input: {}, maximum: 50 },
 ];
 
 it.effect.each(clampedListLimits)(
@@ -808,7 +808,7 @@ it("keeps cross-tool routing out of the delegate_task description", () => {
   const description = OrchestratorToolkit.tools.delegate_task.description ?? "";
   expect(description).toContain("Start one child agent with only `task`");
   // Review rounds, follow-ups, and polling are routed in the system text.
-  expect(description).not.toContain("t3_thread_send");
+  expect(description).not.toContain("t0c_thread_send");
   expect(description).not.toContain("Do not poll");
   expect(description).not.toContain("Prefer native");
 });
@@ -1570,7 +1570,7 @@ it.effect("gives outside clients an upload URL on the origin their request reach
                 id: 2,
                 method: "tools/call",
                 params: {
-                  name: "t3_attachment_prepare_upload",
+                  name: "t0c_attachment_prepare_upload",
                   arguments: {
                     upload: {
                       type: "image",
@@ -1738,7 +1738,7 @@ it.effect("offers agent feedback tools only while the setting is on, to every cl
         capabilities: new Set(["orchestration"]),
         issuedAt: 1,
       };
-      // Any OAuth client can register under the label `t3 feedback` signs in with.
+      // Any OAuth client can register under the label `t0c feedback` signs in with.
       const cliScope: McpInvocationContext.McpInvocationScope = {
         environmentId,
         requestNamespace: "cliToken",
@@ -1824,29 +1824,29 @@ it.effect("offers agent feedback tools only while the setting is on, to every cl
       // Only provider sessions can search.
       const found = rpc("agentToken", "tools/call", {
         name: "tool_search",
-        arguments: { query: "t3_feedback feedback report" },
+        arguments: { query: "t0c_feedback feedback report" },
       }).pipe(
         Effect.map((body) => body.result?.structuredContent?.tools?.map((tool) => tool.name)),
       );
       const report = (token: string) =>
         rpc(token, "tools/call", {
-          name: "t3_feedback",
+          name: "t0c_feedback",
           arguments: { kind: "bug", subject: "", expected: "a", actual: "b", workaround: "" },
         });
 
       expect(yield* found).toEqual([]);
       for (const token of ["agentToken", "cliToken"]) {
         expect(yield* listed(token)).toEqual([]);
-        // `t3 feedback` turns exactly this answer into the Labs message.
+        // `t0c feedback` turns exactly this answer into the Labs message.
         expect(yield* report(token)).toMatchObject({
-          error: { code: -32602, message: "Tool 't3_feedback' not found" },
+          error: { code: -32602, message: "Tool 't0c_feedback' not found" },
         });
       }
 
       yield* settings.updateSettings({ agentFeedback: { mode: "on-request" } });
-      expect(yield* found).toEqual(expect.arrayContaining(["t3_feedback"]));
+      expect(yield* found).toEqual(expect.arrayContaining(["t0c_feedback"]));
       for (const token of ["agentToken", "cliToken"]) {
-        expect(yield* listed(token)).toEqual(["t3_feedback"]);
+        expect(yield* listed(token)).toEqual(["t0c_feedback"]);
       }
     }),
   ).pipe(Effect.provide(NodeHttpServer.layerTest)),

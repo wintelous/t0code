@@ -13,7 +13,7 @@ in their area.
 
 ## The model in one paragraph
 
-An environment is a T3 server running as an OS user. It is not a sandbox: it
+An environment is a T0 Code server running as an OS user. It is not a sandbox: it
 intentionally runs agents and terminals with that user's privileges. Clients
 gain authority by pairing, which issues a scoped session. A full-scope session
 equals a shell as the server's OS user, because `terminal:operate` opens a PTY
@@ -23,20 +23,20 @@ revocation and ceilings hold, not what a full-scope session can do once issued.
 
 ## Principals
 
-| Principal                                                                                        | How it gets in                                                           | What it may do                                                                                                                                                                             |
-| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Anyone who reaches the port                                                                      | Network                                                                  | Read the environment descriptor, pair with a valid one-time credential, run OAuth flows. Nothing else.                                                                                     |
-| Full-scope client (desktop, paired browser or phone, `t3 auth session issue`, T0 Connect device) | Pairing, token exchange, Connect mint                                    | Everything the server's OS user can do. This is the default grant.                                                                                                                         |
-| Narrow client                                                                                    | Pairing link with explicit scopes                                        | Only the RPCs and routes its scopes allow. Can never widen its own grant.                                                                                                                  |
-| MCP client (outside agent, subject `mcp-client`)                                                 | OAuth on `/mcp`                                                          | Only `/mcp`, within a read-only grant or a runtime-mode ceiling. Every other route rejects it.                                                                                             |
-| Linked environment (peer link)                                                                   | OAuth client `t0code-peer-link`                                          | Work it starts carries an immutable `linkOrigin` and never exceeds the access it was paired with.                                                                                          |
-| Agent run by T3                                                                                  | Thread's runtime mode and thread credential                              | Within its runtime mode, managed policy, and the MCP access declared per tool.                                                                                                             |
-| Guest link                                                                                       | HMAC token for one share                                                 | Read one thread and propose messages. Never a session; no RPC, WebSocket, or MCP path accepts it.                                                                                          |
-| Signed asset URL                                                                                 | Minted with `filesystem:read`                                            | One file, by device and inode identity, until it expires.                                                                                                                                  |
-| Webhook sender                                                                                   | A task's webhook URL, plus its signing secret when the task requires one | Start that one task's run with content of its choosing. Nothing in the request is trusted beyond the signature check.                                                                      |
-| T0 Connect relay                                                                                 | Environment link                                                         | Trusted broker for mint requests. It never sees environment session tokens. With `requireConnectDeviceApproval` on, a new device key also needs approval from someone with `access:write`. |
-| Managed policy                                                                                   | Admin-deployed file, read at startup                                     | Ceilings and locks the server enforces for every client.                                                                                                                                   |
-| Preview pages, HTML renders, file previews, agent output                                         | Rendered by clients                                                      | Untrusted content. It must never run script in the app's origin or reach Electron IPC or Node.                                                                                             |
+| Principal                                                                                         | How it gets in                                                           | What it may do                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Anyone who reaches the port                                                                       | Network                                                                  | Read the environment descriptor, pair with a valid one-time credential, run OAuth flows. Nothing else.                                                                                     |
+| Full-scope client (desktop, paired browser or phone, `t0c auth session issue`, T0 Connect device) | Pairing, token exchange, Connect mint                                    | Everything the server's OS user can do. This is the default grant.                                                                                                                         |
+| Narrow client                                                                                     | Pairing link with explicit scopes                                        | Only the RPCs and routes its scopes allow. Can never widen its own grant.                                                                                                                  |
+| MCP client (outside agent, subject `mcp-client`)                                                  | OAuth on `/mcp`                                                          | Only `/mcp`, within a read-only grant or a runtime-mode ceiling. Every other route rejects it.                                                                                             |
+| Linked environment (peer link)                                                                    | OAuth client `t0code-peer-link`                                          | Work it starts carries an immutable `linkOrigin` and never exceeds the access it was paired with.                                                                                          |
+| Agent run by T3                                                                                   | Thread's runtime mode and thread credential                              | Within its runtime mode, managed policy, and the MCP access declared per tool.                                                                                                             |
+| Guest link                                                                                        | HMAC token for one share                                                 | Read one thread and propose messages. Never a session; no RPC, WebSocket, or MCP path accepts it.                                                                                          |
+| Signed asset URL                                                                                  | Minted with `filesystem:read`                                            | One file, by device and inode identity, until it expires.                                                                                                                                  |
+| Webhook sender                                                                                    | A task's webhook URL, plus its signing secret when the task requires one | Start that one task's run with content of its choosing. Nothing in the request is trusted beyond the signature check.                                                                      |
+| T0 Connect relay                                                                                  | Environment link                                                         | Trusted broker for mint requests. It never sees environment session tokens. With `requireConnectDeviceApproval` on, a new device key also needs approval from someone with `access:write`. |
+| Managed policy                                                                                    | Admin-deployed file, read at startup                                     | Ceilings and locks the server enforces for every client.                                                                                                                                   |
+| Preview pages, HTML renders, file previews, agent output                                          | Rendered by clients                                                      | Untrusted content. It must never run script in the app's origin or reach Electron IPC or Node.                                                                                             |
 
 ## A real finding crosses one of these
 
@@ -83,7 +83,7 @@ revocation and ceilings hold, not what a full-scope session can do once issued.
   all others" removes them.
 - `filesystem:read` reads anything the server's OS user can read, including
   paths outside projects.
-- Plain HTTP on a LAN or tailnet is the user's choice. `t3 serve` warns when
+- Plain HTTP on a LAN or tailnet is the user's choice. `t0c serve` warns when
   advertising a non-loopback HTTP address. The iOS app allows arbitrary loads so
   it can reach these addresses.
 - `access-control-allow-origin: *` on the environment API. Auth is a bearer
@@ -163,7 +163,7 @@ revocation and ceilings hold, not what a full-scope session can do once issued.
 - Check the reported commit against `main`. Reports often trail fixes.
 - Prove a finding with a failing test at the lowest layer that shows it, as
   [Verifying](AGENTS.md#verifying) describes. Do not run a PoC against
-  `~/.t3/userdata` or any live environment; use a dev server on seeded data.
+  `~/.t0c/userdata` or any live environment; use a dev server on seeded data.
 - Treat report attachments as untrusted. Extract them into an empty directory
   outside the worktree and read PoCs before running anything.
 - Fix confirmed findings rather than filing them. Keep advisory details out of

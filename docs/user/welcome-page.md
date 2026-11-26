@@ -10,7 +10,7 @@ To see the page again, go to **Settings → About → Welcome page** and select
 
 The hosted app at app.t3.codes does not open the page. With no computer connected,
 it asks you to sign in to T0 Connect, then to install T0 Code and run
-`t3 connect` on your computer. From home, it adds compatible computers linked to your account and
+`t0c connect` on your computer. From home, it adds compatible computers linked to your account and
 opens the app. To add more computers later, use **Settings → Environments**.
 
 If T0 Code cannot confirm the workspace during startup, it shows
@@ -41,7 +41,7 @@ is found, it reads **Set up an agent** and opens by itself:
   **Settings → Providers**.
 - **Browse** opens the ACP Registry for more agents.
 
-On the desktop app, when the folder of the `t3` command is not on your `PATH`,
+On the desktop app, when the folder of the `t0c` command is not on your `PATH`,
 **Add to PATH** adds one line to your shell's startup file.
 
 The setup terminal uses the home directory and environment configured for the

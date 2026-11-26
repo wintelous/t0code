@@ -996,7 +996,7 @@ describe("AntigravityAdapterV2 html_render pages", () => {
   );
 
   it.effect(
-    "recovers T3 MCP tool results across omitted outputs, replays, errors, and turn boundaries",
+    "recovers T0 Code MCP tool results across omitted outputs, replays, errors, and turn boundaries",
     () =>
       Effect.gen(function* () {
         const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;
@@ -2101,15 +2101,15 @@ describe("AntigravityAdapterV2 work after the prompt ends", () => {
   );
 
   // agy names its background commands `<session>/task-<n>`; the agent passes that to
-  // t3_background_wait, which must not fail since the adapter already holds the run open.
-  it.effect("accepts t3_background_wait for a command it already tracks", () =>
+  // t0c_background_wait, which must not fail since the adapter already holds the run open.
+  it.effect("accepts t0c_background_wait for a command it already tracks", () =>
     Effect.gen(function* () {
       const { session, providerThread, startTurn, throughPromptSettled } =
         yield* openSessionWithRunningCommand({ WaitMsBeforeAsync: 10000 });
       yield* startTurn(1, false);
       yield* throughPromptSettled;
       const taskIds = ["mock-session-1/task-2"];
-      assert.isDefined(session.awaitBackgroundTasks, "t3_background_wait must not be unsupported");
+      assert.isDefined(session.awaitBackgroundTasks, "t0c_background_wait must not be unsupported");
       const result = yield* session.awaitBackgroundTasks!({
         providerThread,
         taskIds,
@@ -2460,7 +2460,7 @@ describe("AntigravityAdapterV2 work after the prompt ends", () => {
 });
 
 describe("AntigravityAdapterV2 subagent reads", () => {
-  it.effect("completes a read T3 served when the agent later fails it with a step error", () =>
+  it.effect("completes a read T0 Code served when the agent later fails it with a step error", () =>
     Effect.gen(function* () {
       const childProcessSpawner = yield* ChildProcessSpawner.ChildProcessSpawner;
       const fileSystem = yield* FileSystem.FileSystem;
@@ -2653,7 +2653,7 @@ describe("AntigravityAdapterV2 subagent reads", () => {
             event.turnItem.nativeItemRef?.nativeId === nativeId &&
             event.turnItem.status === status,
         );
-      // T3 completes a served read itself instead of leaving it running until the flush.
+      // T0 Code completes a served read itself instead of leaving it running until the flush.
       assert.isAbove(firstEvent("call_served", "completed"), -1);
       assert.isBelow(firstEvent("call_served", "completed"), firstEvent("call_native", "failed"));
       const failed = { status: "failed" as const, output: stepError };

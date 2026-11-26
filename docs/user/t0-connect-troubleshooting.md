@@ -11,9 +11,9 @@ When a connection fails, open **Settings > Environments**, find the environment,
 and select **Details**. The first part marked as failed is the cause. Find its
 section below.
 
-To see the host's side, run `t3 connect status` on the host, or open
+To see the host's side, run `t0c connect status` on the host, or open
 **Settings > Sharing & access** on the host. Both check the host's T0 Connect
-address from the host, and say why it fails. `t3 connect` runs the same check
+address from the host, and say why it fails. `t0c connect` runs the same check
 when it finishes setup. This check cannot test another device's network. For a
 problem on one device, use **Details** on that device.
 
@@ -29,7 +29,7 @@ T0 Connect could not reach the host's tunnel. This means one of these:
 Fix:
 
 1. Make sure the host is awake and T0 Code runs on it.
-2. On the host, run `t3 connect status`. It names the problem on the host's side.
+2. On the host, run `t0c connect status`. It names the problem on the host's side.
 3. If the host was offline for a long time, T0 Connect removes its tunnel. Start
    T0 Code on the host and update it to the latest version. It gets a new tunnel.
 
@@ -66,7 +66,7 @@ The host's tunnel is up, but it cannot reach T0 Code on the host. Common causes:
   sends requests to `127.0.0.1`, so the server must also listen there.
 
 Fix: restart T0 Code on the host. For the background service, run
-`t3 service restart`. Then run `t3 connect status` on the host.
+`t0c service restart`. Then run `t0c connect status` on the host.
 
 ## The T0 Connect address does not resolve or answer
 
@@ -76,14 +76,14 @@ secure (TLS) connection, or did not answer in time.
 Fix:
 
 1. Make sure the host is awake and online.
-2. On the host, run `t3 connect status`.
+2. On the host, run `t0c connect status`.
 3. If the check fails only on the host, check the host's DNS, VPN, or proxy.
    If it says the host's network has an old cached answer, wait: it usually
    clears within about 30 minutes.
 4. If it says the address no longer points to this machine's tunnel, the
    environment was likely removed from T0 Connect. Link it again: on a desktop
    host, turn **T0 Connect** off and on in **Settings > Sharing & access**. On a
-   command-line host, run `t3 connect link`, then restart T0 Code.
+   command-line host, run `t0c connect link`, then restart T0 Code.
 
 ## This device can't reach T0 Connect
 
@@ -109,14 +109,14 @@ This device's T0 Connect sign-in is not ready yet, or T0 Connect does not have
 an active link between your account and the host.
 
 - **The host is linked to a different account.** Sign in to the same T0 Connect
-  account on this device and on the host. On the host, run `t3 connect logout`,
-  then `t3 connect`.
+  account on this device and on the host. On the host, run `t0c connect logout`,
+  then `t0c connect`.
 - **T0 Connect is off on the host, or the host only publishes agent activity.**
   On the host, open **Settings > Sharing & access** and turn **T0 Connect** on, or
-  run `t3 connect`.
+  run `t0c connect`.
 - **The host was linked, but the server did not apply the link yet.** Restart
   the server on the host: quit and reopen the T0 Code desktop app, run
-  `t3 service restart`, or stop `t3 serve` and run it again.
+  `t0c service restart`, or stop `t0c serve` and run it again.
 - **This device's sign-in expired, or the host no longer accepts this
   device.** Sign out of T0 Connect and sign in again.
 - **This device is still loading its T0 Connect sign-in.** Wait a moment;
@@ -124,7 +124,7 @@ an active link between your account and the host.
   this device.
 - **The host is waiting for you to approve this device.** The host requires
   approval for new devices. Approve the code this device shows from a device
-  that is already connected, or run `t3 auth connect-device approve <code>` on
+  that is already connected, or run `t0c auth connect-device approve <code>` on
   the host. See [Approve new devices](./remote-access.md#approve-new-devices).
 - **Your account reached its tunnel limit.** Remove an environment you do not
   use from your T3 account's T0 Connect page, or
@@ -147,13 +147,13 @@ This app needs a newer T0 Code on the host. Update T0 Code on the host. See
 | Error                                                     | Fix                                                                                                                                                                                                  |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `environment_link_limit_exceeded` or managed tunnel limit | Remove an unused environment or link a paid T3 Chat account, then restart T0 Code on the host.                                                                                                       |
-| `auth_invalid` or `invalid_bearer`                        | Run `t3 connect login`. If credentials were revoked, run `t3 connect logout`, then `t3 connect` again. Restart the server after signing in.                                                          |
+| `auth_invalid` or `invalid_bearer`                        | Run `t0c connect login`. If credentials were revoked, run `t0c connect logout`, then `t0c connect` again. Restart the server after signing in.                                                       |
 | Expired or invalid link proof                             | Check the host's date and time, update T0 Code, then restart it.                                                                                                                                     |
 | HTTP 403 without a recognized error                       | If the host requires approval for new devices, update T0 Code on this device and approve it. Otherwise check relay access, proxies, and firewall rules. Keep any Cloudflare Ray ID for a bug report. |
 | HTTP 408, 429, or 5xx                                     | Wait a few minutes. T0 Code retries temporary failures on its own.                                                                                                                                   |
 
 After you fix a permanent rejection, restart the host's server with
-`t3 service restart`. For a foreground server, stop it and run `t3 serve` again.
+`t0c service restart`. For a foreground server, stop it and run `t0c serve` again.
 
 If T0 Code on the host disappears when SSH closes, see
 [background-service troubleshooting](./background-service.md#troubleshooting).
@@ -164,9 +164,9 @@ If none of this helps, open an issue on
 [GitHub](https://github.com/wintelous/t0code/issues). Include:
 
 - The text from **Copy diagnostics** in the environment's **Details**.
-- The output of `t3 connect status` on the host.
+- The output of `t0c connect status` on the host.
 - The trace ID, if one is shown.
 - If the tunnel dropped earlier, the host's tunnel log, `relay-client.ndjson`
-  in the logs folder (`~/.t3/userdata/logs` by default). It records when the
+  in the logs folder (`~/.t0c/userdata/logs` by default). It records when the
   tunnel connected, warned, exited, and restarted, with the tunnel token
   removed.

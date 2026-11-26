@@ -38,7 +38,7 @@ const startBesideBootService = Effect.fn("test.startBesideBootService")(function
   const fs = yield* FileSystem.FileSystem;
   const path = yield* Path.Path;
   const root = yield* fs.makeTempDirectoryScoped({ prefix: "t3-owner-boot-service-" });
-  const t3Home = path.join(root, ".t3");
+  const t3Home = path.join(root, ".t0c");
   const serviceHome = input.unitServesOtherHome ? path.join(root, "other") : t3Home;
   for (const home of [t3Home, serviceHome]) {
     yield* fs.makeDirectory(path.join(home, "userdata"), { recursive: true });
@@ -260,7 +260,7 @@ describe("server ownership", () => {
             ? []
             : [
                 [
-                  `Server ownership lock at ${lockPath} was deleted or replaced. Another server may now share this T3 home. Stop any other server using this home, then restart this server. Do not delete server-owner.sqlite while a server is running.`,
+                  `Server ownership lock at ${lockPath} was deleted or replaced. Another server may now share this T0 Code home. Stop any other server using this home, then restart this server. Do not delete server-owner.sqlite while a server is running.`,
                 ],
               ];
         assert.deepEqual(messages, expected);
@@ -370,8 +370,8 @@ describe("server ownership", () => {
           assert.equal(result.failure._tag, "OlderBootServiceError");
           assert.equal(Runtime.getErrorExitCode(result.failure), 78);
           assert.include(result.failure.message, t3Home);
-          assert.include(result.failure.message, "t3 update");
-          assert.include(result.failure.message, "t3 service restart");
+          assert.include(result.failure.message, "t0c update");
+          assert.include(result.failure.message, "t0c service restart");
           assert.include(result.failure.message, "No server was stopped");
         }
       }).pipe(Effect.provide(Layer.mergeAll(NodeServices.layer, NodeCrypto.layer))),

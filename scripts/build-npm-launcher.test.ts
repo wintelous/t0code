@@ -64,8 +64,8 @@ exit 7
   yield* fs.makeDirectory(path.join(root, "release", stem, "node_modules/native"), {
     recursive: true,
   });
-  yield* fs.writeFileString(path.join(root, "release", stem, "t3"), executable);
-  yield* fs.chmod(path.join(root, "release", stem, "t3"), 0o755);
+  yield* fs.writeFileString(path.join(root, "release", stem, "t0c"), executable);
+  yield* fs.chmod(path.join(root, "release", stem, "t0c"), 0o755);
   const tar = yield* run("tar", ["-czf", archiveName, stem], {
     cwd: path.join(root, "release"),
     env: { PATH: (yield* HostProcess.Environment).PATH },
@@ -133,7 +133,7 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
         );
         assert.equal(manifest.name, "t3");
         assert.equal(manifest.version, VERSION);
-        assert.deepStrictEqual(manifest.bin, { t3: "./bin/t3.mjs" });
+        assert.deepStrictEqual(manifest.bin, { t3: "./bin/t0c.mjs" });
         assert.isUndefined(manifest.dependencies);
         assert.isUndefined(manifest.optionalDependencies);
         assert.isAbove(npmReleaseDatabaseMigration(manifest) ?? 0, 0);
@@ -157,7 +157,7 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
           T0CODE_TEST_CALLS: path.join(root, "calls"),
           T0CODE_RELEASE_BASE_URL: release.baseUrl,
         };
-        const launcher = path.join(packageDir, "bin/t3.mjs");
+        const launcher = path.join(packageDir, "bin/t0c.mjs");
         const first = yield* run(process.execPath, [launcher, "serve", "a b"], {
           cwd: root,
           env,
@@ -188,7 +188,7 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
           ["--version|", `serve a b|${launcher}`, `--version|${launcher}`],
         );
 
-        yield* fs.writeFileString(path.join(versionDir, "t3"), "#!/t3-test-missing-loader\n");
+        yield* fs.writeFileString(path.join(versionDir, "t0c"), "#!/t3-test-missing-loader\n");
         for (const _attempt of [1, 2]) {
           const cached = yield* run(process.execPath, [launcher, "serve"], { cwd: root, env });
           assert.equal(cached.exitCode, 1, cached.stderr);
@@ -200,7 +200,7 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
           );
         }
 
-        const ipcServer = path.join(home, "runtime/versions", VERSION, "t3");
+        const ipcServer = path.join(home, "runtime/versions", VERSION, "t0c");
         yield* fs.writeFileString(
           ipcServer,
           `#!${process.execPath}\nprocess.on("SIGTERM", () => process.exit(23));\nprocess.on("message", (m) => process.send({ reply: m }));\nprocess.send({ args: process.argv.slice(2) });\n`,
@@ -240,10 +240,10 @@ it.layer(NodeServices.layer)("build-npm-launcher", (it) => {
         const staleDir = path.join(staleHome, "runtime/versions", VERSION);
         const peerDir = path.join(root, "peer-runtime");
         yield* fs.makeDirectory(staleDir, { recursive: true });
-        yield* fs.writeFileString(path.join(staleDir, "t3"), "");
+        yield* fs.writeFileString(path.join(staleDir, "t0c"), "");
         yield* fs.makeDirectory(peerDir);
-        yield* fs.writeFileString(path.join(peerDir, "t3"), '#!/bin/sh\necho "peer $*"\nexit 7\n');
-        yield* fs.chmod(path.join(peerDir, "t3"), 0o755);
+        yield* fs.writeFileString(path.join(peerDir, "t0c"), '#!/bin/sh\necho "peer $*"\nexit 7\n');
+        yield* fs.chmod(path.join(peerDir, "t0c"), 0o755);
         yield* fs.writeFileString(path.join(peerDir, ".install-complete"), `${VERSION}\n`);
         yield* fs.writeFileString(path.join(peerDir, "sidecar"), "peer sidecar");
         const peerChecks = path.join(root, "peer-checks.txt");
@@ -319,7 +319,7 @@ fs.readFileSync = (file, ...rest) => {
         const staleOnlyHome = path.join(root, "stale-only-home");
         const staleOnlyDir = path.join(staleOnlyHome, "runtime/versions", VERSION);
         yield* fs.makeDirectory(staleOnlyDir, { recursive: true });
-        yield* fs.writeFileString(path.join(staleOnlyDir, "t3"), "incomplete");
+        yield* fs.writeFileString(path.join(staleOnlyDir, "t0c"), "incomplete");
         yield* fs.makeDirectory(`${staleOnlyDir}.lock`);
         const locked = yield* run(process.execPath, [launcher, "--version"], {
           cwd: root,
@@ -327,7 +327,7 @@ fs.readFileSync = (file, ...rest) => {
         });
         assert.equal(locked.exitCode, 1);
         assert.include(locked.stderr, `delete ${staleOnlyDir}.lock`);
-        assert.equal(yield* fs.readFileString(path.join(staleOnlyDir, "t3")), "incomplete");
+        assert.equal(yield* fs.readFileString(path.join(staleOnlyDir, "t0c")), "incomplete");
 
         // Without a peer, the stale folder is replaced by our own download.
         yield* fs.remove(`${staleOnlyDir}.lock`, { recursive: true });
@@ -393,7 +393,7 @@ syncBuiltinESMExports();
             T0CODE_TEST_READY: path.join(root, "probe-ready"),
             T0CODE_TEST_TERM: path.join(root, "probe-term"),
           };
-          const launcher = path.join(output.packageDir, "bin/t3.mjs");
+          const launcher = path.join(output.packageDir, "bin/t0c.mjs");
           const failed = yield* run(
             process.execPath,
             ["--import", probeTimeoutHook, launcher, "serve"],
@@ -448,7 +448,7 @@ syncBuiltinESMExports();
         const orphaned = "provider outlived the runtime by 30s";
         const provider = `process.on("SIGTERM", () => {}); setTimeout(() => { console.log(${JSON.stringify(orphaned)}); process.exit(0); }, 30_000);`;
         yield* fs.writeFileString(
-          path.join(versionDir, "t3"),
+          path.join(versionDir, "t0c"),
           `#!${process.execPath}
 const provider = require("node:child_process").spawn(process.execPath, ["-e", ${JSON.stringify(provider)}], { stdio: "inherit" });
 process.on("SIGTERM", () => setTimeout(() => { console.log(${JSON.stringify(stuck)}); process.exit(0); }, 30_000));
@@ -456,11 +456,11 @@ setInterval(() => {}, 1 << 30);
 console.log(process.pid, provider.pid);
 `,
         );
-        yield* fs.chmod(path.join(versionDir, "t3"), 0o755);
+        yield* fs.chmod(path.join(versionDir, "t0c"), 0o755);
 
         const launcher = NodeChildProcess.spawn(
           process.execPath,
-          [path.join(installed, "package/bin/t3.mjs"), "serve"],
+          [path.join(installed, "package/bin/t0c.mjs"), "serve"],
           { cwd: root, env: { PATH: hostPath, T0CODE_HOME: home }, stdio: "pipe" },
         );
         let pids: Array<number> = [];

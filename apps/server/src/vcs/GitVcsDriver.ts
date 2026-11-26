@@ -413,7 +413,7 @@ export class GitVcsDriver extends Context.Service<
       key: string,
     ) => Effect.Effect<string | null, GitCommandError>;
     /**
-     * The branch, named as on the host, that T3 recorded `branch` was cut from. Null when none
+     * The branch, named as on the host, that T0 Code recorded `branch` was cut from. Null when none
      * was recorded.
      */
     readonly readBranchBase: (
@@ -1813,7 +1813,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
                     "-p",
                     commit,
                     "-m",
-                    `t3 checkpoint turn start ref=${input.checkpointRef}`,
+                    `t0c checkpoint turn start ref=${input.checkpointRef}`,
                   ],
                   // listAuthoredPaths reads commits newer than the start as the turn's own.
                   env: { ...commitEnv, GIT_COMMITTER_DATE: `${capturedAt} +0000` },
@@ -1829,7 +1829,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
                 ),
               );
 
-        const message = `t3 checkpoint ref=${input.checkpointRef}${
+        const message = `t0c checkpoint ref=${input.checkpointRef}${
           headMark === undefined ? "" : `\n\n${HEAD_MARK_TRAILER}: ${headMark}`
         }`;
         // HEAD is the first parent so listAuthoredPaths can see how HEAD moved between checkpoints.
@@ -2049,7 +2049,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
             "-p",
             input.head,
             "-m",
-            `t3 checkpoint ref=${input.checkpointRef}${
+            `t0c checkpoint ref=${input.checkpointRef}${
               headMark === undefined ? "" : `\n\n${HEAD_MARK_TRAILER}: ${headMark}`
             }`,
           ],

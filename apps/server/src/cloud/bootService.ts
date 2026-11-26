@@ -96,7 +96,7 @@ export interface BootServicePlan {
 }
 
 // systemd refuses an executable with a quote, backslash or control character even when
-// quoted. The executable lives under the T3 home, so this also catches a home with a newline.
+// quoted. The executable lives under the T0 Code home, so this also catches a home with a newline.
 const systemdUnsafeValue = (plan: BootServicePlan) =>
   /[\x00-\x1f\x7f"'\\]/.test(plan.program[0] ?? "");
 
@@ -135,7 +135,7 @@ export function renderBootServiceUnit(plan: BootServicePlan): string {
     // protection of user.slice and user@.service, which only root can grant.
     "MemoryLow=1536M",
     // A user manager's own score, the lowest it may set: below its other services (200) and agents (800).
-    // `t3 service protect` lowers it further through a drop-in.
+    // `t0c service protect` lowers it further through a drop-in.
     "OOMScoreAdjust=100",
     // systemd-oomd ignores this preference when the watched cgroup is root-owned, as user-1000.slice usually is.
     "ManagedOOMPreference=avoid",
@@ -674,13 +674,13 @@ type BootServiceProblem = typeof BootServiceProblem.Type;
 export function formatBootServiceProblem(
   problem: BootServiceProblem,
   commands: { readonly install: string; readonly restart: string } = {
-    install: "t3 service install",
-    restart: "t3 service restart",
+    install: "t0c service install",
+    restart: "t0c service restart",
   },
 ): string {
   switch (problem) {
     case "user-manager-unavailable":
-      return "Cannot reach the systemd user manager. Run `systemctl --user status` in a login session for the service user. Install your distribution's systemd user-session support if it is missing; do not run T3 with sudo.";
+      return "Cannot reach the systemd user manager. Run `systemctl --user status` in a login session for the service user. Install your distribution's systemd user-session support if it is missing; do not run T0 Code with sudo.";
     case "linger-unavailable":
       return 'Cannot check whether this user can run services after logout. Run `loginctl show-user "$(id -un)" --property=Linger` and check that systemd-logind is available.';
     case "linger-disabled":
@@ -723,7 +723,7 @@ export class BootServiceDowngradeRefusedError extends Schema.TaggedError<BootSer
   },
 ) {
   override get message(): string {
-    return `Refusing to replace t3@${this.installedVersion} with older t3@${this.targetVersion}. Run the command again with --allow-downgrade to continue.`;
+    return `Refusing to replace t0c@${this.installedVersion} with older t0c@${this.targetVersion}. Run the command again with --allow-downgrade to continue.`;
   }
 }
 
@@ -738,7 +738,7 @@ export class BootServiceOtherBaseDirError extends Schema.TaggedError<BootService
   },
 ) {
   override get message(): string {
-    return `The T0 Code service on this machine serves ${this.installedBaseDir}, not ${this.baseDir}. Pass ${formatBootServiceBaseDirOption(this.installedBaseDir)} to manage it, or run \`t3 service uninstall ${formatBootServiceBaseDirOption(this.installedBaseDir)}\` first to move it; both data directories are kept.`;
+    return `The T0 Code service on this machine serves ${this.installedBaseDir}, not ${this.baseDir}. Pass ${formatBootServiceBaseDirOption(this.installedBaseDir)} to manage it, or run \`t0c service uninstall ${formatBootServiceBaseDirOption(this.installedBaseDir)}\` first to move it; both data directories are kept.`;
   }
 
   // A refusal the user fixes by rerunning, so the CLI prints the message, not a stack trace.
@@ -752,7 +752,7 @@ export class BootServiceBaseDirUnsupportedError extends Schema.TaggedError<BootS
   { baseDir: Schema.String },
 ) {
   override get message(): string {
-    return `systemd cannot run T0 Code from ${JSON.stringify(this.baseDir)}: the path contains a quote, backslash or control character. Choose another T3 home with --base-dir.`;
+    return `systemd cannot run T0 Code from ${JSON.stringify(this.baseDir)}: the path contains a quote, backslash or control character. Choose another T0 Code home with --base-dir.`;
   }
 
   override get [CliError.userMessage]() {
@@ -776,7 +776,7 @@ export interface BootServiceStatus {
   readonly current: boolean;
   readonly installedVersion?: string;
   readonly installedBaseDir?: string;
-  /** Set when the installed unit serves a different T3 home than this CLI. */
+  /** Set when the installed unit serves a different T0 Code home than this CLI. */
   readonly otherBaseDir?: string;
   readonly problems?: ReadonlyArray<BootServiceProblem>;
   readonly unitPath: string;
@@ -1316,7 +1316,7 @@ export const make = Effect.fn("cloud.boot_service.make")(function* (input: {
             Effect.mapError(
               (cause) =>
                 new PinnedRuntimeInstallError({
-                  step: "verifying the pinned t3 runtime",
+                  step: "verifying the pinned t0c runtime",
                   cause,
                 }),
             ),
@@ -1326,7 +1326,7 @@ export const make = Effect.fn("cloud.boot_service.make")(function* (input: {
                 ? Effect.void
                 : Effect.fail(
                     new PinnedRuntimeInstallError({
-                      step: "verifying the pinned t3 runtime",
+                      step: "verifying the pinned t0c runtime",
                       exitCode: Number(result.code),
                       stdoutLength: result.stdout.length,
                       stderrLength: result.stderr.length,

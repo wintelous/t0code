@@ -62,11 +62,11 @@ const waited = { threadId: "thread-1", runId: "turn-1", status: "idle" };
 it.effect("starts a thread there by the project's folder, with the step's key as the request", () =>
   Effect.gen(function* () {
     const there = peer({
-      t3_project_list: [
+      t0c_project_list: [
         { projects: [{ id: "p-other", workspaceRoot: "/work/other" }], nextCursor: 1 },
         { projects: [{ id: "p-app", workspaceRoot: "/work/app" }], nextCursor: null },
       ],
-      t3_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
+      t0c_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
     });
     const options = {
       workspace: { type: "worktree", baseRef: "origin/main", startFromOrigin: true },
@@ -120,9 +120,9 @@ it.effect("registers a folder that is not a project there yet", () =>
       ["C:\\work\\app", "app"],
     ]) {
       const there = peer({
-        t3_project_list: [{ projects: [], nextCursor: null }],
-        t3_project_create: [{ id: "p-new", workspaceRoot: project }],
-        t3_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
+        t0c_project_list: [{ projects: [], nextCursor: null }],
+        t0c_project_create: [{ id: "p-new", workspaceRoot: project }],
+        t0c_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
       });
       yield* Effect.provide(
         Effect.flatMap(WorkflowAgentLinks.make, (links) =>
@@ -133,9 +133,9 @@ it.effect("registers a folder that is not a project there yet", () =>
       assert.deepStrictEqual(
         there.calls.map((call) => [call.tool, call.arguments.projectId ?? call.arguments.title]),
         [
-          ["t3_project_list", undefined],
-          ["t3_project_create", title],
-          ["t3_thread_launch", "p-new"],
+          ["t0c_project_list", undefined],
+          ["t0c_project_create", title],
+          ["t0c_thread_launch", "p-new"],
         ],
       );
     }
@@ -145,10 +145,10 @@ it.effect("registers a folder that is not a project there yet", () =>
 it.effect("finds a Windows folder there however its separators are written", () =>
   Effect.gen(function* () {
     const there = peer({
-      t3_project_list: [
+      t0c_project_list: [
         { projects: [{ id: "p-app", workspaceRoot: "C:\\work\\app" }], nextCursor: null },
       ],
-      t3_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
+      t0c_thread_launch: [{ threadId: "thread-1", runId: "turn-1" }],
     });
     yield* Effect.provide(
       Effect.flatMap(WorkflowAgentLinks.make, (links) =>
@@ -182,12 +182,12 @@ it.effect("does not start anything while linked environments is off", () =>
 it.effect("waits in pieces, rides out a dropped route, and returns the output and reply", () =>
   Effect.gen(function* () {
     const there = peer({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { ...waited, timedOut: true },
         new OrchestratorMcpFailure({ code: "orchestration_error", message: "unreachable" }),
         { ...waited, timedOut: false, output: { branch: "fix/1" } },
       ],
-      t3_thread_read: [
+      t0c_thread_read: [
         run("completed"),
         {
           recentRuns: [],
@@ -220,16 +220,16 @@ it.effect("waits in pieces, rides out a dropped route, and returns the output an
       reply: "Done, pushed.",
       output: { branch: "fix/1" },
     });
-    assert.equal(there.calls.filter((call) => call.tool === "t3_thread_wait").length, 3);
+    assert.equal(there.calls.filter((call) => call.tool === "t0c_thread_wait").length, 3);
   }),
 );
 
 it.effect("a turn someone stopped there is stopped, and a refused link fails at once", () =>
   Effect.gen(function* () {
     const stopped = peer({
-      t3_thread_wait: [{ ...waited, timedOut: false }],
-      t3_thread_read: [run("interrupted")],
-      t3_thread_interrupt: [{ threadId: "thread-1", runId: "turn-1", status: "interrupted" }],
+      t0c_thread_wait: [{ ...waited, timedOut: false }],
+      t0c_thread_read: [run("interrupted")],
+      t0c_thread_interrupt: [{ threadId: "thread-1", runId: "turn-1", status: "interrupted" }],
     });
     const result = yield* Effect.provide(
       Effect.flatMap(WorkflowAgentLinks.make, (links) =>
@@ -248,7 +248,7 @@ it.effect("a turn someone stopped there is stopped, and a refused link fails at 
     assert.deepInclude(stopped.calls.at(-1)?.arguments, { threadId: "thread-1", runId: "turn-1" });
 
     const revoked = peer({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         new OrchestratorMcpFailure({ code: "capability_denied", message: "link revoked" }),
       ],
     });
@@ -266,7 +266,7 @@ it.effect("a turn someone stopped there is stopped, and a refused link fails at 
 it.effect("a turn that ended without its result is waited past until a later turn gives it", () =>
   Effect.gen(function* () {
     const there = peer({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         // The turn ended. The agent is waiting to be woken, and has submitted nothing.
         { ...waited, timedOut: false },
         // Quiet for five minutes, in pieces. A turn that woke in between is under way...
@@ -274,7 +274,7 @@ it.effect("a turn that ended without its result is waited past until a later tur
         // ...so the wait starts over, and that turn submits.
         { ...waited, timedOut: false, output: { head: "abc" } },
       ],
-      t3_thread_read: [
+      t0c_thread_read: [
         run("completed"),
         { recentRuns: [{ runId: "turn-2", status: "running" }], items: [] },
         { recentRuns: [], hasMore: false, nextPosition: null, items: [] },
@@ -289,7 +289,7 @@ it.effect("a turn that ended without its result is waited past until a later tur
       there.layer,
     ).pipe(Effect.raceFirst(Effect.forever(TestClock.adjust("1 second"))));
     assert.deepStrictEqual(result.output, { head: "abc" });
-    const waits = there.calls.filter((call) => call.tool === "t3_thread_wait");
+    const waits = there.calls.filter((call) => call.tool === "t0c_thread_wait");
     assert.isTrue(waits.slice(1).every((call) => call.arguments.untilOutput === true));
   }),
 );
@@ -297,11 +297,11 @@ it.effect("a turn that ended without its result is waited past until a later tur
 it.effect("a thread that stays quiet gives the turn back without a result", () =>
   Effect.gen(function* () {
     const there = peer({
-      t3_thread_wait: [
+      t0c_thread_wait: [
         { ...waited, timedOut: false },
         ...Array.from({ length: 6 }, () => ({ ...waited, timedOut: true })),
       ],
-      t3_thread_read: [
+      t0c_thread_read: [
         run("completed"),
         // Nothing has run since the turn the step knows.
         run("completed"),

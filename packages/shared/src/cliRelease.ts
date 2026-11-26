@@ -39,7 +39,7 @@ export function cliArchiveTarCommand(
 }
 
 export function cliArchiveFileName(version: string, platformKey: CliArchivePlatformKey): string {
-  return `t3-${version}-${platformKey}.${platformKey.startsWith("win32") ? "zip" : "tar.gz"}`;
+  return `t0c-${version}-${platformKey}.${platformKey.startsWith("win32") ? "zip" : "tar.gz"}`;
 }
 
 const CLI_RELEASE_DEFAULT_BASE_URL = `https://github.com/${CLI_RELEASE_REPOSITORY}/releases/download`;
@@ -158,7 +158,7 @@ const NpmReleaseMigrationManifest = Schema.Struct({
 });
 const decodeNpmReleaseMigrationManifest = Schema.decodeUnknownOption(NpmReleaseMigrationManifest);
 
-/** Highest database migration a release's server knows, from its npm `t3` manifest. */
+/** Highest database migration a release's server knows, from its npm `t0c` manifest. */
 export function npmReleaseDatabaseMigration(manifest: unknown): number | undefined {
   return Option.getOrUndefined(decodeNpmReleaseMigrationManifest(manifest))?.t0code
     .databaseMigration;

@@ -16,7 +16,7 @@ Triage runs on the machine of the thread or draft that you have open. With
 nothing open, it uses your primary machine if that supports triage, or else the
 first connected machine that does. The new thread shows the machine name, and on
 mobile the palette row shows it before you start. If you change the machine
-before you send, triage moves to that machine. The agent runs inside that T3
+before you send, triage moves to that machine. The agent runs inside that T0 Code
 Code server, so it gives you any restart steps and does not do them itself.
 
 ## In a terminal
@@ -24,7 +24,7 @@ Code server, so it gives you any restart steps and does not do them itself.
 If the app does not start, or triage does not work in the app, run:
 
 ```sh
-npx t3 triage
+npx t0c triage
 ```
 
 It starts Claude Code, Codex, or Antigravity in your terminal with the same
@@ -32,8 +32,8 @@ instructions. If more than one is installed, it asks which to use. You can also
 choose explicitly:
 
 ```sh
-npx t3 triage --agent antigravity
-npx t3 triage --agent codex
+npx t0c triage --agent antigravity
+npx t0c triage --agent codex
 ```
 
 Antigravity needs Google's standalone `agy` CLI on your `PATH` and its own sign-in.
