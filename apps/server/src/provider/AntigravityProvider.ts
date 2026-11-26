@@ -51,7 +51,7 @@ const SIGN_IN_MESSAGE = "Sign in with Google to use Antigravity.";
 const AUTH_UNCHECKED_MESSAGE =
   "Antigravity is installed. Google account access is not checked yet.";
 // Set while a finished quota read republishes, so that health check does not read again.
-const PublishingUsage = Context.Reference<boolean>("t3/provider/AntigravityPublishingUsage", {
+const PublishingUsage = Context.Reference<boolean>("t0c/provider/AntigravityPublishingUsage", {
   defaultValue: () => false,
 });
 

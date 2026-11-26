@@ -74,7 +74,7 @@ export type PeerLinkRemoveResult = typeof PeerLinkRemoveResult.Type;
 export class PeerLinkError extends Schema.TaggedError<PeerLinkError>()("PeerLinkError", {
   reason: Schema.Literals([
     "unreachable",
-    "not_a_t0c_environment",
+    "not_a_t3_environment",
     "incompatible",
     "self",
     "pairing_rejected",
@@ -97,7 +97,7 @@ export const peerLinkFailureKind = (
 ): PeerLinkFailureKind =>
   error.answeredAs !== undefined
     ? "wrong_environment"
-    : error.reason === "unreachable" || error.reason === "not_a_t0c_environment"
+    : error.reason === "unreachable" || error.reason === "not_a_t3_environment"
       ? "unreachable"
       : error.reason === "pairing_rejected"
         ? "code_refused"

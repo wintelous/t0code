@@ -41,7 +41,7 @@ export class UsageLimitSources extends Context.Service<
       input: UsageLimitSourceConsumeResetCreditInput,
     ) => Effect.Effect<ProviderConsumeResetCreditResult, UsageLimitSourceError>;
   }
->()("t3/usage/UsageLimitSources") {}
+>()("t0c/usage/UsageLimitSources") {}
 
 function sourceLabel(id: string, config: UsageLimitSourceConfig): string {
   if (config.label) return config.label;
@@ -286,7 +286,7 @@ export class UsageLimitResetFallback extends Context.Reference<{
     endpoint: string,
     model: string | null,
   ) => Effect.Effect<string | null>;
-}>("t3/usage/UsageLimitResetFallback", {
+}>("t0c/usage/UsageLimitResetFallback", {
   defaultValue: () => ({ resetAt: () => Effect.succeed(null) }),
 }) {}
 

@@ -149,7 +149,7 @@ it.each([
 // systemd rejects a unit whose executable has a control character, quote or backslash, even quoted.
 it.each([
   ["a double quote", '/home/theo/T3 "Data"'],
-  ["a single quote", "/home/theo/Theo's T3"],
+  ["a single quote", "/home/theo/Theo's T0 Code"],
   ["a backslash", "/home/theo/T3\\Data"],
   ["a newline", "/home/theo/T3\nData"],
 ])("renders a loadable unit, or refuses, for a T0 Code home with %s", (_, baseDir) => {

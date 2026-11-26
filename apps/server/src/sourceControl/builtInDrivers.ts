@@ -20,7 +20,7 @@ export interface SourceControlDriverEntry {
 export class SourceControlDrivers extends Context.Service<
   SourceControlDrivers,
   ReadonlyArray<SourceControlDriverEntry>
->()("t3/sourceControl/builtInDrivers/SourceControlDrivers") {}
+>()("t0c/sourceControl/builtInDrivers/SourceControlDrivers") {}
 
 /** Drivers offered only while their feature flag is on. */
 const FLAGGED_DRIVERS: Readonly<Record<string, "tanstackSource">> = {

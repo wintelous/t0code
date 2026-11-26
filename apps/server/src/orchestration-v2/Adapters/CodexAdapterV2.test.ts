@@ -1539,7 +1539,7 @@ describe("CodexAdapterV2 session initialize", () => {
   const requestWritten: CodexReplay.CodexAppServerReplayEntry = {
     type: "emit_inbound",
     label: "request-written",
-    frame: { method: "t3/test/requestWritten", params: {} },
+    frame: { method: "t0c/test/requestWritten", params: {} },
   };
   const awaitRequestWritten =
     (written: Deferred.Deferred<void>) =>
@@ -6679,7 +6679,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
                     id: `image-${index}`,
                     status: "completed",
                     result,
-                    revisedPrompt: "A tree shaped like T3",
+                    revisedPrompt: "A tree shaped like T0 Code",
                     transparentBackground: true,
                     ...image,
                   },
@@ -6726,7 +6726,7 @@ describe("CodexAdapterV2 post-settle continuation", () => {
         assert.strictEqual(item.title, "Generate image");
         if (item.type !== "dynamic_tool") continue;
         assert.deepEqual(item.input, {
-          prompt: "A tree shaped like T3",
+          prompt: "A tree shaped like T0 Code",
           transparent_background: true,
         });
         const image = images[index]!;

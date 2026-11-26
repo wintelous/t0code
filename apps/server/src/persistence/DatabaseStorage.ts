@@ -33,11 +33,11 @@ export class DatabaseStorage extends Context.Service<
     /** Checks free space, then stops the server; its shutdown runs the offline repair. */
     readonly requestReclaim: Effect.Effect<void, DatabaseReclaimError>;
   }
->()("t3/persistence/DatabaseStorage") {}
+>()("t0c/persistence/DatabaseStorage") {}
 
 /** Stops this server so its desktop app or background service starts it again; null when run by hand. */
 export const ServerRestart = Context.Reference<Effect.Effect<void> | null>(
-  "t3/persistence/DatabaseStorage/ServerRestart",
+  "t0c/persistence/DatabaseStorage/ServerRestart",
   { defaultValue: () => null },
 );
 

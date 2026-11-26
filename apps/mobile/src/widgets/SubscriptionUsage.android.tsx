@@ -59,7 +59,7 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
     refresh: "Open T0 Code to refresh",
     left: "left",
     asOf: "As of {time}",
-    tapToConnect: "Tap to connect in T3",
+    tapToConnect: "Tap to connect in T0 Code",
     moreInApp: {} as Record<string, string>,
   };
   const providers = props.providers ?? [
@@ -350,7 +350,7 @@ export function SubscriptionUsage(props: SubscriptionUsageProps, environment: Wi
           {hidden > 0 ? (
             <Text color={colors.muted} maxLines={1} style={{ fontSize: 10 }}>
               {/* oxlint-disable-next-line t0code/no-untranslated-copy -- widget fallback until the app publishes translated text */}
-              {text.moreInApp[String(hidden)] ?? `${hidden} more in T3`}
+              {text.moreInApp[String(hidden)] ?? `${hidden} more in T0 Code`}
             </Text>
           ) : null}
         </Column>

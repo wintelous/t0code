@@ -75,7 +75,7 @@ export class PreviewTunnel extends Context.Service<
      */
     readonly watchTurnedOff: Effect.Effect<Effect.Effect<void>, never, Scope.Scope>;
   }
->()("t3/preview/PreviewTunnel") {}
+>()("t0c/preview/PreviewTunnel") {}
 
 const make = Effect.gen(function* () {
   const serverSettings = yield* ServerSettingsService;

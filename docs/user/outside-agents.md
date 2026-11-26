@@ -11,7 +11,7 @@ in once, and you choose what it may do.
 Open the command palette (`Cmd/Ctrl+K`) and choose **Use T0 Code in another
 app (MCP)**, or use the button in **Settings → Sharing & access**. Pick the
 app and follow the step for that app. Assistants like
-Poke and Claude run in the cloud, so the wizard first asks you to sign in to T3
+Poke and Claude run in the cloud, so the wizard first asks you to sign in to T0
 Connect and turn it on for the environment. To reach your other machines through
 the same connection, turn on **Linked environments** in Labs and
 [link them](./remote-access.md#link-another-environment).
@@ -39,7 +39,7 @@ When T0 Connect serves the environment, the copied URL is its T0 Connect
 address, which agents can reach from anywhere. Otherwise it uses the route this
 device is connected over, so an agent on the same device can reach it.
 
-- **An agent on your own computers** can use `localhost` on the host, T3
+- **An agent on your own computers** can use `localhost` on the host, T0
   Connect, or any `https` address, such as
   [Tailscale HTTPS](./remote-access.md#tailscale-https). Signing in sends the
   agent's credentials to the environment, and agents only do that over `https`
@@ -127,7 +127,7 @@ codex mcp login t3
 Add the environment as a custom MCP app in ChatGPT's apps settings:
 
 1. Create a new app or plugin with a custom MCP server.
-2. Set the server URL to `https://<environment-address>/mcp`, using the T3
+2. Set the server URL to `https://<environment-address>/mcp`, using the T0
    Connect address.
 3. Choose **OAuth** for authentication. ChatGPT discovers the rest; you do not
    need a client ID or secret.

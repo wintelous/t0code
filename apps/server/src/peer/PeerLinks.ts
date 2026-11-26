@@ -135,7 +135,7 @@ export class PeerLinks extends Context.Service<
       expiresAt: DateTime.Utc,
     ) => Effect.Effect<void>;
   }
->()("t3/peer/PeerLinks") {}
+>()("t0c/peer/PeerLinks") {}
 
 interface PeerLinkRow {
   readonly environment_id: string;
@@ -227,14 +227,14 @@ const probeFailure = (
     );
   }
   return new PeerLinkError({
-    reason: "not_a_t0c_environment",
+    reason: "not_a_t3_environment",
     message: `${origin} answered, but not as a T0 Code environment this version understands.`,
   });
 };
 
 /** Whether a host is this machine's own loopback. Tests serve their peers there, so they narrow it. */
 export const LoopbackHost = Context.Reference<(host: string) => boolean>(
-  "t3/peer/PeerLinks/LoopbackHost",
+  "t0c/peer/PeerLinks/LoopbackHost",
   { defaultValue: () => isLocalLoopbackHost },
 );
 

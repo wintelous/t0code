@@ -47,7 +47,7 @@ export class IssueTrackerConnections extends Context.Service<
       input: IssueTrackerBindProjectInput,
     ) => Effect.Effect<void, IssueTrackerConnectionError>;
   }
->()("t3/issue/IssueTrackerConnections") {}
+>()("t0c/issue/IssueTrackerConnections") {}
 
 const make = Effect.gen(function* () {
   const registry = yield* IssueTrackerRegistry.IssueTrackerRegistry;

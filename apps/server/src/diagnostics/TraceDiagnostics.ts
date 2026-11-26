@@ -51,7 +51,7 @@ export class TraceDiagnostics extends Context.Service<
       options: TraceDiagnosticsOptions,
     ) => Effect.Effect<ServerTraceDiagnosticsResult>;
   }
->()("t3/diagnostics/TraceDiagnostics") {}
+>()("t0c/diagnostics/TraceDiagnostics") {}
 
 interface TraceDiagnosticsErrorSummary {
   readonly kind: ServerTraceDiagnosticsErrorKind;
