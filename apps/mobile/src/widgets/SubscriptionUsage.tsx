@@ -64,10 +64,10 @@ function SubscriptionUsage(
     percentLeft: "{remaining}% left",
     windowPercentLeft: "{window} · {remaining}% left",
     notApplicable: "N/A",
-    openApp: "Open T3",
+    openApp: "Open T0 Code",
     noLimits: "No subscription limits available.",
     asOf: "As of {time}",
-    tapToConnect: "Tap to connect in T3",
+    tapToConnect: "Tap to connect in T0 Code",
     providerAccessibility: "{provider}. {detail}.",
     windowAccessibility: "{provider}, {window}, {remaining} percent remaining. {reset}. {detail}.",
     moreInApp: {} as Record<string, string>,
@@ -263,7 +263,7 @@ function SubscriptionUsage(
             modifiers={[font({ textStyle: "caption2" }), foregroundStyle(secondary), lineLimit(1)]}
           >
             {/* oxlint-disable-next-line t0code/no-untranslated-copy -- widget fallback until the app publishes translated text */}
-            {text.moreInApp[String(hiddenCount)] ?? `${hiddenCount} more in T3`}
+            {text.moreInApp[String(hiddenCount)] ?? `${hiddenCount} more in T0 Code`}
           </Text>
         ) : null}
       </VStack>

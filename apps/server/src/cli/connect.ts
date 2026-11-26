@@ -71,6 +71,8 @@ export const headlessFlag = Flag.Boolean("headless").pipe(
     "Sign in with a URL and code on any device. Automatic without a terminal or over SSH.",
   ),
   Flag.withDefault(false),
+  // t0: only T0 Connect signs in, and it is removed (TELEMETRY-REGISTER T0-CON-04).
+  Flag.withHidden,
 );
 
 /**

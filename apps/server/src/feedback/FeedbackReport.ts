@@ -133,10 +133,7 @@ export const T3_CLI_COMMANDS: ReadonlyArray<string> = [
   "t0c app",
   "t0c pair",
   "t0c auth",
-  "t0c auth connect-device",
-  "t0c auth connect-device approve",
-  "t0c auth connect-device list",
-  "t0c auth connect-device revoke",
+  // t0: `auth connect-device` is hidden with T0 Connect (TELEMETRY-REGISTER T0-CON-04).
   "t0c auth pairing",
   "t0c auth pairing create",
   "t0c auth pairing list",

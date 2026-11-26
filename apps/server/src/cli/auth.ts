@@ -283,6 +283,8 @@ const connectDeviceRevokeCommand = Command.make("revoke", {
 
 const connectDeviceCommand = Command.make("connect-device").pipe(
   Command.withDescription("Approve and revoke devices that reach this host through T0 Connect."),
+  // t0: T0 Connect is removed (TELEMETRY-REGISTER T0-CON-04).
+  Command.unlisted,
   Command.withSubcommands([
     connectDeviceListCommand,
     connectDeviceApproveCommand,

@@ -237,7 +237,8 @@ export const T0_CODE_DARK_THEME_COLORS: ThemeColors = {
 
 export const T3_CHAT_THEME: ThemeDefinition = {
   id: "t3-chat",
-  label: "T3 Chat",
+  // t0: named for its color, not upstream's T3 Chat; the id stays so saved choices keep working.
+  label: "Rose",
   appearance: "light",
   colors: {
     canvas: "oklch(0.982446 0.010114 325.653)",

@@ -11608,7 +11608,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
     ),
   );
 
-  describe("warm process after the session changed outside T3", () => {
+  describe("warm process after the session changed outside T0 Code", () => {
     const firstReply = "00000000-0000-4000-8000-000000000c01";
     const secondReply = "00000000-0000-4000-8000-000000000c02";
     const terminalPrompt = "00000000-0000-4000-8000-000000000c03";
@@ -11728,7 +11728,7 @@ describe("ClaudeAdapterV2 background wake turns", () => {
 
     it.effect.each([
       {
-        name: "the session transcript gained messages outside T3",
+        name: "the session transcript gained messages outside T0 Code",
         transcript: (promptUuid: string) => t3Turn(promptUuid) + terminalExchange,
       },
       {

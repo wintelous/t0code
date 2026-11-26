@@ -28,8 +28,9 @@ export function LabsSettingsPanel() {
     <SettingsPageContainer>
       <SettingsSection id="beta" title={gt("Beta")}>
         <BoringSidebarRow />
-        {/* Clerk is only mounted when this build has T0 Connect. */}
-        {hasCloudPublicConfig() ? <GuestLinksRowWithSignIn /> : <GuestLinksRow />}
+        {/* Clerk is only mounted when this build has T0 Connect. t0: guest links need T0 Connect,
+            which is removed (TELEMETRY-REGISTER T0-CON-02), so the row is hidden without it. */}
+        {hasCloudPublicConfig() ? <GuestLinksRowWithSignIn /> : null}
         <LinkedEnvironmentsRow />
         <WorkflowsRow />
         <PromptSuggestionsRow />

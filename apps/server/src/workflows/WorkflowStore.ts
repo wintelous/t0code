@@ -377,7 +377,7 @@ export class WorkflowStore extends Context.Service<
     /** What the run touched, in the order it first did. */
     readonly references: (runId: string) => Effect.Effect<ReadonlyArray<WorkflowRunReference>>;
   }
->()("t3/workflows/WorkflowStore") {}
+>()("t0c/workflows/WorkflowStore") {}
 
 export const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;

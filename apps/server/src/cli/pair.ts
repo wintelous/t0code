@@ -121,7 +121,8 @@ export class TailscaleServeNotEnabledError extends Schema.TaggedError<TailscaleS
   {},
 ) {
   override get message(): string {
-    return "Tailscale Serve is not enabled on your tailnet. Enable HTTPS certificates at https://login.tailscale.com/admin/dns, then run this command again.";
+    // t0: headscale cannot issue Tailscale HTTPS certificates; plain pairing works there.
+    return "Tailscale Serve is not enabled on your tailnet. Enable HTTPS certificates at https://login.tailscale.com/admin/dns, then run this command again. On a headscale tailnet, which cannot issue them, run `t0c pair` without --tailscale instead.";
   }
 }
 

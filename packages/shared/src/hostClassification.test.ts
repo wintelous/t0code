@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { isPublicFaviconHost } from "./hostClassification.ts";
+import {
+  addTailnetDomain,
+  isPrivateNetworkHost,
+  isPublicFaviconHost,
+  isTailnetHost,
+} from "./hostClassification.ts";
 
 describe("isPublicFaviconHost", () => {
   it("treats public hosts as public", () => {
@@ -108,5 +113,22 @@ describe("isPublicFaviconHost", () => {
   it("rejects malformed IPv4 text as a public host", () => {
     expect(isPublicFaviconHost("10.0.0.999")).toBe(true);
     expect(isPublicFaviconHost("10.0.0")).toBe(true);
+  });
+});
+
+// t0: headscale tailnets have their own MagicDNS domain.
+describe("tailnet domains", () => {
+  it("counts names under a registered headscale domain as tailnet hosts", () => {
+    expect(isTailnetHost("box.tail.example.org")).toBe(false);
+    addTailnetDomain(".Tail.Example.org.");
+    expect(isTailnetHost("box.tail.example.org")).toBe(true);
+    expect(isPrivateNetworkHost("box.tail.example.org")).toBe(true);
+    expect(isTailnetHost("tail.example.org.evil.com")).toBe(false);
+    expect(isTailnetHost("machine.tailnet-1234.ts.net")).toBe(true);
+  });
+
+  it("ignores single-label domains", () => {
+    addTailnetDomain("org");
+    expect(isTailnetHost("example.org")).toBe(false);
   });
 });

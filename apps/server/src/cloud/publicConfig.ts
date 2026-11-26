@@ -218,8 +218,6 @@ export function makeCloudCliOAuthConfig({
 
 export const cloudCliOAuthConfig = makeCloudCliOAuthConfig();
 
-export const hasCloudPublicConfig = Boolean(
-  (normalizeSecureRelayUrl(process.env.T0CODE_RELAY_URL ?? "") ?? buildTimeRelayUrl) &&
-  (process.env.T0CODE_CLERK_PUBLISHABLE_KEY?.trim() || buildTimeClerkPublishableKey) &&
-  (process.env.T0CODE_CLERK_CLI_OAUTH_CLIENT_ID?.trim() || buildTimeClerkCliOAuthClientId),
-);
+// t0: T0 Connect is removed (TELEMETRY-REGISTER T0-CON-01); neither build values nor
+// T0CODE_RELAY_URL / T0CODE_CLERK_* turn it back on. Remote access is LAN, tailnet or SSH.
+export const hasCloudPublicConfig = false as boolean;

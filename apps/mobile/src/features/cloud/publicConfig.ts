@@ -73,7 +73,11 @@ export function resolveCloudPublicConfig(extra: ExpoExtra = Constants.expoConfig
   } satisfies CloudPublicConfig;
 }
 
+// t0: T0 Connect is removed (TELEMETRY-REGISTER T0-CON-03); everything gated on this stays hidden.
+const T0_CONNECT_REMOVED = true as boolean;
+
 export function hasCloudPublicConfig(): boolean {
+  if (T0_CONNECT_REMOVED) return false;
   const config = resolveCloudPublicConfig();
   return Boolean(config.clerk.publishableKey && config.clerk.jwtTemplate && config.relay.url);
 }

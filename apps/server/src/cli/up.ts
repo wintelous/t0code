@@ -462,6 +462,8 @@ export const upCommand = Command.make("up", {
       "Allow access through T0 Connect with your T3 account. Turn off with --no-connect.",
     ),
     Flag.optional,
+    // t0: T0 Connect is removed (TELEMETRY-REGISTER T0-CON-04).
+    Flag.withHidden,
   ),
   lan: Flag.Boolean("lan").pipe(
     Flag.withDescription(
@@ -471,7 +473,8 @@ export const upCommand = Command.make("up", {
   ),
   yes: Flag.Boolean("yes").pipe(
     Flag.withDescription(
-      "Ask nothing. Keep the access settings; a new machine gets T0 Connect. A restart stops running agent turns.",
+      // t0: T0 Connect is removed, so a new machine gets no remote access until --lan.
+      "Ask nothing. Keep the access settings. A restart stops running agent turns.",
     ),
     Flag.withDefault(false),
   ),
@@ -483,7 +486,6 @@ export const upCommand = Command.make("up", {
   ),
   Command.withExamples([
     { command: "t0c up", description: "Choose remote access." },
-    { command: "t0c up --connect", description: "Turn on T0 Connect. Keep other settings." },
     { command: "t0c up --lan", description: "Allow LAN access with pairing codes." },
     { command: "t0c up --no-lan", description: "Stop LAN access." },
     { command: "t0c up --yes", description: "Take the defaults with no questions." },

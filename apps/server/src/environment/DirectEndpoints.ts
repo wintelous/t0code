@@ -18,6 +18,7 @@ import * as NodeOS from "node:os";
 
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import {
+  addTailnetDomain,
   formatHostForUrl,
   isTailnetHost,
   isWildcardHost,
@@ -43,7 +44,7 @@ export class DirectEndpoints extends Context.Service<
     readonly resolveAvailable: () => Effect.Effect<ReadonlyArray<ServerDirectEndpoint>>;
     readonly resolve: () => Effect.Effect<ReadonlyArray<ServerDirectEndpoint>>;
   }
->()("t3/environment/DirectEndpoints") {}
+>()("t0c/environment/DirectEndpoints") {}
 
 // Credentials travel over HTTP; public IPs leak them and hostnames can resolve differently per client.
 // Wildcard binds stay IPv4: the private-network listener check accepts only IPv4 peers.
@@ -183,6 +184,20 @@ export const make = Effect.gen(function* () {
     ? yield* Effect.cached(probeCloudMetadata)
     : Effect.succeed(false);
   yield* Effect.forkDetach(onCloudVm);
+  // t0: headscale tailnets use their own MagicDNS domain, not *.ts.net. Learn it once so their
+  // names count as tailnet addresses (reading the status registers it; see addTailnetDomain).
+  for (const domain of ((yield* HostProcess.Environment)["T0CODE_TAILNET_DOMAINS"] ?? "").split(
+    ",",
+  )) {
+    addTailnetDomain(domain);
+  }
+  yield* Effect.forkDetach(
+    readTailscaleStatus.pipe(
+      Effect.timeoutOption(TAILSCALE_ENDPOINT_TIMEOUT),
+      Effect.ignore,
+      Effect.provideService(ChildProcessSpawner.ChildProcessSpawner, spawner),
+    ),
+  );
 
   const servedEndpoint = yield* Ref.make<Option.Option<string>>(Option.none());
   const resolveAvailable = Effect.fn("DirectEndpoints.resolveAvailable")(function* () {

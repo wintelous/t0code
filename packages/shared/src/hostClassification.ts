@@ -79,10 +79,23 @@ export const isLocalLoopbackHost = (host: string): boolean => {
   return parseIpv4Address(normalized)?.[0] === 127;
 };
 
+// t0: headscale (a self-hosted coordination server) gives its tailnet its own MagicDNS domain
+// instead of *.ts.net. The server registers it from `tailscale status` or T0CODE_TAILNET_DOMAINS.
+const tailnetDomains = new Set<string>();
+
+export const addTailnetDomain = (domain: string): void => {
+  const normalized = normalizeHostname(domain).replace(/^\.+|\.+$/gu, "");
+  if (normalized.includes(".") && !normalized.endsWith(".ts.net")) tailnetDomains.add(normalized);
+};
+
+const isTailnetDomainName = (normalized: string): boolean =>
+  normalized.endsWith(".ts.net") ||
+  [...tailnetDomains].some((domain) => normalized.endsWith(`.${domain}`));
+
 /** MagicDNS or fd7a:115c:a1e0::/48 identifies Tailscale; shared 100.64.0.0/10 addresses alone do not. */
 export const isTailnetHost = (host: string): boolean => {
   const normalized = normalizeHostname(host);
-  if (normalized.endsWith(".ts.net")) return true;
+  if (isTailnetDomainName(normalized)) return true;
   const ipv6 = parseIpv6Address(normalized);
   return ipv6 !== null && ipv6PrefixMatches(ipv6, [0xfd7a, 0x115c, 0xa1e0, 0, 0, 0, 0, 0], 48);
 };
@@ -105,7 +118,7 @@ export const isPrivateNetworkHost = (host: string): boolean => {
   ) {
     return true;
   }
-  if (normalized.endsWith(".ts.net")) return true;
+  if (isTailnetDomainName(normalized)) return true;
   const parts = parseIpv4Address(normalized) ?? parseIpv4MappedIpv6Address(normalized);
   if (parts) return isPrivateIpv4Address(parts);
   const firstIpv6Token = normalized.split(":", 1)[0] ?? "";

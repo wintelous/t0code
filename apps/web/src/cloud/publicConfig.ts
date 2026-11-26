@@ -85,7 +85,11 @@ export function resolveRelayTracingConfig() {
     : null;
 }
 
+// t0: T0 Connect is removed (TELEMETRY-REGISTER T0-CON-02); everything gated on this stays hidden.
+const T0_CONNECT_REMOVED = true as boolean;
+
 export function hasCloudPublicConfig(): boolean {
+  if (T0_CONNECT_REMOVED) return false;
   const config = resolveCloudPublicConfig();
   if (!config.clerkPublishableKey || !config.clerkJwtTemplate || !config.relayUrl) {
     return false;

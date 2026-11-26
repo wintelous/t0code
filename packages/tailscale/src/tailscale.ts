@@ -1,7 +1,11 @@
 import { ExecutionEnvironmentDescriptor } from "@t3tools/contracts";
 import * as HostProcess from "@t3tools/shared/HostProcess";
 import * as NetService from "@t3tools/shared/Net";
-import { isLocalLoopbackHost, normalizeHostname } from "@t3tools/shared/hostClassification";
+import {
+  addTailnetDomain,
+  isLocalLoopbackHost,
+  normalizeHostname,
+} from "@t3tools/shared/hostClassification";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
@@ -191,7 +195,10 @@ function normalizeMagicDnsName(status: TailscaleStatusJson): string | null {
   }
 
   const normalized = dnsName.trim().replace(/\.$/u, "");
-  return normalized.length > 0 ? normalized : null;
+  if (normalized.length === 0) return null;
+  // t0: remember the tailnet's MagicDNS domain (headscale's is not *.ts.net).
+  addTailnetDomain(normalized.slice(normalized.indexOf(".") + 1));
+  return normalized;
 }
 
 export function isTailscaleIpv4Address(address: string): boolean {
@@ -459,7 +466,8 @@ export class TailscaleServeHttpsDisabledError extends Schema.TaggedError<Tailsca
   {},
 ) {
   override get message(): string {
-    return "Tailscale Serve needs HTTPS enabled on the tailnet. Enable HTTPS certificates at https://login.tailscale.com/admin/dns.";
+    // t0: headscale cannot issue Tailscale HTTPS certificates.
+    return "Tailscale Serve needs HTTPS enabled on the tailnet. Enable HTTPS certificates at https://login.tailscale.com/admin/dns. A headscale tailnet cannot issue them; use plain HTTP over the tailnet instead.";
   }
 }
 
